@@ -12,11 +12,16 @@ class Product extends Model
     protected $table = 'products'; // Tên bảng trong DB
 
     protected $fillable = [
+        'category_id',
         'name',
+        'slug',
+        'sku',
         'price',
-        'description',
+        'sale_price',
         'stock',
-        'category_id'
+        'short_description',
+        'description',
+        'status'
     ];
 
     // Quan hệ với Category

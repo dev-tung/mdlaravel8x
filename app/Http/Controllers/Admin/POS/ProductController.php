@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\POS;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use App\Models\ProductCategory;
 
@@ -31,18 +32,10 @@ class ProductController extends Controller
     }
 
     // Lưu sản phẩm
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'description' => 'nullable|string',
-            'category_id' => 'nullable|integer'
-        ]);
-
+        $data = $request->validated();
         $this->productService->create($data);
-
         return redirect()->route('pos.product.index')
                          ->with('success', 'Thêm sản phẩm thành công');
     }
