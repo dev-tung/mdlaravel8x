@@ -32,7 +32,7 @@
                 <!--begin::Form Validation-->
                 <div class="card mb-4">
                   <!--begin::Form-->
-                    <form class="needs-validation" id="posProductCreate" action="{{route('pos_product_store')}}" method="POST" novalidate>
+                    <form class="needs-validation" id="posProductCreate" method="POST" novalidate>
                         @csrf
                     <!--begin::Body-->
                     <div class="card-body">
@@ -50,18 +50,11 @@
                         <div class="col-md-4">
                             <label for="category_id" class="form-label small">Danh mục sản phẩm<span class="required-indicator sr-only"> (required)</span></label>
                             <select class="form-select form-select-sm" id="category_id" name="category_id" required>
-                            <option selected disabled value="">Choose...</option>
-                            <option value="1">Điện thoại</option>
-                            <option value="2">Laptop</option>
-                            <option value="3">Phụ kiện</option>
+                              <option selected disabled value="">Choose...</option>
+                              <option value="1">Điện thoại</option>
+                              <option value="2">Laptop</option>
+                              <option value="3">Phụ kiện</option>
                             </select>
-                        </div>
-                        <!--end::Col-->
-
-                        <!--begin::Col-->
-                        <div class="col-md-4">
-                            <label for="slug" class="form-label small">Slug<span class="required-indicator sr-only"> (required)</span></label>
-                            <input type="text" class="form-control form-control-sm" id="slug" name="slug" placeholder="Nhập slug" required>
                         </div>
                         <!--end::Col-->
 

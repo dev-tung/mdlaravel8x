@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\POS\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ======================= Product API =======================
-Route::prefix('products')->group(function () {
-    Route::get('/', 'App\Http\Controllers\ProductController@index');       // Danh sách sản phẩm
-    Route::get('/{id}', 'App\Http\Controllers\ProductController@show');    // Chi tiết sản phẩm
-    Route::post('/', 'App\Http\Controllers\ProductController@store');      // Thêm sản phẩm
-    Route::put('/{id}', 'App\Http\Controllers\ProductController@update');  // Cập nhật sản phẩm
-    Route::delete('/{id}', 'App\Http\Controllers\ProductController@destroy'); // Xóa sản phẩm
-});
 
-// ======================= Category API =======================
-Route::prefix('categories')->group(function () {
-    Route::get('/', 'App\Http\Controllers\CategoryController@index');     
-    Route::get('/{id}', 'App\Http\Controllers\CategoryController@show');  
-    Route::post('/', 'App\Http\Controllers\CategoryController@store');    
-    Route::put('/{id}', 'App\Http\Controllers\CategoryController@update');
-    Route::delete('/{id}', 'App\Http\Controllers\CategoryController@destroy');
+Route::prefix('product')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);       // Danh sách sản phẩm
+    Route::get('/{id}', [ProductController::class, 'show']);    // Chi tiết sản phẩm
+    Route::post('/', [ProductController::class, 'store']);      // Thêm sản phẩm
+    Route::put('/{id}', [ProductController::class, 'update']);  // Cập nhật sản phẩm
+    Route::delete('/{id}', [ProductController::class, 'destroy']); // Xóa sản phẩm
 });
