@@ -30,9 +30,9 @@ initFormValidator("#posProductCreate", {
         message: { type: "Slug chỉ chứa chữ thường, số và dấu gạch ngang." }
     }
 }, function (data, form) {
+    
 
-
-
+    document.getElementById('ModalLoading').style.display = 'block';
     fetch('/api/product', {
         method: 'POST',
         headers: {
@@ -44,7 +44,11 @@ initFormValidator("#posProductCreate", {
     })
     .then(res => res.json())
     .then(data => {
+        document.getElementById('ModalLoading').style.display = 'none';
         console.log('Thành công:', data);
+        if (data.route) {
+            window.location.href = data.route;
+        }
     })
     .catch(err => {
         console.error('Lỗi:', err);

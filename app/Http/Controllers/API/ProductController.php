@@ -28,7 +28,10 @@ class ProductController extends Controller
     public function store(Request $request): JsonResponse
     {
         $product = $this->service->create($request->all());
-        return response()->json($product, 201);
+        return response()->json([
+            'product' => $product,
+            'route' => route('pos.product.index')
+        ], 201);
     }
 
     public function update(Request $request, $id): JsonResponse

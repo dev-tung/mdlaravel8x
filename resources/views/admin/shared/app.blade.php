@@ -26,7 +26,7 @@
     <!--begin::Accessibility Features-->
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
-    <link rel="preload" href="{{ asset('css/admin/adminlte.css') }}" as="style" />
+    
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -69,6 +69,9 @@
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+
+    <link rel="preload" href="{{ asset('css/admin/adminlte.css') }}" as="style" />
+    <link rel="stylesheet"  href="{{ asset('css/admin/style.css') }}" />
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -307,8 +310,21 @@
         <!--end::Copyright-->
       </footer>
       <!--end::Footer-->
-    </div>
+    </div>  
     <!--end::App Wrapper-->
+
+
+    <!-- begin::Modal -->
+    <div class="Modal" id="ModalLoading">
+        <div class="ModalOverlay"></div>
+        <div class="ModalContent">
+            <div class="ModalLoading">
+                <div class="ModalLoadingIcon"></div>
+                <div class="ModalLoadingText">Đang xử lý ...</div>
+            </div>
+        </div>
+    </div>
+    <!-- end::Modal -->
 
     <!--begin::Script-->
     <script src="{{ asset('js/admin/shared/adminlte.js') }}"></script>
