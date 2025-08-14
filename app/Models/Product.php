@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
-
-    protected $table = 'products'; // Tên bảng trong DB
+    protected $table = 'products';
 
     protected $fillable = [
         'category_id',
@@ -24,9 +22,14 @@ class Product extends Model
         'status'
     ];
 
-    // Quan hệ với Category
-    public function category()
+    // Tự động tạo slug khi gán name
+    public function setNameAttribute($value)
     {
-        return $this->belongsTo(Category::class);
+        $this->attributes['name'] = $value;
+
+        // Nếu slug chưa có, tự tạo từ name
+        if (empty($this->attributes['slug'])) {
+            $this->attributes['slug'] = Str::slug($value, '-');
+        }
     }
 }

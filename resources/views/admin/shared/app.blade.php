@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Manh Dung | Dashboard</title>
+    <title>Manh Dung | Admin</title>
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
@@ -11,15 +11,16 @@
     <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
     <!--end::Accessibility Meta Tags-->
     <!--begin::Primary Meta Tags-->
-    <meta name="title" content="AdminLTE v4 | Dashboard" />
+    <meta name="title" content="AdminLTE v4 | Admin" />
     <meta name="author" content="ColorlibHQ" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta
       name="description"
-      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
+      content="AdminLTE is a Free Bootstrap 5 Admin Admin, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
     />
     <meta
       name="keywords"
-      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant"
+      content="bootstrap 5, bootstrap, bootstrap 5 admin admin, bootstrap 5 admin, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq admin, colorlibhq admin admin, accessible admin panel, WCAG compliant"
     />
     <!--end::Primary Meta Tags-->
     <!--begin::Accessibility Features-->
@@ -287,7 +288,7 @@
         </div>
         <!--end::Sidebar Brand-->
         <!--begin::Sidebar Wrapper-->
-        @include('admin.layouts.sidebar')
+        @include('admin.shared.sidebar')
         <!--end::Sidebar Wrapper-->
       </aside>
       <!--end::Sidebar-->
@@ -310,6 +311,7 @@
     <!--end::App Wrapper-->
 
     <!--begin::Script-->
+    <script src="{{ asset('js/admin/shared/adminlte.js') }}"></script>
     @stack('scripts')
     <!--end::Script-->
   </body>

@@ -10,7 +10,7 @@
       id="navigation"
     >
       <li class="nav-item menu-open">
-        <a href="{{ route('dashboard') }}" class="nav-link active">
+        <a href="{{ route('admin.dashboard') }}" class="nav-link active">
           <i class="nav-icon bi bi-speedometer"></i>
           <p>Tổng quan</p>
         </a>
@@ -25,25 +25,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('pos_productcategory_index') }}" class="nav-link">
-              <i class="nav-icon bi bi-circle"></i>
-              <p>Danh mục sản phẩm</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('pos_productcategory_create') }}" class="nav-link">
-              <i class="nav-icon bi bi-circle"></i>
-              <p>Thêm mới danh mục</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('pos_product_index') }}" class="nav-link">
-              <i class="nav-icon bi bi-circle"></i>
-              <p>Danh sách sản phẩm</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ route('pos_product_create') }}" class="nav-link">
+            <a href="{{ route('pos.product.create') }}" class="nav-link">
               <i class="nav-icon bi bi-circle"></i>
               <p>Thêm mới sản phẩm</p>
             </a>

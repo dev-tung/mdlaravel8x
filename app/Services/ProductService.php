@@ -15,12 +15,12 @@ class ProductService
 
     public function getAll()
     {
-        return $this->productRepo->getAll();
+        return $this->productRepo->all();
     }
 
-    public function findById($id)
+    public function getById($id)
     {
-        return $this->productRepo->findById($id);
+        return $this->productRepo->find($id);
     }
 
     public function create(array $data)
@@ -30,11 +30,13 @@ class ProductService
 
     public function update($id, array $data)
     {
-        return $this->productRepo->update($id, $data);
+        $product = $this->productRepo->find($id);
+        return $this->productRepo->update($product, $data);
     }
 
     public function delete($id)
     {
-        return $this->productRepo->delete($id);
+        $product = $this->productRepo->find($id);
+        return $this->productRepo->delete($product);
     }
 }

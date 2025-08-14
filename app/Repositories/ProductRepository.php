@@ -6,14 +6,14 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function getAll()
+    public function all()
     {
         return Product::all();
     }
 
-    public function findById($id)
+    public function find($id)
     {
-        return Product::find($id);
+        return Product::findOrFail($id);
     }
 
     public function create(array $data)
@@ -21,22 +21,14 @@ class ProductRepository
         return Product::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(Product $product, array $data)
     {
-        $product = Product::find($id);
-        if ($product) {
-            $product->update($data);
-            return $product;
-        }
-        return null;
+        $product->update($data);
+        return $product;
     }
 
-    public function delete($id)
+    public function delete(Product $product)
     {
-        $product = Product::find($id);
-        if ($product) {
-            return $product->delete();
-        }
-        return false;
+        return $product->delete();
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.shared.app')
 
 @section('content')
   <main class="app-main" id="main" tabindex="-1">
@@ -11,7 +11,7 @@
               <div class="col-sm-6"><h3 class="mb-0">Thêm mới sản phẩm</h3></div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Thêm mới sản phẩm</li>
                 </ol>
               </div>
@@ -59,28 +59,28 @@
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="price" class="form-label small">Giá gốc (VNĐ)<span class="required-indicator sr-only"> (required)</span></label>
                             <input type="number" class="form-control form-control-sm" id="price" name="price" min="0" placeholder="Nhập giá gốc" required>
                         </div>
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="sale_price" class="form-label small">Giá khuyến mãi (VNĐ)</label>
                             <input type="number" class="form-control form-control-sm" id="sale_price" name="sale_price" min="0" placeholder="Nhập giá khuyến mãi">
                         </div>
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="stock" class="form-label small">Số lượng tồn kho<span class="required-indicator sr-only"> (required)</span></label>
                             <input type="number" class="form-control form-control-sm" id="stock" name="stock" min="0" placeholder="Nhập số lượng tồn kho" required>
                         </div>
                         <!--end::Col-->
 
                         <!--begin::Col-->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="status" class="form-label small">Trạng thái</label>
                             <select class="form-select form-select-sm" id="status" name="status">
                             <option value="1" selected>Hiển thị</option>
@@ -130,7 +130,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/validation.js') }}"></script>
-    <script src="{{ asset('js/admin/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/shared/validation.js') }}"></script>
+    <script src="{{ asset('js/admin/shared/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/pos/product/create.js') }}"></script>
 @endpush
