@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,7 +31,7 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    public function update(UpdateProductRequest $request, $id): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         $product = $this->service->update($id, $request->validated());
         return response()->json($product);
