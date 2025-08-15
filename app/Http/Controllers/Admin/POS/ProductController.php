@@ -15,4 +15,14 @@ class ProductController extends Controller
     {
         return view('admin.pos.product.create');
     }
+
+    public function edit($id)
+    {
+        return view('admin.pos.product.edit', compact('id'));
+    }
+
+    public function show($id)
+    {
+        return view('admin.pos.product.show', compact('id'));
+    }
 }

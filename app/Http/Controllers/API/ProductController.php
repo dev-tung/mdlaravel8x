@@ -15,9 +15,15 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json($this->service->getAll());
+        $filters = $request->only(['name', 'category_id', 'status']);
+        $perPage = 10;
+
+        $products = $this->service->getProducts($filters, $perPage);
+
+        // Trả về JSON chuẩn Laravel pagination
+        return response()->json($products);
     }
 
     public function show($id): JsonResponse

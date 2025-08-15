@@ -13835,6 +13835,7 @@ body:not(.app-loaded) .app-footer {
   background-color: var(--bs-body-bg);
   border-top: 1px solid var(--bs-border-color);
   transition: 0.3s ease-in-out;
+  font-size: 0.6rem;
 }
 @media (prefers-reduced-motion: reduce) {
   .app-footer {

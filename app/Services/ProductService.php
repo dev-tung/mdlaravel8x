@@ -39,4 +39,9 @@ class ProductService
         $product = $this->productRepo->find($id);
         return $this->productRepo->delete($product);
     }
+
+    public function getProducts(array $filters = [], $perPage = 10)
+    {
+        return $this->productRepo->getAllWithFilter($filters, $perPage);
+    }
 }
