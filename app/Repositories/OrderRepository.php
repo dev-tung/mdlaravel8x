@@ -2,20 +2,20 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
+use App\Models\Order;
 
-class ProductRepository
+class OrderRepository
 {
     public function getAll($filters = [])
     {
-        $query = Product::query();
+        $query = Order::query();
 
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if (!empty($filters['supplier_id'])) {
-            $query->where('supplier_id', $filters['supplier_id']);
+        if (!empty($filters['customer_id'])) {
+            $query->where('customer_id', $filters['customer_id']);
         }
 
         return $query->paginate(10);
@@ -23,24 +23,24 @@ class ProductRepository
 
     public function find($id)
     {
-        return Product::findOrFail($id);
+        return Order::findOrFail($id);
     }
 
     public function create(array $data)
     {
-        return Product::create($data);
+        return Order::create($data);
     }
 
     public function update($id, array $data)
     {
-        $product = $this->find($id);
-        $product->update($data);
-        return $product;
+        $order = $this->find($id);
+        $order->update($data);
+        return $order;
     }
 
     public function delete($id)
     {
-        $product = $this->find($id);
-        return $product->delete();
+        $order = $this->find($id);
+        return $order->delete();
     }
 }

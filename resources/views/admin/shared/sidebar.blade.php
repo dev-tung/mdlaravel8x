@@ -10,12 +10,13 @@
       id="navigation"
     >
       <li class="nav-item menu-open">
-        <a href="{{ route('admin.dashboard') }}" class="nav-link active">
+        <a href="{{ route('admin.dashboard.index') }}" class="nav-link active">
           <i class="nav-icon bi bi-speedometer"></i>
           <p>Tổng quan</p>
         </a>
       </li>
-<!-- Product -->
+      
+<!-- Products -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-box-seam-fill"></i>
@@ -26,13 +27,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.product.index') }}" class="nav-link">
+            <a href="{{ route('admin.products.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.product.create') }}" class="nav-link">
+            <a href="{{ route('admin.products.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -40,7 +41,7 @@
     </ul>
 </li>
 
-<!-- Purchase -->
+<!-- Purchases -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-receipt"></i>
@@ -51,13 +52,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.purchase.index') }}" class="nav-link">
+            <a href="{{ route('admin.purchases.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.purchase.create') }}" class="nav-link">
+            <a href="{{ route('admin.purchases.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -65,7 +66,7 @@
     </ul>
 </li>
 
-<!-- Supplier -->
+<!-- Suppliers -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-truck"></i>
@@ -76,13 +77,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.supplier.index') }}" class="nav-link">
+            <a href="{{ route('admin.suppliers.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.supplier.create') }}" class="nav-link">
+            <a href="{{ route('admin.suppliers.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -90,7 +91,7 @@
     </ul>
 </li>
 
-<!-- Expense -->
+<!-- Expenses -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-cash-stack"></i>
@@ -101,13 +102,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.expense.index') }}" class="nav-link">
+            <a href="{{ route('admin.expenses.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.expense.create') }}" class="nav-link">
+            <a href="{{ route('admin.expenses.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -115,7 +116,7 @@
     </ul>
 </li>
 
-<!-- Order -->
+<!-- Orders -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-cart-check"></i>
@@ -126,13 +127,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.order.index') }}" class="nav-link">
+            <a href="{{ route('admin.orders.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.order.create') }}" class="nav-link">
+            <a href="{{ route('admin.orders.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -140,7 +141,7 @@
     </ul>
 </li>
 
-<!-- Product Category -->
+<!-- Product Categories -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-tags-fill"></i>
@@ -151,13 +152,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.product_category.index') }}" class="nav-link">
+            <a href="{{ route('admin.taxonomies.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.product_category.create') }}" class="nav-link">
+            <a href="{{ route('admin.taxonomies.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -165,7 +166,7 @@
     </ul>
 </li>
 
-<!-- Customer -->
+<!-- Customers -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-person-lines-fill"></i>
@@ -176,13 +177,13 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.customer.index') }}" class="nav-link">
+            <a href="{{ route('admin.customers.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.customer.create') }}" class="nav-link">
+            <a href="{{ route('admin.customers.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
@@ -190,7 +191,7 @@
     </ul>
 </li>
 
-<!-- User -->
+<!-- Users -->
 <li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon bi bi-people-fill"></i>
@@ -201,20 +202,15 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('pos.user.index') }}" class="nav-link">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Danh sách</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('pos.user.create') }}" class="nav-link">
+            <a href="{{ route('admin.users.create') }}" class="nav-link">
                 <i class="nav-icon bi bi-circle"></i>
                 <p>Thêm mới</p>
             </a>
         </li>
-    </ul>
-</li>
-
-    <!--end::Sidebar Menu-->
-  </nav>
-</div>
+    </u

@@ -55,7 +55,7 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('pos.product.create') }}" class="nav-link">Thêm sản phẩm</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.products.create') }}" class="nav-link">Thêm sản phẩm</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -100,7 +100,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="{{route('admin.dashboard')}}" class="brand-link">
+          <a href="{{route('admin.dashboard.index')}}" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src="{{asset('img/logo-white-transperent.png')}}"
