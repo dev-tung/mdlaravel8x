@@ -12,7 +12,7 @@ class Taxonomy extends Model
         'slug',
         'description',
         'parent_id',
-        'type', // ví dụ: category, tag, brand
+        'type'
     ];
 
     /**
