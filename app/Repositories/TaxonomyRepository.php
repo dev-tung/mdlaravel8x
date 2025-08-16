@@ -55,10 +55,13 @@ class TaxonomyRepository
 
     public function types(): array
     {
-        return config('taxonomy.types', [
-            'product' => 'Sản phẩm',
-            'expense' => 'Chi phí',
-            'post' => 'Bài viết',
-        ]);
+        return config('taxonomy.types');
+    }
+
+    public function getByType(string $type)
+    {
+        return Taxonomy::where('type', $type)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

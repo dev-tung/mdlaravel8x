@@ -2,32 +2,46 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
+        'taxonomy_id',
         'name',
         'slug',
-        'description',
+        'sku',
         'price',
+        'sale_price',
         'stock',
-        'status',
-        'supplier_id',
+        'short_description',
+        'description',
+        'status'
     ];
 
-    // Quan hệ: Product thuộc 1 Supplier
-    public function supplier()
+    /**
+     * Tự động sinh slug khi tạo hoặc cập nhật name
+     */
+    protected static function boot()
     {
-        return $this->belongsTo(Supplier::class);
+        parent::boot();
+
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
+
+        static::updating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
     }
 
-    // Quan hệ: Product có thể có nhiều Taxonomy (category, tag…)
-    public function taxonomies()
+    public function taxonomy()
     {
-        return $this->belongsToMany(Taxonomy::class, 'product_taxonomy');
+        return $this->belongsTo(Taxonomy::class, 'taxonomy_id');
     }
 }

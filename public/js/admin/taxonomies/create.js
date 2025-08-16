@@ -51,6 +51,5 @@ initFormValidator("#taxonomyCreateForm", {
         }
     }
 }, function(data, form) {
-    // Submit form khi mọi thứ hợp lệ
     form.submit();
 });

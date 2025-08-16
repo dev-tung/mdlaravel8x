@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -13,11 +13,13 @@ class StoreProductRequest extends FormRequest
 
     public function rules(): array
     {
+        $productId = $this->route('product');
+
         return [
             'taxonomy_id' => 'nullable|integer|exists:taxonomies,id',
             'name' => 'required|string|min:3|max:255',
-            'slug' => 'nullable|string|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/|unique:products,slug',
-            'sku' => 'nullable|string|max:50|unique:products,sku',
+            'slug' => "nullable|string|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/|unique:products,slug,{$productId}",
+            'sku' => "nullable|string|max:50|unique:products,sku,{$productId}",
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0|lte:price',
             'stock' => 'required|integer|min:0',
@@ -29,6 +31,8 @@ class StoreProductRequest extends FormRequest
 
     public function messages(): array
     {
+        $productId = $this->route('product');
+
         return [
             'taxonomy_id.integer' => 'Danh mục không hợp lệ.',
             'taxonomy_id.exists' => 'Danh mục không tồn tại.',
