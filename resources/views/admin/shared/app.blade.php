@@ -100,7 +100,7 @@
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="{{route('admin.dashboard.index')}}" class="brand-link">
+          <a href="{{route('admin.dashboard')}}" class="brand-link">
             <!--begin::Brand Image-->
             <img
               src="{{asset('img/logo-white-transperent.png')}}"

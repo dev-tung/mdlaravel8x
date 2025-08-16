@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.dashboard.index') }}">Admin</a>
+                            <a href="{{ route('admin.dashboard') }}">Admin</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.taxonomies.index') }}">Taxonomies</a>
@@ -51,7 +51,7 @@
                                     <!-- Slug -->
                                     <div class="col-md-6">
                                         <label for="slug" class="form-label small">
-                                            Slug <span class="text-danger">*</span>
+                                            Slug
                                         </label>
                                         <input type="text" class="form-control form-control-sm" id="slug" 
                                                name="slug" value="{{ old('slug') }}" required>
@@ -83,13 +83,18 @@
                                             Loại taxonomy <span class="text-danger">*</span>
                                         </label>
                                         <select class="form-select form-select-sm" id="type" name="type" required>
-                                            <option value="category" {{ old('type')=='category' ? 'selected' : '' }}>Category</option>
-                                            <option value="tag" {{ old('type')=='tag' ? 'selected' : '' }}>Tag</option>
+                                            <option value="">-- Chọn loại --</option>
+                                            @foreach($types as $key => $label)
+                                                <option value="{{ $key }}" {{ old('type') == $key ? 'selected' : '' }}>
+                                                    {{ $label }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         @error('type')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+
 
                                     <!-- Status -->
                                     <div class="col-md-6">

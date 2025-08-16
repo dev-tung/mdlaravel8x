@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\{
 };
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('customers', CustomerController::class);
     Route::resource('expenses', ExpenseController::class);

@@ -1,4 +1,4 @@
-initFormValidator("#taxonomyCreateForm", {
+initFormValidator("#taxonomyEditForm", {
     name: {
         required: true,
         minLength: 3,

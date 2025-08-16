@@ -8,7 +8,7 @@
                 <div class="col-sm-6"><h3 class="mb-0">Danh sách nhà cung cấp</h3></div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard.index') }}">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Danh sách nhà cung cấp</li>
                     </ol>
                 </div>

@@ -4,21 +4,20 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTaxonomyRequest extends FormRequest
+class UpdateTaxonomyRequest extends FormRequest
 {
-    // Quyền người dùng có thể gửi request này
     public function authorize(): bool
     {
-        // Nếu muốn kiểm tra quyền admin, thay true bằng logic của bạn
         return true;
     }
 
-    // Các rules validate
     public function rules(): array
     {
+        $taxonomyId = $this->route('taxonomy'); // id từ route
+
         return [
             'name' => 'required|string|min:3|max:255',
-            'slug' => 'nullable|string|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/|unique:taxonomies,slug',
+            'slug' => "nullable|string|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/|unique:taxonomies,slug,$taxonomyId",
             'parent_id' => 'nullable|integer|exists:taxonomies,id',
             'type' => 'required|string',
             'description' => 'nullable|string|min:5|max:255',
@@ -26,7 +25,6 @@ class StoreTaxonomyRequest extends FormRequest
         ];
     }
 
-    // Tùy chỉnh thông báo lỗi
     public function messages(): array
     {
         return [

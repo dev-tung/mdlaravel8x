@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Taxonomy extends Model
 {
@@ -13,6 +14,26 @@ class Taxonomy extends Model
         'parent_id',
         'type', // ví dụ: category, tag, brand
     ];
+
+    /**
+     * Tự động sinh slug khi tạo hoặc cập nhật name
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($taxonomy) {
+            if (empty($taxonomy->slug)) {
+                $taxonomy->slug = Str::slug($taxonomy->name);
+            }
+        });
+
+        static::updating(function ($taxonomy) {
+            if (empty($taxonomy->slug)) {
+                $taxonomy->slug = Str::slug($taxonomy->name);
+            }
+        });
+    }
 
     /**
      * Quan hệ: taxonomy cha
