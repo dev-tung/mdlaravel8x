@@ -90,7 +90,7 @@
                                 <!-- Table sản phẩm đã chọn -->
                                 <div class="col-12 mt-2">
                                     <table class="table table-sm table-bordered mb-0 align-middle" id="productSelectedTable" style="display:none;">
-                                        <thead class="table-light ">
+                                        <thead class="table-light">
                                             <tr>
                                                 <td>Tên sản phẩm</td>
                                                 <td>Số lượng</td>
@@ -111,7 +111,7 @@
 
                                 <!-- Ghi chú -->
                                 <div class="col-md-12">
-                                    <label for="notes" class="form-label ">Ghi chú</label>
+                                    <label for="notes" class="form-label">Ghi chú</label>
                                     <input type="text" name="notes" id="notes" class="form-control form-control-sm">
                                 </div>
                             </div>
@@ -204,8 +204,9 @@
             filtered.forEach(p => {
                 const option = document.createElement('option');
                 option.value = p.id;
-                option.dataset.price = p.price_output;
-                option.dataset.quantity = p.quantity; // thêm tồn kho
+                option.dataset.price_output = p.price_output;
+                option.dataset.price_input = p.price_input;
+                option.dataset.quantity = p.quantity;
                 option.textContent = p.name;
                 productSelect.appendChild(option);
             });
@@ -218,8 +219,10 @@
     productSelect.addEventListener('change', function() {
         const selected = this.selectedOptions[0];
         if(selected && !document.getElementById('product-' + selected.value)) {
-            const price = parseFloat(selected.dataset.price);
-            const maxQty = parseInt(selected.dataset.quantity, 10); // tồn kho
+            const price_output = parseFloat(selected.dataset.price_output);
+            const price_input = parseFloat(selected.dataset.price_input);
+            const maxQty = parseInt(selected.dataset.quantity, 10);
+
             const tr = document.createElement('tr');
             tr.id = 'product-' + selected.value;
             tr.innerHTML = `
@@ -235,9 +238,10 @@
                     <input type="checkbox" name="is_gift[${selected.value}]" class="form-check-input">
                 </td>
                 <td>
-                    <input type="text" name="price_display[${selected.value}]"
-                           value="${formatVND(price)}" class="form-control form-control-sm" disabled>
-                    <input type="hidden" name="price[${selected.value}]" value="${price}" class="price-hidden">
+                    <input type="text" name="product_price_output_display[${selected.value}]"
+                           value="${formatVND(price_output)}" class="form-control form-control-sm" disabled>
+                    <input type="hidden" name="product_price_output[${selected.value}]" value="${price_output}" class="price-hidden">
+                    <input type="hidden" name="product_price_input[${selected.value}]" value="${price_input}">
                 </td>
                 <td>
                     <input type="text" name="discount_display[${selected.value}]"
@@ -252,7 +256,7 @@
 
             const qtyInput = tr.querySelector(`[name^="quantity"]`);
             const priceHidden = tr.querySelector(`.price-hidden`);
-            const priceDisplay = tr.querySelector(`[name^="price_display"]`);
+            const priceDisplay = tr.querySelector(`[name^="product_price_output_display"]`);
             const discountHidden = tr.querySelector(`.discount-hidden`);
             const discountDisplay = tr.querySelector(`.discount-display`);
             const giftCheckbox = tr.querySelector(`[name^="is_gift"]`);
@@ -265,8 +269,8 @@
                     discountDisplay.value = formatVND(0);
                     discountDisplay.disabled = true;
                 } else {
-                    priceHidden.value = price;
-                    priceDisplay.value = formatVND(price);
+                    priceHidden.value = price_output;
+                    priceDisplay.value = formatVND(price_output);
                     discountDisplay.disabled = false;
                 }
                 updateTotal();
@@ -279,16 +283,11 @@
                 updateTotal();
             });
 
-            // Check tồn kho khi nhập số lượng (giữ nguyên code của bạn, chỉ thêm kiểm tra)
             qtyInput.addEventListener('input', function() {
                 let qty = parseInt(this.value, 10);
-                if (qty > maxQty) {
-                    alert(`Số lượng chỉ còn ${maxQty}, bạn không thể chọn ${qty}.`);
-                    this.value = maxQty;
-                }
-                if (qty < 1 || isNaN(qty)) {
-                    this.value = 1;
-                }
+                if (qty > maxQty) qty = maxQty;
+                if (qty < 1 || isNaN(qty)) qty = 1;
+                this.value = qty;
                 updateTotal();
             });
 

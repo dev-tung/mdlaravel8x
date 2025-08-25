@@ -48,7 +48,7 @@
                                 @php $total = 0; @endphp
                                 @foreach($order->items as $item)
                                     @php
-                                        $price = $item->is_gift ? 0 : $item->price;
+                                        $price = $item->is_gift ? 0 : $item->product_price_output;
                                         $discount = $item->discount ?? 0;
                                         $amount = $price * $item->quantity - $discount;
                                         $total += $amount;
