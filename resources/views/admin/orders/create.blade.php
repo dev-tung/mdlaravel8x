@@ -283,11 +283,16 @@
                 updateTotal();
             });
 
+            // Check tồn kho khi nhập số lượng (giữ nguyên code của bạn, chỉ thêm kiểm tra)
             qtyInput.addEventListener('input', function() {
                 let qty = parseInt(this.value, 10);
-                if (qty > maxQty) qty = maxQty;
-                if (qty < 1 || isNaN(qty)) qty = 1;
-                this.value = qty;
+                if (qty > maxQty) {
+                    alert(`Số lượng chỉ còn ${maxQty}, bạn không thể chọn ${qty}.`);
+                    this.value = maxQty;
+                }
+                if (qty < 1 || isNaN(qty)) {
+                    this.value = 1;
+                }
                 updateTotal();
             });
 
