@@ -30,7 +30,7 @@ class OrderService
         
         $totalAmount = 0; $discountAmount = 0;
         foreach( $data['product_id'] as $product_id ){
-            $subtotal = $data['product_price_output'][$product_id] - $data['discount'][$product_id];
+            $subtotal = $data['product_price_output'][$product_id] * $data['quantity'][$product_id] - $data['discount'][$product_id];
 
             $this->itemRepository->create([
                 'order_id'              => $order->id,
