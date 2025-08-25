@@ -29,7 +29,7 @@
                             <div class="row g-3">
 
                                 <!-- Khách hàng -->
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="customerSearch" class="form-label">Khách hàng <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" id="customerSearch" placeholder="Tìm khách hàng..." autocomplete="off">
                                     <select class="form-select form-select-sm mt-1" id="customerSelect" size="5" style="display:none;"></select>
@@ -40,13 +40,13 @@
                                 </div>
 
                                 <!-- Ngày đơn hàng -->
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="order_date" class="form-label">Ngày đặt</label>
                                     <input type="date" name="order_date" id="order_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
                                 </div>
 
                                 <!-- Trạng thái -->
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="status" class="form-label small">Trạng thái</label>
                                     <select class="form-select form-select-sm" id="status" name="status">
                                         <option value="">-- Chọn trạng thái --</option>
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <!-- Phương thức thanh toán -->
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <label for="payment_method" class="form-label small">Phương thức thanh toán</label>
                                     <select class="form-select form-select-sm" id="payment_method" name="payment_method">
                                         <option value="">-- Chọn phương thức --</option>
