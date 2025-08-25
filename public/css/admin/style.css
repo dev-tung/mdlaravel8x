@@ -1,0 +1,10 @@
+
+.TableWarning td, .TableWarning select {
+    color: #ff0000 !important;
+}
+
+.table td, .table th, table select, table a, table button {
+    vertical-align: middle;
+    font-size: 0.8rem!important;
+}
+
