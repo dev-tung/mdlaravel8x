@@ -96,7 +96,6 @@ class DashboardRepository
         // Lấy lợi nhuận từng tháng
         $data = DB::table('items')
             ->join('orders', 'items.order_id', '=', 'orders.id')
-            ->join('products', 'items.product_id', '=', 'products.id')
             ->where('items.is_gift', 0)
             ->whereYear('orders.order_date', $year)
             ->select(
