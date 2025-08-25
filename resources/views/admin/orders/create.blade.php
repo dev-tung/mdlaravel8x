@@ -159,8 +159,8 @@
             const qty = parseFloat(tr.querySelector('[name^="quantity"]').value) || 0;
             const price = parseFloat(tr.querySelector('.price-hidden').value) || 0;
             const discount = parseFloat(tr.querySelector('.discount-hidden').value) || 0;
-            const finalPrice = Math.max(price - discount, 0);
-            total += qty * finalPrice;
+            const finalPrice = Math.max(price, 0);
+            total += qty * finalPrice - discount;
         });
         totalAmountEl.textContent = formatVND(total);
     }
