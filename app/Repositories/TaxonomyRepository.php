@@ -78,4 +78,9 @@ class TaxonomyRepository
             ->orderBy('home_order', 'asc')
             ->get();
     }
+
+    public function findBySlug(string $slug): ?Taxonomy
+    {
+        return Taxonomy::where('slug', $slug)->first();
+    }
 }

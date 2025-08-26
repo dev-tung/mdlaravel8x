@@ -34,7 +34,7 @@
                 </a>
                 <div class="HeaderMiddleSearch">
                     <form action="{{ route('product.index') }}" class="HeaderMiddleSearchForm">
-                        <input type="text" class="HeaderMiddleSearchFormInput" name="product_name" placeholder="Tìm kiếm các sản phẩm ..." value="{{request()->product_name}}">
+                        <input type="text" class="HeaderMiddleSearchFormInput" name="name" placeholder="Tìm kiếm các sản phẩm ..." value="{{request()->name}}">
                         <button class="HeaderMiddleSearchFormSubmit">TÌM KIẾM</button>
                     </form>
                 </div>

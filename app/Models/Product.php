@@ -23,6 +23,10 @@ class Product extends Model
         'slug'
     ];
 
+    public function getPriceOutputFormattedAttribute()
+    {
+        return number_format($this->attributes['price_output'], 0, ',', '.') . ' đ';
+    }
 
     /**
      * Tự động sinh slug khi tạo hoặc cập nhật name
