@@ -19,7 +19,7 @@ class CustomerRepository
             $query->where('email', 'like', '%'.$filters['email'].'%');
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate($perPage)->appends($filters);
+        return $query->where('status', 'active')->orderBy('created_at', 'desc')->paginate($perPage)->appends($filters);
     }
 
     public function all()
@@ -54,6 +54,7 @@ class CustomerRepository
 
     public function delete(int $id): ?bool
     {
-        return Customer::destroy($id);
+        $customer = $this->find($id);
+        return $customer->update(['status' => 'inactive']);
     }
 }

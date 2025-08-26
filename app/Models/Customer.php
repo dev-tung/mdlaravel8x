@@ -16,7 +16,7 @@ class Customer extends Model
         'password',
         'address',
         'taxonomy_id',
-        'status',
+        'status'
     ];
 
     /**
