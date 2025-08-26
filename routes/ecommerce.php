@@ -8,5 +8,5 @@ use App\Http\Controllers\Ecommerce\{
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-Route::get('products', [ProductController::class, 'index'])->name('product.index');
+Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
 Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');

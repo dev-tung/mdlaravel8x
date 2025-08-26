@@ -121,7 +121,7 @@
                             <ul class="FooterList">
                                 @if( !empty( $taxonomies ) )
                                     @foreach( $taxonomies as $key => $taxonomy )
-                                        <li class="FooterListItem"><a class="FooterLinkItem" href="{{ route('product.index', ['taxonomy_slug' => $taxonomy->slug]) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
+                                        <li class="FooterListItem"><a class="FooterLinkItem" href="{{ route('product.index', $taxonomy->slug) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
                                     @endforeach  
                                 @endif
                             </ul>
@@ -202,7 +202,7 @@
                         <ul class="ModalList">
                             @if( !empty( $taxonomies ) )
                                 @foreach( $taxonomies as $key => $taxonomy )
-                                    <li class="ModalListItem"><a href="{{ route('product.index', ['taxonomy_slug' => $taxonomy->slug]) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
+                                    <li class="ModalListItem"><a href="{{ route('product.index', $taxonomy->slug) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
                                 @endforeach  
                             @endif
                         </ul>
