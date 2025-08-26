@@ -44,13 +44,10 @@ class RouteServiceProvider extends ServiceProvider
 
         // ADMIN
         Route::middleware('web')
-            // ->middleware(['web', 'auth'])
-            // ->prefix('admin')
             ->group(base_path('routes/admin.php'));
 
         // ECOMMERCE
         Route::middleware('web')
-            ->prefix('pos')
             ->group(base_path('routes/ecommerce.php'));
     }
 

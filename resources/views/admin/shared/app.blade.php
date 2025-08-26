@@ -107,7 +107,7 @@
           <a href="{{route('admin.dashboard')}}" class="brand-link">
             <!--begin::Brand Image-->
             <img
-              src="{{asset('img/logo-white-transperent.png')}}"
+              src="{{asset('img/shared/logo-white-transperent.png')}}"
               alt="Manh Dung Logo"
               class="brand-image"
             />
@@ -146,7 +146,7 @@
 
     <!--begin::Script-->
     <!-- Bootstrap JS + Popper -->
-    <script src="{{ asset('js/shared/processing.js') }}"></script>
+    <script src="{{ asset('js/admin/shared/processing.js') }}"></script>
 
     <script src="{{ asset('js/shared/bootstrap.bundle.min.js') }}"></script>
 

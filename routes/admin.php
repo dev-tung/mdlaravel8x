@@ -38,9 +38,3 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
 
 Auth::routes();
-
-
-Route::get('/optimize', function() {
-    Artisan::call('optimize');
-    dd("Cache Clear All");
-});
