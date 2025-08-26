@@ -73,6 +73,8 @@ class TaxonomyRepository
     public function homePage()
     {
         return Taxonomy::where('home_show', 'active')
+            ->withCount('products')
+            ->having('products_count', '>', 3)
             ->orderBy('home_order', 'asc')
             ->get();
     }
