@@ -1,13 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    # Chuyển request đến public nếu không phải file hoặc thư mục
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ public/$1 [L,QSA]
+    # Redirect requests to the public directory
+    RewriteRule ^(.*)$ public/$1 [L]
 
-    # Nếu là thư mục public, redirect vào index.php
+    # Handle the case where the public folder is directly requested (e.g., http://example.com/public)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^public/(.*)$ public/index.php [L]
