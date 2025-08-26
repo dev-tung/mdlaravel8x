@@ -69,4 +69,11 @@ class TaxonomyRepository
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public function homePage()
+    {
+        return Taxonomy::where('home_show', 'active')
+            ->orderBy('home_order', 'asc')
+            ->get();
+    }
 }

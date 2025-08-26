@@ -17,33 +17,28 @@
 
         </section> <!-- End slider -->
 
-        @if( !empty($products) )
-            @foreach( $products as $product_code => $product )
-                @if( !empty( $product_code ) )
+        @if( !empty($taxonomies) )
+            @foreach( $taxonomies as $key => $taxonomy )
+                @if( !empty( $taxonomy->products ) )
                     <section class="SectionProduct">
-                        <div class="ProductLatest swiper">
+                        <div class="ProductLatest">
                             <div class="ProductHeader">
                                 <h3 class="ProductHeaderTitle">
-                                    {{ $productypes[$product_code] }}
+                                    {{ $taxonomy->name }}
                                 </h3>  
-                                <div class="ProductHeaderNav">
-                                    <img src="{{ asset('img/ecommerce/icon/previous.png') }}" class="ProductHeaderNavBtn ProductHeaderNavBtn_Next">
-                                    <img src="{{ asset('img/ecommerce/icon/next.png') }}" class="ProductHeaderNavBtn ProductHeaderNavBtn_Prev">
-                                </div>
                             </div>
-                        
-                            <div class="swiper-wrapper ProductGrid">
-                                @foreach( $products[$product_code] as $key => $product )
-                                    <div class="swiper-slide ProductItem">
+                            <div class="ProductGrid">
+                                @foreach( $taxonomy->products as $key => $product )
+                                    <div class="ProductItem">
                                         <div class="ProductGroup">
-                                            <a class="ProductThumnail" href="{{ asset($product->product_thumbnail)}}">
-                                                <img class="ProductImg" src="{{ asset($product->product_thumbnail)}}">
+                                            <a class="ProductThumnail" href="{{ asset($product->thumbnail)}}">
+                                                <img class="ProductImg" src="{{ asset($product->thumbnail)}}">
                                             </a>
-                                            <h3 class="ProductTitle">{{$product->product_name}}</h3>
+                                            <h3 class="ProductTitle">{{$product->name}}</h3>
                                             <div class="ProductPrice">
-                                                <span class="ProductPriceSale">{{commonNumberToVND($product->product_price_output)}}</span>
+                                                <span class="ProductPriceSale">{{$product->price_output}}</span>
                                             </div>
-                                            <a class="ProductBtnView" href="{{route('web.product.detail', ['product_id' => $product->product_id])}}">
+                                            <a class="ProductBtnView" href="{{ route('product.detail', ['slug' => $product->slug]) }}">
                                                 xem chi tiết
                                             </a>
                                         </div>

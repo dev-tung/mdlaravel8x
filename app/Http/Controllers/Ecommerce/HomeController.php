@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Ecommerce;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\TaxonomyRepository;
 
 class HomeController extends Controller
 {
-    function __construct() {
+    protected $taxonomyRepository;
+
+    function __construct(TaxonomyRepository $taxonomyRepository) {
+        $this->taxonomyRepository = $taxonomyRepository;
     }
 
     public function index(Request $request){
-        return view('ecommerce.home.index');
+        $taxonomies = $this->taxonomyRepository->homePage();
+        return view('ecommerce.home.index',['taxonomies' => $taxonomies]);
     }
 }

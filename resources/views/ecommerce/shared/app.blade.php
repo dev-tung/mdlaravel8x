@@ -119,9 +119,9 @@
                         <div class="FooterColumn">
                             <h3 class="FooterTitle">Danh mục sản phẩm</h3>
                             <ul class="FooterList">
-                                @if( !empty( $productypes ) )
-                                    @foreach( $productypes as $key => $item )
-                                        <li class="FooterListItem"><a class="FooterLinkItem" href="{{ route('product.index', ['productype_code' => $key]) }}">{{$item}}</a></li>
+                                @if( !empty( $taxonomies ) )
+                                    @foreach( $taxonomies as $key => $taxonomy )
+                                        <li class="FooterListItem"><a class="FooterLinkItem" href="{{ route('product.index', ['taxonomy_slug' => $taxonomy->slug]) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
                                     @endforeach  
                                 @endif
                             </ul>
@@ -200,9 +200,9 @@
                 <div class="ModalBody">
                     <div class="ModalWidth">
                         <ul class="ModalList">
-                            @if( !empty( $productypes ) )
-                                @foreach( $productypes as $key => $item )
-                                    <li class="ModalListItem"><a href="{{ route('product.index', ['productype_code' => $key]) }}" class="ModalItemLink">{{$item}}</a></li>
+                            @if( !empty( $taxonomies ) )
+                                @foreach( $taxonomies as $key => $taxonomy )
+                                    <li class="ModalListItem"><a href="{{ route('product.index', ['taxonomy_slug' => $taxonomy->slug]) }}" class="ModalItemLink">{{$taxonomy->name}}</a></li>
                                 @endforeach  
                             @endif
                         </ul>

@@ -40,7 +40,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>MD</b>Sports</a>
+        <a href="#"><b>MD</b>SPORTS</a>
     </div>
 
     <div class="card">

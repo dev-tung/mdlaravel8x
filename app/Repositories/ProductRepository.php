@@ -71,6 +71,9 @@ class ProductRepository
         return Product::destroy($id);
     }
 
-    
+    public function findBySlug(string $slug): Product
+    {
+        return Product::where('slug', $slug)->first();
+    }
 
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -18,8 +19,30 @@ class Product extends Model
         'thumbnail',
         'unit',
         'supplier_id',
-        'taxonomy_id'
+        'taxonomy_id',
+        'slug'
     ];
+
+
+    /**
+     * Tự động sinh slug khi tạo hoặc cập nhật name
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
+
+        static::updating(function ($product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
+    }
 
     // Quan hệ: mỗi sản phẩm thuộc về 1 nhà cung cấp
     public function supplier()
