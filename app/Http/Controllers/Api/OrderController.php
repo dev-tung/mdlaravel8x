@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use Illuminate\Http\JsonResponse;
 
-class OrderApiController extends Controller
+class OrderController extends Controller
 {
     /**
      * Cập nhật status hoặc payment_method
