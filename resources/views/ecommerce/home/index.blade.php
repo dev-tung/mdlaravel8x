@@ -36,7 +36,7 @@
                                             </a>
                                             <h3 class="ProductTitle">{{$product->name}}</h3>
                                             <div class="ProductPrice">
-                                                <span class="ProductPriceSale">{{$product->price_output}}</span>
+                                                <span class="ProductPriceSale">{{$product->price_output_formatted}}</span>
                                             </div>
                                             <a class="ProductBtnView" href="{{ route('product.detail', ['slug' => $product->slug]) }}">
                                                 xem chi tiết
