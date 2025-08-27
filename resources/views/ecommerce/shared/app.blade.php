@@ -303,8 +303,13 @@
                     </div>
                 </div>
 
+
+
+
             </div>
         </div>
+
+        @include('ecommerce.shared.social')
     </div> <!-- Wrapper -->
 
     <script src="{{asset('js/shared/swiper-bundle.min.js')}}"></script>
