@@ -33,6 +33,7 @@ class ProductRepository
         }
 
         return $query->orderBy('created_at', 'desc')
+                     ->where('quantity', '>', 0)
                      ->paginate($perPage)
                      ->appends($filters);
     }
