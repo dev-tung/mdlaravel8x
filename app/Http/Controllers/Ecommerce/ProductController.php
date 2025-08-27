@@ -28,6 +28,7 @@ class ProductController extends Controller
         }
         $perPage = $request->input('per_page', config('shared.pagination_per_page', 15));
 
+        $filters['quantity'] = true; // Chỉ hiển thị sản phẩm còn hàng
         $products = $this->productRepository->paginateWithFilters($filters, $perPage);
         return view('ecommerce.products.index', compact('products'));
     }

@@ -32,8 +32,11 @@ class ProductRepository
             $query->where('price_output', '<=', $filters['price_max']);
         }
 
+        if ($filters['quantity']) {
+            $query->where('quantity', '>', 0);
+        }
+
         return $query->orderBy('created_at', 'desc')
-                     ->where('quantity', '>', 0)
                      ->paginate($perPage)
                      ->appends($filters);
     }
