@@ -224,11 +224,11 @@
                 <div class="ModalBody">
                     <div class="ModalWidth">
                         <ul class="ModalList">
-                            <li class="ModalListItem"><a href="" class="ModalItemLink">Menu 1</a></li>
-                            <li class="ModalListItem"><a href="" class="ModalItemLink">Menu 2</a></li>
-                            <li class="ModalListItem"><a href="" class="ModalItemLink">Menu 3</a></li>
-                            <li class="ModalListItem"><a href="" class="ModalItemLink">Menu 4</a></li>
-                            <li class="ModalListItem"><a href="" class="ModalItemLink">Menu 5</a></li>
+                            <li class="ModalListItem"><a href="/" class="ModalItemLink">Trang chủ</a></li>
+                            <li class="ModalListItem"><a href="{{ route('product.index') }}" class="ModalItemLink">Sản phẩm</a></li>
+                            <li class="ModalListItem"><a href="" class="ModalItemLink">Tin tức</a></li>
+                            <li class="ModalListItem"><a href="" class="ModalItemLink">Liên hệ</a></li>
+                            <li class="ModalListItem"><a href="" class="ModalItemLink">Giới thiệu</a></li>
                         </ul>
                     </div>
                 </div>
