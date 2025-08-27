@@ -2134,3 +2134,37 @@ Footer{
 .SlideMain .swiper-pagination-bullet-active{
     background-color: white;
 }
+
+.ZaloBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: var(--primary-color);
+    padding: 12px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: Bounce 2s infinite;
+    transition: transform 0.2s;
+}
+
+.ZaloBtn:hover {
+    transform: scale(1.1);
+}
+
+.ZaloBtn img {
+    width: 32px;
+    height: 32px;
+}
+
+@keyframes Bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
