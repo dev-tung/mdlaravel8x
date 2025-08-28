@@ -71,7 +71,6 @@
                                     <th>Khách hàng</th>
                                     <th>Nhóm khách hàng</th>
                                     <th>Ngày đặt</th>
-                                    <th>Tổng tiền</th>
                                     <th>Trạng thái</th>
                                     <th>Thanh toán</th>
                                     <th class="text-center" style="width:150px;">Hành động</th>
@@ -83,8 +82,7 @@
                                         <td>{{ $loop->iteration + ($orders->currentPage()-1) * $orders->perPage() }}</td>
                                         <td>{{ $order->customer->name ?? '-' }}</td>
                                         <td>{{ $order->customer->taxonomy->name ?? '-' }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
-                                        <td>{{ number_format($order->total_amount,0,',','.') }} đ</td>
+                                            <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                         <td onclick="event.stopPropagation()">
                                             <select class="form-select form-select-sm py-0 w-auto UpdateStatus" data-id="{{ $order->id }}">
                                                 @foreach($statuses as $key => $label)
