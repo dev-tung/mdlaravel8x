@@ -70,9 +70,9 @@
                                 </thead>
                                 <tbody>
                                     @forelse($expenses as $expense)
-                                        <tr onclick="window.location='{{ route('admin.expenses.edit', $expense->id) }}'" style="cursor:pointer;">
+                                        <tr onclick="window.location='{{ route('admin.expenses.edit', $expense->id) }}'" style="cursor: pointer;">
                                             <td>{{ $loop->iteration + ($expenses->currentPage() - 1) * $expenses->perPage() }}</td>
-                                            <td>{{ $expense->name }}</td>
+                                            <td onclick="event.stopPropagation()">{!! $expense->name !!}</td>
                                             <td>{{ $expense->taxonomy->name }}</td>
                                             <td>{{ number_format($expense->amount, 0, ',', '.') }} đ</td>
                                             <td>{{ $expense->expense_date }}</td>
