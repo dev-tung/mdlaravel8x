@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\OrderRepository;
 use App\Repositories\ItemRepository;
+use App\Repositories\ExpenseRepository;
 use App\Models\Order;
 use Illuminate\Validation\ValidationException;
 
@@ -11,11 +12,13 @@ class OrderService
 {
     protected OrderRepository $orderRepository;
     protected ItemRepository $itemRepository;
+    protected ExpenseRepository $expenseRepository;
 
-    public function __construct(OrderRepository $orderRepository, ItemRepository $itemRepository)
+    public function __construct(OrderRepository $orderRepository, ItemRepository $itemRepository, ExpenseRepository $expenseRepository)
     {
         $this->orderRepository = $orderRepository;
         $this->itemRepository = $itemRepository;
+        $this->expenseRepository = $expenseRepository;
     }
 
     /**
@@ -43,15 +46,26 @@ class OrderService
                 'subtotal'              => $subtotal
             ]);
 
+            if(!empty( $data['is_gift'][$product_id] )){
+                // Ghi nhận chi phí quà tặng
+                $this->expenseRepository->create([
+                    'name'          => "<a href='".route('admin.orders.show', $order->id)."' target='_blank'>Quà tặng đơn hàng</a>",
+                    'taxonomy_id'   => 50, // Chi phí bán hàng
+                    'amount'        => $data['product_price_input'][$product_id] * $data['quantity'][$product_id],
+                    'expense_date'  => $order->order_date
+                ]);
+            }
+
             $totalAmount = $totalAmount + $subtotal;
             $discountAmount = $discountAmount + $data['discount'][$product_id];
         }
 
         $this->orderRepository->update($order->id, [
             'total_amount'      => $totalAmount, 
-            'discount_amount'   => $discountAmount,
-            'final_amount'      => $totalAmount - $discountAmount
+            'discount_amount'   => $discountAmount
         ]);
+
+
         
     }
 

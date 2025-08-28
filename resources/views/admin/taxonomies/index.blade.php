@@ -68,7 +68,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse($taxonomies as $taxonomy)
-                                        <tr>
+                                        <tr onclick="window.location='{{ route('admin.taxonomies.edit', $taxonomy->id) }}'" style="cursor: pointer;">
                                             <td>{{ $loop->iteration + ($taxonomies->currentPage() - 1) * $taxonomies->perPage() }}</td>
                                             <td>{{ $taxonomy->name }}</td>
                                             <td>{{ $taxonomy->slug }}</td>
