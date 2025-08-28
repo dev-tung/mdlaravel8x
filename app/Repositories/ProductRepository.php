@@ -32,7 +32,7 @@ class ProductRepository
             $query->where('price_output', '<=', $filters['price_max']);
         }
 
-        if (isset($filters['quantity'])) {
+        if (isset($filters['quantity']) && $filters['quantity']) {
             $query->where('quantity', '>', 0);
         }
 
