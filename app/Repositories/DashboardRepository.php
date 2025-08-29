@@ -42,7 +42,7 @@ class DashboardRepository
     {
         $query = DB::table('orders');
         return $this->whereTime($query, 'order_date')
-                    ->sum('total_amount');
+                    ->sum('final_amount');
     }
 
     public function discount()
