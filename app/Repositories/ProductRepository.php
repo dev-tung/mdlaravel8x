@@ -80,4 +80,9 @@ class ProductRepository
         return Product::where('slug', $slug)->first();
     }
 
+    public function increaseQuantity(int $id, int $amount): void
+    {
+        Product::where('id', $id)->increment('quantity', $amount);
+    }    
+
 }

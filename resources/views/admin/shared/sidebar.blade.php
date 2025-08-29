@@ -9,6 +9,28 @@
         </a>
       </li>
 
+      <!-- Purchases -->
+      <li class="nav-item {{ request()->routeIs('admin.purchases.*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ request()->routeIs('admin.purchases.*') ? 'active' : '' }}">
+          <i class="nav-icon bi bi-box-seam"></i>
+          <p>Nhập hàng <i class="nav-arrow bi bi-chevron-right"></i></p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item">
+            <a href="{{ route('admin.purchases.index') }}" class="nav-link {{ request()->routeIs('admin.purchases.index') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-circle"></i>
+              <p>Danh sách</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin.purchases.create') }}" class="nav-link {{ request()->routeIs('admin.purchases.create') ? 'active' : '' }}">
+              <i class="nav-icon bi bi-circle"></i>
+              <p>Thêm mới</p>
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- Products -->
       <li class="nav-item {{ request()->routeIs('admin.products.*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">

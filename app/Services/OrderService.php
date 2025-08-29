@@ -64,8 +64,6 @@ class OrderService
             'total_amount'      => $totalAmount, 
             'discount_amount'   => $discountAmount
         ]);
-
-
         
     }
 

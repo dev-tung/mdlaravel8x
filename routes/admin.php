@@ -34,6 +34,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('suppliers', SupplierController::class);
     Route::resource('taxonomies', TaxonomyController::class);
     Route::resource('users', UserController::class);
+    Route::resource('purchases', PurchaseController::class);
 });
 
 
