@@ -54,7 +54,7 @@ class PurchaseRepository
 
     public function find(int $id): Purchase
     {
-        return Purchase::with(['supplier', 'items.product'])->findOrFail($id);
+        return Purchase::with(['supplier', 'imports.product'])->findOrFail($id);
     }
 
     public function create(array $data): Purchase

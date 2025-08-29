@@ -16,7 +16,7 @@ class Purchase extends Model
     ];
 
     // Quan hệ 1-N: Purchase có nhiều Import
-    public function items()
+    public function imports()
     {
         return $this->hasMany(Import::class);
     }

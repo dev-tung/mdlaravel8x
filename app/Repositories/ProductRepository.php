@@ -85,4 +85,8 @@ class ProductRepository
         Product::where('id', $id)->increment('quantity', $amount);
     }    
 
+    public function decreaseQuantity(int $id, int $amount): void
+    {
+        Product::where('id', $id)->decrement('quantity', $amount);
+    }
 }

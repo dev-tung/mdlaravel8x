@@ -61,41 +61,6 @@ class PurchaseService
 
 
     /**
-     * Cập nhật phiếu nhập
-     */
-    public function update(int $id, array $data)
-    {
-        DB::beginTransaction();
-        try {
-            $purchase = $this->purchaseRepository->find($id);
-
-            // Trả lại tồn kho cũ (rollback)
-            foreach ($purchase->items as $oldItem) {
-                $this->productRepository->decreaseQuantity($oldItem->product_id, $oldItem->quantity);
-            }
-
-            // Xóa items cũ
-            $this->purchaseRepository->deleteItems($id);
-
-            // Update purchase
-            $this->purchaseRepository->update($id, $data);
-
-            // Thêm items mới + cộng tồn kho
-            $items = $data['items'] ?? [];
-            foreach ($items as $item) {
-                $this->purchaseRepository->addItem($id, $item);
-                $this->productRepository->increaseQuantity($item['product_id'], $item['quantity']);
-            }
-
-            DB::commit();
-            return $purchase;
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-    }
-
-    /**
      * Xóa phiếu nhập
      */
     public function delete(int $id)
@@ -105,7 +70,7 @@ class PurchaseService
             $purchase = $this->purchaseRepository->find($id);
 
             // Trừ tồn kho khi xóa
-            foreach ($purchase->items as $item) {
+            foreach ($purchase->imports as $item) {
                 $this->productRepository->decreaseQuantity($item->product_id, $item->quantity);
             }
 
