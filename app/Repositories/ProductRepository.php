@@ -48,7 +48,12 @@ class ProductRepository
 
     public function forOrder()
     {
-        return Product::with('imports')->get();
+        return Product::with('imports')
+        ->whereHas('imports', function($query) {
+            $query->where('price_input', '>', 0);
+        })
+        ->get();
+
     }
 
     public function find(int $id): Product
