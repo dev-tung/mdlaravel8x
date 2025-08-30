@@ -29,6 +29,7 @@ class PurchaseService
      */
     public function create(array $data)
     {
+
         // Tạo phiếu nhập
         $purchase = $this->purchaseRepository->create([
             'supplier_id'   => $data['supplier_id'],
@@ -92,20 +93,26 @@ class PurchaseService
     {
         DB::beginTransaction();
         try {
+            // Lấy purchase
             $purchase = $this->purchaseRepository->find($id);
 
-            // Trừ tồn kho khi xóa
+            // Trừ tồn kho các sản phẩm của purchase này
             foreach ($purchase->imports as $item) {
                 $this->productRepository->decreaseQuantity($item->product_id, $item->quantity);
             }
 
+            // Xóa các imports liên quan đến purchase này
+            DB::table('imports')->where('purchase_id', $id)->delete();
+
+            // Xóa purchase
             $this->purchaseRepository->delete($id);
 
             DB::commit();
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
+
 }

@@ -15,7 +15,7 @@ class Import extends Model
         'purchase_id',
         'product_id',
         'quantity',
-        'product_price_input',
+        'price_input',
         'total_price'
     ];
 
