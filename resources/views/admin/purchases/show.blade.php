@@ -52,7 +52,7 @@
                                 @foreach($purchase->imports as $item)
                                     @php
                                         $price = $item->price_input ?? 0;
-                                        $amount = $price * $item->quantity;
+                                        $amount = $item->total_price ?? 0;
                                         $total += $amount;
                                     @endphp
                                     <tr>
