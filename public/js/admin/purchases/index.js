@@ -2,7 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    function updateRowColor(row, statusSelect, paymentSelect) {
+    function updateRowColor(row, statusSelect) {
+        console.log(statusSelect);
         if (statusSelect.value !== 'received') {
             row.classList.add('TableWarning');
         } else {
@@ -21,11 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('tr[data-purchase-id]').forEach(function (row) {
         const statusSelect = row.querySelector('.UpdateStatus');
-        const paymentSelect = row.querySelector('.UpdatePayment');
         const purchaseId = row.dataset.purchaseId;
 
         // Màu ban đầu
-        updateRowColor(row, statusSelect, paymentSelect);
+        updateRowColor(row, statusSelect);
 
         function updateField(field, value, selectEl) {
             setLoading(selectEl, true);
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 if (data.success) {
-                    updateRowColor(row, statusSelect, paymentSelect);
+                    updateRowColor(row, statusSelect);
                 } else {
                     alert('Cập nhật thất bại: ' + (data.message || 'Không xác định'));
                 }
@@ -60,13 +60,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         statusSelect.addEventListener('change', function () {
-            updateRowColor(row, statusSelect, paymentSelect); // đổi màu ngay
+            updateRowColor(row, statusSelect); // đổi màu ngay
             updateField('status', this.value, this);
-        });
-
-        paymentSelect.addEventListener('change', function () {
-            updateRowColor(row, statusSelect, paymentSelect);
-            updateField('payment_method', this.value, this);
         });
     });
 });
