@@ -13,6 +13,7 @@ class Purchase extends Model
         'purchase_date',
         'total_amount',
         'notes',
+        'status'
     ];
 
     // Quan hệ 1-N: Purchase có nhiều Import

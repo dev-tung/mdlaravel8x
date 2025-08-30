@@ -34,6 +34,7 @@ class PurchaseService
             'supplier_id'   => $data['supplier_id'],
             'purchase_date' => $data['purchase_date'],
             'notes'         => $data['notes'] ?? null,
+            'status'        => $data['status']
         ]);
 
         $totalAmount = 0;
