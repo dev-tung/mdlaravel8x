@@ -57,7 +57,7 @@
                                     </div>
 
                                     <!-- Supplier -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="supplier_id" class="form-label small">Nhà cung cấp</label>
                                         <select class="form-select form-select-sm" id="supplier_id" name="supplier_id">
                                             <option value="">-- Chọn NCC --</option>
@@ -69,16 +69,6 @@
                                             @endforeach
                                         </select>
                                         @error('supplier_id')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Price Input -->
-                                    <div class="col-md-3">
-                                        <label for="price_input" class="form-label small">Giá nhập</label>
-                                        <input type="number" class="form-control form-control-sm" id="price_input" 
-                                               name="price_input" value="{{ old('price_input') }}">
-                                        @error('price_input')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -114,7 +104,7 @@
                                     </div>
 
                                     <!-- Thumbnail -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label for="thumbnail" class="form-label small">Ảnh sản phẩm</label>
                                         <input type="file" class="form-control form-control-sm" id="thumbnail" name="thumbnail" accept="image/*">
                                         <img id="thumbnail-preview" src="#" alt="Preview" style="display:none; max-height: 150px; margin-top:10px;">
