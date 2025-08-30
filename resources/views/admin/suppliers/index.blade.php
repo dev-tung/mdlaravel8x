@@ -28,15 +28,6 @@
                                 <div class="col-auto">
                                     <input type="text" name="name" class="form-control form-control-sm" placeholder="Tên nhà cung cấp" value="{{ request('name') }}" autocomplete="off">
                                 </div>
-
-                                <div class="col-auto">
-                                    <input type="text" name="phone" class="form-control form-control-sm" placeholder="Số điện thoại" value="{{ request('phone') }}" autocomplete="off">
-                                </div>
-
-                                <div class="col-auto">
-                                    <input type="text" name="email" class="form-control form-control-sm" placeholder="Email" value="{{ request('email') }}" autocomplete="off">
-                                </div>
-
                                 <div class="col-auto">
                                     <button type="submit" class="btn btn-primary btn-sm mx-2 px-4">Lọc</button>
                                     <a href="{{ route('admin.suppliers.index') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
@@ -51,9 +42,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Tên nhà cung cấp</th>
-                                        <th>Điện thoại</th>
-                                        <th>Email</th>
-                                        <th>Địa chỉ</th>
                                         <th class="text-center">Hành động</th>
                                     </tr>
                                 </thead>
@@ -62,9 +50,6 @@
                                         <tr onclick="window.location='{{ route('admin.suppliers.edit', $supplier->id) }}'" style="cursor:pointer;">
                                             <td>{{ $loop->iteration + ($suppliers->currentPage() - 1) * $suppliers->perPage() }}</td>
                                             <td>{{ $supplier->name }}</td>
-                                            <td>{{ $supplier->phone }}</td>
-                                            <td>{{ $supplier->email }}</td>
-                                            <td>{{ $supplier->address }}</td>
                                             <td onclick="event.stopPropagation()" class="text-center">
                                                 <form action="{{ route('admin.suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline">
                                                     @csrf

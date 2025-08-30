@@ -48,9 +48,7 @@ class ProductRepository
 
     public function forOrder()
     {
-        return Product::where('quantity', '>', 0)
-                   ->orderBy('created_at', 'desc')
-                   ->get();
+        return Product::with('imports')->get();
     }
 
     public function find(int $id): Product
@@ -80,4 +78,13 @@ class ProductRepository
         return Product::where('slug', $slug)->first();
     }
 
+    public function increaseQuantity(int $id, int $amount): void
+    {
+        Product::where('id', $id)->increment('quantity', $amount);
+    }    
+
+    public function decreaseQuantity(int $id, int $amount): void
+    {
+        Product::where('id', $id)->decrement('quantity', $amount);
+    }
 }

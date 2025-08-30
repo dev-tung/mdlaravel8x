@@ -81,10 +81,8 @@ class DashboardRepository
 
     public function inventory()
     {
-        return DB::table('products')
-                ->selectRaw('SUM(price_input * quantity) as total')
-                ->value('total');
-    }
+        return DB::table('imports')->sum(DB::raw('total_price'));
+    }   
 
     public function profitMonths()
     {
