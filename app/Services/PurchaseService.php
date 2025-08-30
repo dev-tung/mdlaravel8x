@@ -46,7 +46,7 @@ class PurchaseService
                 'purchase_id'           => $purchase->id,
                 'product_id'            => $productId,
                 'quantity'              => $data['quantity'][$productId],
-                'product_price_input'   => $data['product_price_input'][$productId],
+                'price_input'   => $data['product_price_input'][$productId],
                 'total_price'           => $subtotal
             ]);
 
