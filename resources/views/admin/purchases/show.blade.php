@@ -51,7 +51,7 @@
                                 @php $total = 0; @endphp
                                 @foreach($purchase->imports as $item)
                                     @php
-                                        $price = $item->product_price_input ?? 0;
+                                        $price = $item->price_input ?? 0;
                                         $amount = $price * $item->quantity;
                                         $total += $amount;
                                     @endphp

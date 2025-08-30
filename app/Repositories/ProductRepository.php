@@ -48,9 +48,7 @@ class ProductRepository
 
     public function forOrder()
     {
-        return Product::where('quantity', '>', 0)
-                   ->orderBy('created_at', 'desc')
-                   ->get();
+        return Product::with('imports')->get();
     }
 
     public function find(int $id): Product

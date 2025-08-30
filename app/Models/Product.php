@@ -59,4 +59,10 @@ class Product extends Model
     {
         return $this->belongsTo(Taxonomy::class, 'taxonomy_id');
     }
+
+    // Quan hệ: 1 sản phẩm có thể có nhiều lần nhập hàng
+    public function imports()
+    {
+        return $this->hasMany(Import::class, 'product_id');
+    }
 }
