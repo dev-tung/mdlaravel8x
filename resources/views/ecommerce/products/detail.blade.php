@@ -6,7 +6,7 @@
                 <div class="swiper ProductFeaturedslide">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{ asset($product->thumbnail)}}" />
+                            <img src="{{ displayThumnail($product->thumbnail)}}" />
                         </div>
                     </div>
                 </div>
