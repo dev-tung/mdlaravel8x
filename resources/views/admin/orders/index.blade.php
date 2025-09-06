@@ -78,11 +78,11 @@
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
-                                    <tr data-order-id="{{ $order->id }}" onclick="window.location='{{ route('admin.orders.show', $order->id) }}'" style="cursor:pointer;">
+                                    <tr data-order-id="{{ $order->id }}" onclick="window.location='{{ route('admin.orders.show', $order->id) }}'" style="cursor:pointer;" title="{{ $order->notes }}">
                                         <td>{{ $loop->iteration + ($orders->currentPage()-1) * $orders->perPage() }}</td>
                                         <td>{{ $order->customer->name ?? '-' }}</td>
                                         <td>{{ $order->customer->taxonomy->name ?? '-' }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</td>
                                         <td onclick="event.stopPropagation()">
                                             <select class="form-select form-select-sm py-0 w-auto UpdateStatus" data-id="{{ $order->id }}">
                                                 @foreach($statuses as $key => $label)

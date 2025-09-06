@@ -53,7 +53,6 @@ class ProductRepository
             $query->where('price_input', '>', 0);
         })
         ->get();
-
     }
 
     public function find(int $id): Product
