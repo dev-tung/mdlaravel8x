@@ -122,6 +122,7 @@
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-success btn-sm" type="submit">Lưu taxonomy</button>
+                                <button class="btn btn-outline-secondary btn-sm" type="submit" id="btnReset">Reset</button>
                             </div>
                         </form>
                     </div>
