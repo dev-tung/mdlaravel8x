@@ -184,18 +184,18 @@ productSearch.addEventListener('input', function() {
     if(filtered.length) {
         filtered.forEach(p => {
             // Tính trung bình giá nhập
-            let avgPriceInput = 0;
+            let avg_price_input = 0;
             if(p.imports && p.imports.length > 0) {
                 const total = p.imports.reduce((sum, imp) => sum + parseFloat(imp.price_input || 0), 0);
-                avgPriceInput = total / p.imports.length;
+                avg_price_input = total / p.imports.length;
             }
 
             const option = document.createElement('option');
             option.value = p.id;
             option.dataset.price_output = p.price_output;
-            option.dataset.price_input = avgPriceInput;
+            option.dataset.price_input = avg_price_input;
             option.dataset.quantity = p.quantity;
-            option.textContent = p.name;
+            option.textContent = p.name + ' - Nhập ' + formatVND(avg_price_input) + ' - Bán ' + formatVND(p.price_output) + ' - Còn ' + p.quantity;
             productSelect.appendChild(option);
         });
         productSelect.style.display = 'block';
