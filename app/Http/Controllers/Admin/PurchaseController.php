@@ -49,7 +49,7 @@ class PurchaseController extends Controller
     public function create()
     {
         $suppliers = $this->supplierRepository->all();
-        $products = $this->productRepository->forOrder();
+        $products = $this->productRepository->all();
         $statuses = $this->purchaseRepository->statuses();
         $payments = $this->purchaseRepository->payments();
 
