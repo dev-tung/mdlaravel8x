@@ -1,5 +1,4 @@
-// formValidator.js
-export function validator(formSelector, rules, onValidSubmit) {
+export function FormValidator(formSelector, rules, onValidSubmit) {
     const form = document.querySelector(formSelector);
     if (!form) return;
 

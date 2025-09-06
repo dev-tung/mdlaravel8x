@@ -132,5 +132,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/admin/taxonomies/add.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/taxonomies/create.js') }}"></script>
 @endpush
