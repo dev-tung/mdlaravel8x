@@ -52,18 +52,10 @@ class OrderController extends Controller
      */
     public function create()
     {
-        // Lấy tất cả khách hàng theo taxonomy
-        $customers = $this->customerRepository->all();
-        
         $taxonomies = $this->taxonomyRepository->getByType('customer');
-
-        // Lấy tất cả sản phẩm
-        $products = $this->productRepository->forOrder();
-
         $statuses = $this->orderRepository->statuses();
         $payments  = $this->orderRepository->payments();
-
-        return view('admin.orders.create', compact('customers', 'taxonomies', 'products', 'statuses', 'payments'));
+        return view('admin.orders.create', compact('taxonomies', 'statuses', 'payments'));
     }
 
     /**
