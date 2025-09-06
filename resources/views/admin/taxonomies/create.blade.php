@@ -132,6 +132,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/shared/validation.js') }}"></script>
-    <script src="{{ asset('js/admin/taxonomies/create.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/taxonomies/add.js') }}"></script>
 @endpush
