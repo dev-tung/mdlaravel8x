@@ -61,6 +61,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th style="width:50px;">#</th>
+                                        <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Nhóm</th>
                                         <th>Nhà cung cấp</th>
@@ -73,6 +74,11 @@
                                     @forelse($products as $product)
                                         <tr onclick="window.location='{{ route('admin.products.edit', $product->id) }}'" style="cursor:pointer;">
                                             <td>{{ $loop->iteration + ($products->currentPage()-1) * $products->perPage() }}</td>
+                                            <td onclick="event.stopPropagation()">
+                                                <a href="{{ displayThumnail($product->thumbnail) }}" target="_blank">
+                                                    <img id="thumbnail-preview" alt="Preview" src="{{ displayThumnail($product->thumbnail) }}" target="_blank" style="height: 18px">
+                                                </a>
+                                            </td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
