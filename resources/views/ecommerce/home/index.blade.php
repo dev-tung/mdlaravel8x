@@ -31,8 +31,8 @@
                                 @foreach( $taxonomy->products as $key => $product )
                                     <div class="ProductItem">
                                         <div class="ProductGroup">
-                                            <a class="ProductThumnail" href="{{ asset($product->thumbnail)}}">
-                                                <img class="ProductImg" src="{{ asset($product->thumbnail)}}">
+                                            <a class="ProductThumnail" href="{{ displayThumnail($product->thumbnail)}}">
+                                                <img class="ProductImg" src="{{ displayThumnail($product->thumbnail)}}">
                                             </a>
                                             <h3 class="ProductTitle">{{$product->name}}</h3>
                                             <div class="ProductPrice">
