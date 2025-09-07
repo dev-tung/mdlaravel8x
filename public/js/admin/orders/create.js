@@ -1,15 +1,9 @@
+import { Helper } from "../../shared/Helper.js";
+
 class OrderCalculator {
     constructor(productTable, totalEl) {
         this.productTable = productTable;
         this.totalEl = totalEl;
-    }
-
-    formatVND(amount) {
-        return Number(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    }
-
-    parseVND(str) {
-        return Number(str.replace(/[^\d.-]/g, '')) || 0;
     }
 
     updateTotal() {
@@ -20,7 +14,7 @@ class OrderCalculator {
             const discount = parseFloat(tr.querySelector('.discount-hidden').value) || 0;
             total += qty * price - discount;
         });
-        this.totalEl.textContent = this.formatVND(total);
+        this.totalEl.textContent = Helper.formatVND(total);
     }
 }
 
@@ -83,14 +77,6 @@ class ProductSelector {
         this.selectBox.addEventListener('change', () => this.onSelect());
     }
 
-    formatVND(amount) {
-        return Number(amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    }
-
-    parseVND(str) {
-        return Number(str.replace(/[^\d.-]/g, '')) || 0;
-    }
-
     onSearch() {
         const term = this.searchInput.value.toLowerCase();
         this.selectBox.innerHTML = '';
@@ -110,7 +96,7 @@ class ProductSelector {
                 option.dataset.price_input = avg_price_input;
                 option.dataset.quantity = p.quantity;
                 option.textContent =
-                    `${p.name} - Nhập ${this.formatVND(avg_price_input)} - Bán ${this.formatVND(p.price_output)} - Còn ${p.quantity}`;
+                    `${p.name} - Nhập ${Helper.formatVND(avg_price_input)} - Bán ${Helper.formatVND(p.price_output)} - Còn ${p.quantity}`;
                 this.selectBox.appendChild(option);
             });
             this.selectBox.style.display = 'block';
@@ -129,7 +115,7 @@ class ProductSelector {
 
         const tr = document.createElement('tr');
         tr.id = 'product-' + selected.value;
-        tr.innerHTML = `
+        tr.innerHTML = (`
             <td>
                 <input type="hidden" name="product_id[]" value="${selected.value}">
                 ${selected.textContent}
@@ -143,19 +129,20 @@ class ProductSelector {
             </td>
             <td>
                 <input type="text" name="product_price_output_display[${selected.value}]"
-                       value="${this.formatVND(price_output)}" class="form-control form-control-sm" disabled>
+                       value="${Helper.formatVND(price_output)}" class="form-control form-control-sm" disabled>
                 <input type="hidden" name="product_price_output[${selected.value}]" value="${price_output}" class="price-hidden">
                 <input type="hidden" name="product_price_input[${selected.value}]" value="${price_input}">
             </td>
             <td>
                 <input type="text" name="discount_display[${selected.value}]"
-                       value="${this.formatVND(0)}" class="form-control form-control-sm discount-display">
+                       value="${Helper.formatVND(0)}" class="form-control form-control-sm discount-display">
                 <input type="hidden" name="discount[${selected.value}]" value="0" class="discount-hidden">
             </td>
             <td class="text-center">
                 <button type="button" class="btn btn-sm btn-danger">Xóa</button>
             </td>
-        `;
+        `);
+
         this.tableBody.appendChild(tr);
 
         this.bindRowEvents(tr, selected, price_output, maxQty);
@@ -176,22 +163,22 @@ class ProductSelector {
         const recalc = () => {
             if (giftCheckbox.checked) {
                 priceHidden.value = 0;
-                priceDisplay.value = this.formatVND(0);
+                priceDisplay.value = Helper.formatVND(0);
                 discountHidden.value = 0;
-                discountDisplay.value = this.formatVND(0);
+                discountDisplay.value = Helper.formatVND(0);
                 discountDisplay.disabled = true;
             } else {
                 priceHidden.value = price_output;
-                priceDisplay.value = this.formatVND(price_output);
+                priceDisplay.value = Helper.formatVND(price_output);
                 discountDisplay.disabled = false;
             }
             this.calculator.updateTotal();
         };
 
         discountDisplay.addEventListener('blur', () => {
-            const val = this.parseVND(discountDisplay.value);
+            const val = Helper.parseVND(discountDisplay.value);
             discountHidden.value = val;
-            discountDisplay.value = this.formatVND(val);
+            discountDisplay.value = Helper.formatVND(val);
             this.calculator.updateTotal();
         });
 
