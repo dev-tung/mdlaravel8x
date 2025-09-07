@@ -122,6 +122,7 @@
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-success btn-sm" type="submit">Lưu taxonomy</button>
+                                <button class="btn btn-outline-secondary btn-sm" type="submit" id="btnReset">Reset</button>
                             </div>
                         </form>
                     </div>
@@ -132,6 +133,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/shared/validation.js') }}"></script>
-    <script src="{{ asset('js/admin/taxonomies/create.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/taxonomies/create.js') }}"></script>
 @endpush

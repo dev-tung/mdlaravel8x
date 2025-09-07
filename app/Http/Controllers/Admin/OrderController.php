@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Repositories\OrderRepository;
-use App\Repositories\CustomerRepository;
-use App\Repositories\ProductRepository;
 use App\Repositories\TaxonomyRepository;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -14,21 +12,15 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     protected OrderRepository $orderRepository;
-    protected CustomerRepository $customerRepository;
-    protected ProductRepository $productRepository;
     protected TaxonomyRepository $taxonomyRepository;
     protected OrderService $orderService;
 
     public function __construct(
         OrderRepository $orderRepository,
-        CustomerRepository $customerRepository,
-        ProductRepository $productRepository,
         TaxonomyRepository $taxonomyRepository,
         OrderService $orderService
     ) {
         $this->orderRepository = $orderRepository;
-        $this->customerRepository = $customerRepository;
-        $this->productRepository = $productRepository;
         $this->taxonomyRepository = $taxonomyRepository;
         $this->orderService = $orderService;
     }
@@ -38,11 +30,11 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only(['customer_name', 'status', 'payment_method', 'from_date', 'to_date']);
-        $perPage = $request->get('per_page', config('shared.pagination_per_page', 10));
-        $orders = $this->orderRepository->paginateWithFilters($filters, $perPage);
-        $statuses = $this->orderRepository->statuses();
-        $payments  = $this->orderRepository->payments();
+        $filters    = $request->only(['customer_name', 'status', 'payment_method', 'from_date', 'to_date']);
+        $perPage    = $request->get('per_page', config('shared.pagination_per_page', 10));
+        $orders     = $this->orderRepository->paginateWithFilters($filters, $perPage);
+        $statuses   = $this->orderRepository->statuses();
+        $payments   = $this->orderRepository->payments();
 
         return view('admin.orders.index', compact('orders', 'filters', 'statuses', 'payments'));
     }
@@ -52,18 +44,10 @@ class OrderController extends Controller
      */
     public function create()
     {
-        // Lấy tất cả khách hàng theo taxonomy
-        $customers = $this->customerRepository->all();
-        
         $taxonomies = $this->taxonomyRepository->getByType('customer');
-
-        // Lấy tất cả sản phẩm
-        $products = $this->productRepository->forOrder();
-
-        $statuses = $this->orderRepository->statuses();
-        $payments  = $this->orderRepository->payments();
-
-        return view('admin.orders.create', compact('customers', 'taxonomies', 'products', 'statuses', 'payments'));
+        $statuses   = $this->orderRepository->statuses();
+        $payments   = $this->orderRepository->payments();
+        return view('admin.orders.create', compact('taxonomies', 'statuses', 'payments'));
     }
 
     /**
@@ -82,11 +66,8 @@ class OrderController extends Controller
      */
     public function edit(int $id)
     {
-        $order = $this->orderRepository->find($id);
-        $customers = $this->customerRepository->all();
+        $order      = $this->orderRepository->find($id);
         $taxonomies = $this->taxonomyRepository->getByType('customer');
-        $products = $this->productRepository->all();
-
         return view('admin.orders.edit', compact('order', 'customers', 'taxonomies', 'products'));
     }
 

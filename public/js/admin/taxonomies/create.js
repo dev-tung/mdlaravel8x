@@ -1,58 +1,72 @@
-document.addEventListener("DOMContentLoaded", function () {
-    initFormValidator("#taxonomyCreateForm", {
-        name: {
-            required: true,
-            minLength: 3,
-            message: {
-                required: "Tên taxonomy là bắt buộc.",
-                minLength: "Tên taxonomy phải dài ít nhất 3 ký tự."
-            }
-        },
-        slug: {
-            required: false,
-            type: "slug",
-            message: {
-                required: "Slug bắt buộc.",
-                type: "Slug chỉ chứa chữ thường, số và dấu gạch ngang."
-            }
-        },
-        parent_id: {
-            required: false,
-            type: "number",
-            message: {
-                type: "Parent ID phải là số nguyên."
-            }
-        },
-        type: {
-            required: true,
-            message: {
-                required: "Loại taxonomy là bắt buộc."
-            }
-        },
-        description: {
-            required: false,
-            minLength: 5,
-            maxLength: 255,
-            message: {
-                minLength: "Mô tả phải ít nhất 5 ký tự.",
-                maxLength: "Mô tả không được vượt quá 255 ký tự."
-            }
-        },
-        status: {
-            required: true,
-            custom: function(value) {
-                if (!["active", "inactive", "1", "0"].includes(value)) {
-                    return "Trạng thái không hợp lệ.";
+import { Validator } from "../../shared/validator.js";
+
+class TaxonomyCreatePage {
+    constructor() {
+        this.initValidator();
+        this.bindEvents();
+    }
+
+    initValidator() {
+        this.validator = new Validator("#taxonomyCreateForm", {
+            name: {
+                required: true,
+                minLength: 3,
+                message: {
+                    required: "Tên taxonomy là bắt buộc.",
+                    minLength: "Tên taxonomy phải dài ít nhất 3 ký tự."
                 }
-                return true;
             },
-            message: {
-                required: "Trạng thái là bắt buộc."
+            slug: {
+                required: false,
+                type: "slug",
+                message: {
+                    type: "Slug chỉ chứa chữ thường, số và dấu gạch ngang."
+                }
+            },
+            type: {
+                required: true,
+                message: {
+                    required: "Chưa chọn loại taxonomy."
+                }
+            },
+            status: {
+                required: true,
+                custom: (value) => {
+                    if (!["active", "inactive", "1", "0"].includes(value)) {
+                        return "Trạng thái không hợp lệ.";
+                    }
+                    return true;
+                },
+                message: {
+                    required: "Trạng thái là bắt buộc."
+                }
             }
+        }, (data, form) => {
+            this.onSubmit(data, form);
+        });
+    }
+
+    bindEvents() {
+        // Ví dụ thêm nút reset
+        const resetBtn = document.querySelector("#btnReset");
+        if (resetBtn) {
+            resetBtn.addEventListener("click", () => {
+                this.clearForm();
+            });
         }
-    }, function(data, form) {
+    }
+
+    onSubmit(data, form) {
+        // Submit logic
+        console.log("Dữ liệu hợp lệ:", data);
         form.submit();
-    });
-});
+    }
 
+    clearForm() {
+        const form = document.querySelector("#taxonomyCreateForm");
+        if (form) form.reset();
+    }
+}
 
+// Khởi tạo khi DOM ready
+document.addEventListener("DOMContentLoaded", () => new TaxonomyCreatePage());
