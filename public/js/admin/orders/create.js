@@ -95,6 +95,7 @@ class ProductSelector {
                 option.dataset.price_output = p.price_output;
                 option.dataset.price_input = avg_price_input;
                 option.dataset.quantity = p.quantity;
+                option.dataset.name = p.name;
                 option.textContent =
                     `${p.name} - Nhập ${Helper.formatVND(avg_price_input)} - Bán ${Helper.formatVND(p.price_output)} - Còn ${p.quantity}`;
                 this.selectBox.appendChild(option);
@@ -109,16 +110,16 @@ class ProductSelector {
         const selected = this.selectBox.selectedOptions[0];
         if (!selected || document.getElementById('product-' + selected.value)) return;
 
-        const price_output = parseFloat(selected.dataset.price_output);
-        const price_input = parseFloat(selected.dataset.price_input);
-        const maxQty = parseInt(selected.dataset.quantity, 10);
+        const price_output  = parseFloat(selected.dataset.price_output);
+        const price_input   = parseFloat(selected.dataset.price_input);
+        const maxQty        = parseInt(selected.dataset.quantity, 10);
 
         const tr = document.createElement('tr');
         tr.id = 'product-' + selected.value;
         tr.innerHTML = (`
             <td>
                 <input type="hidden" name="product_id[]" value="${selected.value}">
-                ${selected.textContent}
+                ${selected.dataset.name}
             </td>
             <td>
                 <input type="number" name="quantity[${selected.value}]" value="1"
