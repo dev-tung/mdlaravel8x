@@ -21,6 +21,14 @@ class Order extends Model
         'updated_at',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function ($order) {
+            $order->discount_amount = $order->discount_amount ?? 0;
+            $order->final_amount = $order->total_amount - $order->discount_amount;
+        });
+    }
+
     /**
      * Quan hệ với bảng order_items
      */
@@ -36,4 +44,6 @@ class Order extends Model
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
+
+    
 }

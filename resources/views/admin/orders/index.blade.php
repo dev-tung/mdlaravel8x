@@ -78,7 +78,7 @@
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
-                                    <tr data-order-id="{{ $order->id }}" onclick="window.location='{{ route('admin.orders.show', $order->id) }}'" style="cursor:pointer;" title="{{ $order->notes }}">
+                                    <tr class="clickable-row" data-order-id="{{ $order->id }}" data-href="{{ route('admin.orders.show', $order->id) }}" title="{{ $order->notes }}">
                                         <td>{{ $loop->iteration + ($orders->currentPage()-1) * $orders->perPage() }}</td>
                                         <td>{{ $order->customer->name ?? '-' }}</td>
                                         <td>{{ $order->customer->taxonomy->name ?? '-' }}</td>

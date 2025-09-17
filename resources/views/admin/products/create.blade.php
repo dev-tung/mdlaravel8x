@@ -30,7 +30,7 @@
                                 <div class="row g-3">
 
                                     <!-- Name -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-sm" id="name" 
                                                name="name" value="{{ old('name') }}" required>
@@ -40,7 +40,7 @@
                                     </div>
 
                                     <!-- Taxonomy -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label for="taxonomy_id" class="form-label small">Danh mục</label>
                                         <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
                                             <option value="">-- Chọn danh mục --</option>
@@ -57,7 +57,7 @@
                                     </div>
 
                                     <!-- Supplier -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="supplier_id" class="form-label small">Nhà cung cấp</label>
                                         <select class="form-select form-select-sm" id="supplier_id" name="supplier_id">
                                             <option value="">-- Chọn NCC --</option>
@@ -74,7 +74,7 @@
                                     </div>
 
                                     <!-- Price Output -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="price_output" class="form-label small">Giá bán</label>
                                         <input type="number" class="form-control form-control-sm" id="price_output" 
                                                name="price_output" value="{{ old('price_output') }}">
@@ -83,18 +83,8 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Quantity -->
-                                    <div class="col-md-3">
-                                        <label for="quantity" class="form-label small">Số lượng</label>
-                                        <input type="number" class="form-control form-control-sm" id="quantity" 
-                                               name="quantity" value="{{ old('quantity') }}">
-                                        @error('quantity')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
                                     <!-- Unit -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <label for="unit" class="form-label small">Đơn vị</label>
                                         <input type="text" class="form-control form-control-sm" id="unit" 
                                                name="unit" value="{{ old('unit') }}">

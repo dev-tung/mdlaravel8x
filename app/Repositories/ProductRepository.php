@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository
 {
@@ -12,6 +13,7 @@ class ProductRepository
     {
         $query = Product::query();
 
+        // Filter
         if (!empty($filters['name'])) {
             $query->where('name', 'like', '%'.$filters['name'].'%');
         }
@@ -32,14 +34,20 @@ class ProductRepository
             $query->where('price_output', '<=', $filters['price_max']);
         }
 
-        if (isset($filters['quantity']) && $filters['quantity']) {
-            $query->where('quantity', '>', 0);
-        }
+        // Thêm cột quantity (tồn kho hiện tại)
+        $query->select('*', DB::raw('
+            GREATEST(
+                (SELECT COALESCE(SUM(quantity),0) FROM imports WHERE product_id = products.id)
+                - (SELECT COALESCE(SUM(quantity),0) FROM items WHERE product_id = products.id),
+                0
+            ) AS quantity
+        '));
 
         return $query->orderBy('created_at', 'desc')
-                     ->paginate($perPage)
-                     ->appends($filters);
+                    ->paginate($perPage)
+                    ->appends($filters);
     }
+
 
     public function all()
     {
@@ -82,13 +90,4 @@ class ProductRepository
         return Product::where('slug', $slug)->first();
     }
 
-    public function increaseQuantity(int $id, int $amount): void
-    {
-        Product::where('id', $id)->increment('quantity', $amount);
-    }    
-
-    public function decreaseQuantity(int $id, int $amount): void
-    {
-        Product::where('id', $id)->decrement('quantity', $amount);
-    }
 }

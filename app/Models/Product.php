@@ -14,7 +14,6 @@ class Product extends Model
         'name',
         'price_output',
         'description',
-        'quantity',
         'thumbnail',
         'unit',
         'supplier_id',

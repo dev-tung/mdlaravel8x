@@ -81,8 +81,19 @@ class DashboardRepository
 
     public function inventory()
     {
-        return DB::table('imports')->sum(DB::raw('total_price'));
-    }   
+        $result = DB::table('products')
+            ->select(DB::raw('
+                SUM(
+                    GREATEST(
+                        IFNULL((SELECT SUM(quantity * price_input) FROM imports im WHERE im.product_id = products.id), 0)
+                    - IFNULL((SELECT SUM(quantity * product_price_input) FROM items it WHERE it.product_id = products.id), 0),
+                    0)
+                ) AS total_inventory_value
+            '))
+            ->first(); // lấy 1 bản ghi
+
+        return $result->total_inventory_value;
+    }  
 
     public function profitMonths()
     {

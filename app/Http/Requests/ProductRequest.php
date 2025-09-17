@@ -19,7 +19,6 @@ class ProductRequest extends FormRequest
             'supplier_id' => ['nullable', 'exists:suppliers,id'],
             'price_input' => ['nullable', 'numeric', 'min:0'],
             'price_output'=> ['nullable', 'numeric', 'min:0'],
-            'quantity'    => ['nullable', 'integer', 'min:0'],
             'unit'        => ['nullable', 'string', 'max:50'],
             'thumbnail'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
             'description' => ['nullable', 'string'],

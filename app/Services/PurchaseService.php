@@ -71,9 +71,6 @@ class PurchaseService
                 'total_price' => $subtotal,
             ]);
 
-            // Cập nhật tồn kho (+)
-            $this->productRepository->increaseQuantity($productId, $qty);
-
             $totalAmount += $subtotal;
         }
 
@@ -95,11 +92,6 @@ class PurchaseService
         try {
             // Lấy purchase
             $purchase = $this->purchaseRepository->find($id);
-
-            // Trừ tồn kho các sản phẩm của purchase này
-            foreach ($purchase->imports as $item) {
-                $this->productRepository->decreaseQuantity($item->product_id, $item->quantity);
-            }
 
             // Xóa các imports liên quan đến purchase này
             DB::table('imports')->where('purchase_id', $id)->delete();
