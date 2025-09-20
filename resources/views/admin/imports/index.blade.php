@@ -35,7 +35,7 @@
                                     <select name="status" class="form-control form-control-sm">
                                         <option value="">-- Trạng thái --</option>
                                         @foreach($statuses as $key => $label)
-                                            <option value="{{ $key }}" @selected(request('status') == $key)>
+                                            <option value="{{ $key }}" selected="@selected(request('status') == $key)">
                                                 {{ $label }}
                                             </option>
                                         @endforeach
