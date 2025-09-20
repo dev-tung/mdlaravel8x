@@ -8,7 +8,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.purchases.index') }}">Phiếu nhập</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.imports.index') }}">Phiếu nhập</a></li>
                     <li class="breadcrumb-item active">Chi tiết</li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
                             </tbody>
                         </table>
 
-                        <a href="{{ route('admin.purchases.index') }}" class="btn btn-secondary btn-sm mt-3">Quay lại</a>
+                        <a href="{{ route('admin.imports.index') }}" class="btn btn-secondary btn-sm mt-3">Quay lại</a>
                     </div>
                 </div>
             </div>

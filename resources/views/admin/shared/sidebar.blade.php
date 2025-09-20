@@ -10,20 +10,20 @@
       </li>
 
       <!-- Purchases -->
-      <li class="nav-item {{ request()->routeIs('admin.purchases.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.purchases.*') ? 'active' : '' }}">
+      <li class="nav-item {{ request()->routeIs('admin.imports.*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-box-seam"></i>
           <p>Nhập hàng <i class="nav-arrow bi bi-chevron-right"></i></p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.purchases.index') }}" class="nav-link {{ request()->routeIs('admin.purchases.index') ? 'active' : '' }}">
+            <a href="{{ route('admin.imports.index') }}" class="nav-link {{ request()->routeIs('admin.imports.index') ? 'active' : '' }}">
               <i class="nav-icon bi bi-circle"></i>
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.purchases.create') }}" class="nav-link {{ request()->routeIs('admin.purchases.create') ? 'active' : '' }}">
+            <a href="{{ route('admin.imports.create') }}" class="nav-link {{ request()->routeIs('admin.imports.create') ? 'active' : '' }}">
               <i class="nav-icon bi bi-circle"></i>
               <p>Thêm mới</p>
             </a>

@@ -1,16 +1,16 @@
 <?php
 use App\Http\Controllers\Api\{
-    OrderController,
-    PurchaseController,
+    ExportController,
+    ImportController,
     CustomerController,
     ProductController
 };
 
-Route::post('orders/update-field/{id}', [OrderController::class, 'updateField'])
-    ->name('api.orders.update-field');
+Route::post('exports/update-field/{id}', [ExportController::class, 'updateField'])
+    ->name('api.exports.update-field');
 
-Route::post('purchases/update-field/{id}', [PurchaseController::class, 'updateField'])
-    ->name('api.purchases.update-field');
+Route::post('imports/update-field/{id}', [ImportController::class, 'updateField'])
+    ->name('api.imports.update-field');
 
 Route::get('customers', [CustomerController::class, 'index'])
     ->name('api.customers.index');

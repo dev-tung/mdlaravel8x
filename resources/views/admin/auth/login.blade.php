@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="{{ asset('css/admin/adminlte.css') }}">
     <style>
         body {
-            background: #f4f6f9;
+            background: #f0f0f1;
         }
         .login-box {
+            margin-top: 15px;
             width: 400px;
         }
         .login-card-body {
@@ -32,73 +33,73 @@
             color: #aaa;
         }
         .btn-primary {
-            border-radius: 30px;
+            border-radius: 10px;
+        }
+
+        .Login-Logo{
+            filter: invert(33%);
         }
     </style>
 </head>
 <body class="hold-transition login-page">
-
-<div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>MD</b>SPORTS</a>
+    <div class="login-header">
+        <img
+            src="{{asset('img/shared/logo-white-transperent.png')}}"
+            width="150"
+            alt="Manh Dung Logo"
+            class="Login-Logo"
+        />
     </div>
 
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Đăng nhập để vào hệ thống</p>
+    <div class="login-box">
+        <div class="card">
+            <div class="card-body login-card-body">
 
-            <form action="{{ route('login') }}" method="POST">
-                @csrf
+                <h4 class="login-box-msg">Đăng nhập vào hệ thống</h4>
 
-                <!-- Email -->
-                <div class="form-group position-relative mb-3">
-                    <i class="fas fa-envelope input-icon"></i>
-                    <input type="email" 
-                           name="email" 
-                           value="{{ old('email') }}" 
-                           class="form-control @error('email') is-invalid @enderror" 
-                           placeholder="Email" required autofocus>
-                    @error('email')
-                        <span class="invalid-feedback d-block">{{ $message }}</span>
-                    @enderror
-                </div>
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
 
-                <!-- Password -->
-                <div class="form-group position-relative mb-3">
-                    <i class="fas fa-lock input-icon"></i>
-                    <input type="password" 
-                           name="password" 
-                           class="form-control @error('password') is-invalid @enderror" 
-                           placeholder="Mật khẩu" required>
-                    @error('password')
-                        <span class="invalid-feedback d-block">{{ $message }}</span>
-                    @enderror
-                </div>
+                    <!-- Email -->
+                    <div class="form-group position-relative mb-3">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" 
+                            name="email" 
+                            value="{{ old('email') }}" 
+                            class="form-control @error('email') is-invalid @enderror" 
+                            placeholder="Email" required autofocus>
+                        @error('email')
+                            <span class="invalid-feedback d-block">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                <!-- Remember + Button -->
-                <div class="row">
-                    <div class="col-7">
-                        <div class="form-check">
-                            <input type="checkbox" name="remember" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Ghi nhớ</label>
+                    <!-- Password -->
+                    <div class="form-group position-relative mb-3">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" 
+                            name="password" 
+                            class="form-control @error('password') is-invalid @enderror" 
+                            placeholder="Mật khẩu" required>
+                        @error('password')
+                            <span class="invalid-feedback d-block">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Remember + Button -->
+                    <div class="row">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
                         </div>
                     </div>
-                    <div class="col-5">
-                        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
-                    </div>
-                </div>
-            </form>
-
-            <p class="mb-1 mt-3">
-                <a href="#">Quên mật khẩu?</a>
-            </p>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- JS -->
-<script src="{{ asset('js/shared/processing.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/admin/adminlte.min.js') }}"></script>
+    <!-- JS -->
+    <script src="{{ asset('js/shared/processing.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/admin/adminlte.min.js') }}"></script>
+
 </body>
 </html>

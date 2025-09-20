@@ -1,9 +1,8 @@
-// public/js/purchase.js
+// public/js/import.js
 
 document.addEventListener('DOMContentLoaded', function () {
 
     function updateRowColor(row, statusSelect) {
-        console.log(statusSelect);
         if (statusSelect.value !== 'received') {
             row.classList.add('TableWarning');
         } else {
@@ -20,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.querySelectorAll('tr[data-purchase-id]').forEach(function (row) {
+    document.querySelectorAll('tr[data-import-id]').forEach(function (row) {
         const statusSelect = row.querySelector('.UpdateStatus');
-        const purchaseId = row.dataset.purchaseId;
+        const importId = row.dataset.importId;
 
         // Màu ban đầu
         updateRowColor(row, statusSelect);
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function updateField(field, value, selectEl) {
             setLoading(selectEl, true);
 
-            fetch(`/api/purchases/update-field/${purchaseId}`, {
+            fetch(`/api/imports/update-field/${importId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -55,9 +55,9 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.products.create') }}" class="nav-link">Thêm sản phẩm</a></li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.customers.create') }}" class="nav-link">Thêm khách hàng</a></li>
-            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.orders.create') }}" class="nav-link">Thêm đơn hàng</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.products.create') }}" class="nav-link">+ Thêm sản phẩm</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.customers.create') }}" class="nav-link">+ Thêm khách hàng</a></li>
+            <li class="nav-item d-none d-md-block"><a href="{{ route('admin.orders.create') }}" class="nav-link">+ Thêm đơn hàng</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -81,7 +81,7 @@
               <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-sm w-100">Đăng Xuất</a>
+                  <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-link btn-sm w-100">Đăng Xuất</a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                       @csrf
                   </form>

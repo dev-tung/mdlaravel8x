@@ -2,36 +2,42 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Import extends Model
 {
-    use HasFactory;
-
+    // tên bảng
     protected $table = 'imports';
 
+    // khóa chính
+    protected $primaryKey = 'id';
+
+    // cho phép Laravel tự quản lý created_at, updated_at
+    public $timestamps = true;
+
+    // các cột có thể gán dữ liệu hàng loạt (mass assignment)
     protected $fillable = [
-        'purchase_id',
-        'product_id',
-        'quantity',
-        'price_input',
-        'total_price'
+        'supplier_id',
+        'import_date',
+        'total_import_amount',
+        'notes',
+        'status',
+        'payment_method'
     ];
 
     /**
-     * Liên kết tới phiếu nhập (purchases)
+     * Quan hệ: Một import thuộc về một supplier
      */
-    public function purchase()
+    public function supplier()
     {
-        return $this->belongsTo(Purchase::class, 'purchase_id');
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 
     /**
-     * Liên kết tới sản phẩm (products)
+     * (Nếu có bảng import_items) Một import có nhiều items
      */
-    public function product()
+    public function items()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->hasMany(ImportItem::class, 'import_id');
     }
 }

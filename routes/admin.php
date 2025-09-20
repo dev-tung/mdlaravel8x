@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\{
     PermissionController,
     PointController,
     ProductController,
-    PurchaseController,
+    ImportController,
     RoleController,
     SupplierController,
     TaxonomyController,
@@ -19,8 +19,7 @@ use App\Http\Controllers\Admin\{
 };
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+    Route::resource('imports', ImportController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('expenses', ExpenseController::class);
     Route::resource('media', MediaController::class);
@@ -29,12 +28,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('permissions', PermissionController::class);
     Route::resource('points', PointController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('purchases', PurchaseController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('taxonomies', TaxonomyController::class);
     Route::resource('users', UserController::class);
-    Route::resource('purchases', PurchaseController::class);
+
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 

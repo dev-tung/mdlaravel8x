@@ -2,26 +2,26 @@
 
 namespace App\Services;
 
-use App\Repositories\PurchaseRepository;
-use App\Repositories\ProductRepository;
 use App\Repositories\ImportRepository;
+use App\Repositories\ProductRepository;
+use App\Repositories\ImportItemRepository;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class PurchaseService
+class ImportService
 {
-    protected PurchaseRepository $purchaseRepository;
-    protected ProductRepository $productRepository;
     protected ImportRepository $importRepository;
+    protected ProductRepository $productRepository;
+    protected ImportItemRepository $importItemRepository;
 
     public function __construct(
-        PurchaseRepository $purchaseRepository,
+        ImportRepository $importRepository,
         ProductRepository $productRepository,
-        ImportRepository $importRepository
+        ImportItemRepository $importItemRepository
     ) {
-        $this->purchaseRepository = $purchaseRepository;
+        $this->importRepository  = $importRepository;
         $this->productRepository = $productRepository;
-        $this->importRepository = $importRepository;
+        $this->importItemRepository  = $importItemRepository;
     }
 
     /**
@@ -31,7 +31,7 @@ class PurchaseService
     {
 
         // Tạo phiếu nhập
-        $purchase = $this->purchaseRepository->create([
+        $purchase = $this->importRepository->create([
             'supplier_id'   => $data['supplier_id'],
             'purchase_date' => $data['purchase_date'],
             'notes'         => $data['notes'] ?? null,
@@ -63,7 +63,7 @@ class PurchaseService
             $subtotal = $qty * $price;
 
             // Thêm chi tiết nhập hàng
-            $this->importRepository->create([
+            $this->importItemRepository->create([
                 'purchase_id' => $purchase->id,
                 'product_id'  => $productId,
                 'quantity'    => $qty,
@@ -75,7 +75,7 @@ class PurchaseService
         }
 
         // Cập nhật tổng tiền cho phiếu nhập
-        $this->purchaseRepository->update($purchase->id, [
+        $this->importRepository->update($purchase->id, [
             'total_amount' => $totalAmount
         ]);
 
@@ -91,13 +91,13 @@ class PurchaseService
         DB::beginTransaction();
         try {
             // Lấy purchase
-            $purchase = $this->purchaseRepository->find($id);
+            $purchase = $this->importRepository->find($id);
 
             // Xóa các imports liên quan đến purchase này
             DB::table('imports')->where('purchase_id', $id)->delete();
 
             // Xóa purchase
-            $this->purchaseRepository->delete($id);
+            $this->importRepository->delete($id);
 
             DB::commit();
             return true;

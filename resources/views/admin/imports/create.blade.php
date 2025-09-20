@@ -10,7 +10,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin.purchases.index') }}">Nhập hàng</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.imports.index') }}">Nhập hàng</a></li>
                     <li class="breadcrumb-item active">Thêm mới</li>
                 </ol>
             </div>
@@ -23,7 +23,7 @@
         <div class="row g-4">
             <div class="col-12">
                 <div class="card mb-4">
-                    <form method="POST" action="{{ route('admin.purchases.store') }}" id="purchaseCreateForm">
+                    <form method="POST" action="{{ route('admin.imports.store') }}" id="purchaseCreateForm">
                         @csrf
                         <div class="card-body">
                             <div class="row g-3">
