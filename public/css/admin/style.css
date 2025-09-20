@@ -11,3 +11,7 @@
 .clickable-row {
     cursor: pointer;
 }
+
+tr[data-href] {
+  cursor: pointer;
+}

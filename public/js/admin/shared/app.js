@@ -16,4 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location = row.dataset.href;
         });
     });
+
+    document.querySelectorAll('.NoBubble').forEach(el => {
+        el.addEventListener('click', e => e.stopPropagation());
+    });
+
 });

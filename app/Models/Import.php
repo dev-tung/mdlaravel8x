@@ -25,6 +25,10 @@ class Import extends Model
         'payment_method'
     ];
 
+    protected $casts = [
+        'import_date' => 'date',
+    ];
+    
     /**
      * Quan hệ: Một import thuộc về một supplier
      */

@@ -38,7 +38,7 @@
                                 <select name="status" class="form-control form-control-sm">
                                     <option value="">-- Trạng thái --</option>
                                     @foreach($statuses as $key => $label)
-                                        <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>
+                                        <option value="{{ $key }}" @selected(request('status') == $key)>
                                             {{ $label }}
                                         </option>
                                     @endforeach
@@ -61,17 +61,17 @@
                                     <th>Ngày nhập</th>
                                     <th>Trạng thái</th>
                                     <th>Tổng tiền</th>
-                                    <th class="text-center" style="width:150px;">Hành động</th>
+                                    <th class="text-center">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($imports as $import)
-                                    <tr data-import-id="{{ $import->id }}" onclick="window.location='{{ route('admin.imports.show', $import->id) }}'" style="cursor:pointer;">
+                                    <tr data-import-id="{{ $import->id }}" data-href="{{ route('admin.imports.show', $import->id) }}">
                                         <td>{{ $loop->iteration + ($imports->currentPage()-1) * $imports->perPage() }}</td>
                                         <td>{{ $import->supplier->name ?? '-' }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($import->import_date)->format('d/m/Y') }}</td>
-                                        <td onclick="event.stopPropagation()">
-                                            <select class="form-select form-select-sm py-0 w-auto UpdateStatus" data-id="{{ $import->id }}">
+                                        <td>{{ $import->import_date->format('d/m/Y') }}</td>
+                                        <td class="NoBubble">
+                                            <select data-id="{{ $import->id }}" class="form-select form-select-sm py-0 w-auto UpdateStatus">
                                                 @foreach($statuses as $key => $label)
                                                     <option value="{{ $key }}" {{ $import->status == $key ? 'selected' : '' }}>
                                                         {{ $label }}
@@ -80,8 +80,8 @@
                                             </select>
                                         </td>
                                         <td>{{ number_format($import->total_amount, 0, ',', '.') }} đ</td>
-                                        <td onclick="event.stopPropagation()" class="text-center">
-                                            <form action="{{ route('admin.imports.destroy', $import->id) }}" method="POST" onclick="event.stopPropagation();" class="d-inline">
+                                        <td class="NoBubble text-center">
+                                            <form action="{{ route('admin.imports.destroy', $import->id) }}" method="POST" class="NoBubble d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-link text-danger btn-sm p-0" onclick="return confirm('Bạn có chắc muốn xóa phiếu nhập này?')">
