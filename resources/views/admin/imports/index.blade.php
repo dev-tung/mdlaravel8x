@@ -58,14 +58,15 @@
                                         <th>Ngày nhập</th>
                                         <th>Trạng thái</th>
                                         <th>Tổng tiền</th>
-                                        <th class="text-center">Hành động</th>
+                                        <th>Ghi chú</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($imports as $import)
                                         <tr data-import-id="{{ $import->id }}" data-href="{{ route('admin.imports.show', $import->id) }}">
                                             <td>{{ $loop->iteration + ($imports->currentPage()-1) * $imports->perPage() }}</td>
-                                            <td>{{ $import->supplier->name ?? '-' }}</td>
+                                            <td>{{ $import->supplier->name ?? '–' }}</td>
                                             <td>{{ $import->import_date->format('d/m/Y') }}</td>
                                             <td class="NoBubble">
                                                 <select data-id="{{ $import->id }}" class="form-select form-select-sm py-0 w-auto UpdateStatus">
@@ -77,7 +78,8 @@
                                                 </select>
                                             </td>
                                             <td>{{ number_format($import->total_amount, 0, ',', '.') }} đ</td>
-                                            <td class="NoBubble text-center">
+                                            <td>{{ $import->note ?? '–' }}</td>
+                                            <td class="NoBubble">
                                                 <form action="{{ route('admin.imports.destroy', $import->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf
                                                     @method('DELETE')

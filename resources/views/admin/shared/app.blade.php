@@ -153,7 +153,6 @@
     <script src="{{ asset('js/admin/shared/adminlte.js') }}"></script>
 
     <script src="{{ asset('js/admin/shared/app.js') }}"></script>
-    
 
     @stack('scripts')
     <!--end::Script-->

@@ -3,9 +3,9 @@
 @section('content')
 <div class="app-content-header">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row align-items-center my-2">
             <div class="col-sm-6">
-                <h3 class="mb-0">Thêm mới nhập hàng</h3>
+                <h3 class="mb-0">Thêm nhập hàng</h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
@@ -39,12 +39,6 @@
                                     @enderror
                                 </div>
 
-                                <!-- Ngày nhập hàng -->
-                                <div class="col-md-6">
-                                    <label for="purchase_date" class="form-label">Ngày nhập</label>
-                                    <input type="date" name="purchase_date" id="purchase_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
-                                </div>
-
                                 <!-- Sản phẩm -->
                                 <div class="col-md-6">
                                     <label for="productSearch" class="form-label">Thêm sản phẩm <span class="text-danger">*</span></label>
@@ -55,9 +49,15 @@
                                     @enderror
                                 </div>
 
+                                <!-- Ngày nhập hàng -->
+                                <div class="col-md-6">
+                                    <label for="purchase_date" class="form-label">Ngày nhập</label>
+                                    <input type="date" name="purchase_date" id="purchase_date" class="form-control form-control-sm" value="{{ date('Y-m-d') }}">
+                                </div>
+
                                 <!-- Trạng thái -->
                                 <div class="col-md-6">
-                                    <label for="status" class="form-label small">Trạng thái</label>
+                                    <label for="status" class="form-label">Trạng thái</label>
                                     <select class="form-select form-select-sm" id="status" name="status">
                                         <option value="">-- Chọn trạng thái --</option>
                                         @foreach($statuses as $value => $label)
@@ -100,7 +100,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <button class="btn btn-success btn-sm" type="submit">Lưu nhập hàng</button>
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Lưu</button>
                         </div>
                     </form>
                 </div>

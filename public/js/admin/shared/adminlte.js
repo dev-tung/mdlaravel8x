@@ -394,32 +394,32 @@
      * Data Api implementation
      * ------------------------------------------------------------------------
      */
-    onDOMContentLoaded(() => {
-        const button = document.querySelectorAll(SELECTOR_DATA_TOGGLE$1);
-        button.forEach(btn => {
-            btn.addEventListener('click', event => {
-                const target = event.target;
-                const targetItem = target.closest(SELECTOR_NAV_ITEM$1);
-                const targetLink = target.closest(SELECTOR_NAV_LINK);
-                const lteToggleElement = event.currentTarget;
-                if (target?.getAttribute('href') === '#' || targetLink?.getAttribute('href') === '#') {
-                    event.preventDefault();
-                }
-                if (targetItem) {
-                    // Read data attributes
-                    const accordionAttr = lteToggleElement.dataset.accordion;
-                    const animationSpeedAttr = lteToggleElement.dataset.animationSpeed;
-                    // Build config from data attributes, fallback to Default
-                    const config = {
-                        accordion: accordionAttr === undefined ? Default.accordion : accordionAttr === 'true',
-                        animationSpeed: animationSpeedAttr === undefined ? Default.animationSpeed : Number(animationSpeedAttr)
-                    };
-                    const data = new Treeview(targetItem, config);
-                    data.toggle();
-                }
-            });
-        });
-    });
+    // onDOMContentLoaded(() => {
+    //     const button = document.querySelectorAll(SELECTOR_DATA_TOGGLE$1);
+    //     button.forEach(btn => {
+    //         btn.addEventListener('click', event => {
+    //             const target = event.target;
+    //             const targetItem = target.closest(SELECTOR_NAV_ITEM$1);
+    //             const targetLink = target.closest(SELECTOR_NAV_LINK);
+    //             const lteToggleElement = event.currentTarget;
+    //             if (target?.getAttribute('href') === '#' || targetLink?.getAttribute('href') === '#') {
+    //                 event.preventDefault();
+    //             }
+    //             if (targetItem) {
+    //                 // Read data attributes
+    //                 const accordionAttr = lteToggleElement.dataset.accordion;
+    //                 const animationSpeedAttr = lteToggleElement.dataset.animationSpeed;
+    //                 // Build config from data attributes, fallback to Default
+    //                 const config = {
+    //                     accordion: accordionAttr === undefined ? Default.accordion : accordionAttr === 'true',
+    //                     animationSpeed: animationSpeedAttr === undefined ? Default.animationSpeed : Number(animationSpeedAttr)
+    //                 };
+    //                 const data = new Treeview(targetItem, config);
+    //                 data.toggle();
+    //             }
+    //         });
+    //     });
+    // });
 
     /**
      * --------------------------------------------

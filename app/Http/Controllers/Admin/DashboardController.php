@@ -18,7 +18,7 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        dd('Login success!');
+        dd('Dashboard Area!');
         
         // return view('admin.dashboard', [
         //     'revenue'        => $this->repository->revenue($request),

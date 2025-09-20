@@ -2,29 +2,28 @@
   <nav class="mt-2">
     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
       
-      <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'menu-open' : '' }}">
+      <!-- Dashboard -->
+      <li class="nav-item">
         <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
           <i class="nav-icon bi bi-speedometer"></i>
           <p>Tổng quan</p>
         </a>
       </li>
 
-      <!-- Purchases -->
-      <li class="nav-item {{ request()->routeIs('admin.imports.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
+      <!-- Imports -->
+      <li class="nav-item">
+        <a href="{{ route('admin.imports.index') }}" class="nav-link {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-box-seam"></i>
-          <p>Nhập hàng <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Nhập hàng</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.imports.index') }}" class="nav-link {{ request()->routeIs('admin.imports.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.imports.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.imports.create') }}" class="nav-link {{ request()->routeIs('admin.imports.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.imports.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -32,21 +31,19 @@
       </li>
 
       <!-- Products -->
-      <li class="nav-item {{ request()->routeIs('admin.products.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-box-seam-fill"></i>
-          <p>Sản phẩm <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Sản phẩm</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.products.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.products.create') }}" class="nav-link {{ request()->routeIs('admin.products.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.products.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -54,21 +51,19 @@
       </li>
 
       <!-- Suppliers -->
-      <li class="nav-item {{ request()->routeIs('admin.suppliers.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.suppliers.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.suppliers.index') }}" class="nav-link {{ request()->routeIs('admin.suppliers.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-truck"></i>
-          <p>Nhà cung cấp <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Nhà cung cấp</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.suppliers.index') }}" class="nav-link {{ request()->routeIs('admin.suppliers.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.suppliers.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.suppliers.create') }}" class="nav-link {{ request()->routeIs('admin.suppliers.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.suppliers.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -76,21 +71,19 @@
       </li>
 
       <!-- Expenses -->
-      <li class="nav-item {{ request()->routeIs('admin.expenses.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.expenses.index') }}" class="nav-link {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-cash-stack"></i>
-          <p>Chi phí <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Chi phí</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.expenses.index') }}" class="nav-link {{ request()->routeIs('admin.expenses.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.expenses.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.expenses.create') }}" class="nav-link {{ request()->routeIs('admin.expenses.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.expenses.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -98,21 +91,19 @@
       </li>
 
       <!-- Orders -->
-      <li class="nav-item {{ request()->routeIs('admin.orders.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-cart-check"></i>
-          <p>Đơn hàng <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Đơn hàng</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.orders.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.orders.create') }}" class="nav-link {{ request()->routeIs('admin.orders.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.orders.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -120,21 +111,19 @@
       </li>
 
       <!-- Taxonomies -->
-      <li class="nav-item {{ request()->routeIs('admin.taxonomies.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.taxonomies.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.taxonomies.index') }}" class="nav-link {{ request()->routeIs('admin.taxonomies.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-tags-fill"></i>
-          <p>Danh mục <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Danh mục</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.taxonomies.index') }}" class="nav-link {{ request()->routeIs('admin.taxonomies.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.taxonomies.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.taxonomies.create') }}" class="nav-link {{ request()->routeIs('admin.taxonomies.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.taxonomies.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
@@ -142,21 +131,19 @@
       </li>
 
       <!-- Customers -->
-      <li class="nav-item {{ request()->routeIs('admin.customers.*') ? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
+      <li class="nav-item">
+        <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-person-lines-fill"></i>
-          <p>Khách hàng <i class="nav-arrow bi bi-chevron-right"></i></p>
+          <p>Khách hàng</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.customers.index') }}" class="nav-link {{ request()->routeIs('admin.customers.index') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.customers.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.customers.create') }}" class="nav-link {{ request()->routeIs('admin.customers.create') ? 'active' : '' }}">
-              <i class="nav-icon bi bi-circle"></i>
+            <a href="{{ route('admin.customers.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
