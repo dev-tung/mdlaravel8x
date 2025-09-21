@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\ProductRepository;
+use App\Repositories\SupplierRepository;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class SupplierController extends Controller
 {
     protected $repo;
 
-    public function __construct(ProductRepository $repo)
+    public function __construct(SupplierRepository $repo)
     {
         $this->repo = $repo;
     }

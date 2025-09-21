@@ -54,15 +54,6 @@ class ProductRepository
         return Product::orderBy('created_at', 'desc')->get();
     }
 
-    public function forOrder()
-    {
-        return Product::with('imports')
-        ->whereHas('imports', function($query) {
-            $query->where('price_input', '>', 0);
-        })
-        ->get();
-    }
-
     public function find(int $id): Product
     {
         return Product::findOrFail($id);

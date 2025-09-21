@@ -1,4 +1,7 @@
-export class Validator {
+// FormValidator.js
+import Helper from "./Helper.js"; // import helper có parseVND, formatVND...
+
+export default class FormValidator {
     constructor(formSelector, rules, onValidSubmit) {
         this.form = document.querySelector(formSelector);
         if (!this.form) return;
@@ -6,15 +9,17 @@ export class Validator {
         this.rules = rules;
         this.onValidSubmit = onValidSubmit;
 
+        // Các pattern built-in
         this.patterns = {
-            number  : /^[0-9]+$/,
-            decimal : /^[0-9]+(\.[0-9]+)?$/,
-            email   : /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            phone   : /^(0|\+84)(\d{9})$/,
-            slug    : /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+            number: /^[0-9]+$/,                 
+            decimal: /^[0-9]+(\.[0-9]+)?$/,     
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            phone: /^(0|\+84)(\d{9})$/,
+            slug: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+            vnd: /^[\d.,]+$/
         };
 
-        this.attachEvents();
+        this.bindEvents();
     }
 
     showError(field, message) {
@@ -35,7 +40,7 @@ export class Validator {
     validateField(field) {
         const name = field.name;
         const rule = this.rules[name];
-        if (!rule) return true;
+        if (!rule) return true; // không có rule -> pass
 
         let value = "";
         let isChecked = false;
@@ -48,27 +53,38 @@ export class Validator {
             value = field.value.trim();
         }
 
-        // 1. required
-        if (rule.required && (value === "" || (field.type === "checkbox" || field.type === "radio") && !isChecked)) {
-            this.showError(field, rule.message?.required || "Vui lòng nhập trường này.");
-            return false;
+        // 1. Bắt buộc
+        if (rule.required) {
+            // Nếu field không tồn tại trong form hoặc không có value hợp lệ
+            if (!field || value === "" || ((field.type === "checkbox" || field.type === "radio") && !isChecked)) {
+                this.showError(field, rule.message?.required || "Vui lòng nhập trường này.");
+                return false;
+            }
         }
 
-        // 2. optional but empty
+        // 2. Không required mà rỗng -> pass
         if (!rule.required && value === "") {
             this.removeError(field);
             return true;
         }
 
-        // 3. type pattern
-        if (rule.type && this.patterns[rule.type] && !this.patterns[rule.type].test(value)) {
-            this.showError(field, rule.message?.type || `Sai định dạng ${rule.type}.`);
-            return false;
+        // 3. Kiểu dữ liệu
+        if (rule.type) {
+            if (rule.type === "vnd") {
+                const num = Helper.parseVND(value);
+                if (isNaN(num) || num <= 0) {
+                    this.showError(field, rule.message?.type || "Giá trị tiền không hợp lệ.");
+                    return false;
+                }
+            } else if (this.patterns[rule.type] && !this.patterns[rule.type].test(value)) {
+                this.showError(field, rule.message?.type || `Dữ liệu không đúng định dạng ${rule.type}.`);
+                return false;
+            }
         }
 
-        // 4. min/max number
-        if (rule.type === "number" || rule.type === "decimal") {
-            let num = parseFloat(value);
+        // 3.5. Min / Max cho số
+        if (rule.type === "number" || rule.type === "decimal" || rule.type === "vnd") {
+            let num = rule.type === "vnd" ? Helper.parseVND(value) : parseFloat(value);
             if (!isNaN(num)) {
                 if (rule.min !== undefined && num < rule.min) {
                     this.showError(field, rule.message?.min || `Giá trị phải >= ${rule.min}.`);
@@ -81,43 +97,47 @@ export class Validator {
             }
         }
 
-        // 5. custom regex
+        // 4. Pattern custom
         if (rule.pattern && !rule.pattern.test(value)) {
             this.showError(field, rule.message?.pattern || "Dữ liệu không hợp lệ.");
             return false;
         }
 
-        // 6. min/max length
+        // 5. Min length
         if (rule.minLength && value.length < rule.minLength) {
             this.showError(field, rule.message?.minLength || `Tối thiểu ${rule.minLength} ký tự.`);
             return false;
         }
+
+        // 6. Max length
         if (rule.maxLength && value.length > rule.maxLength) {
             this.showError(field, rule.message?.maxLength || `Tối đa ${rule.maxLength} ký tự.`);
             return false;
-        }
-
-        // 7. custom function
-        if (rule.custom && typeof rule.custom === "function") {
-            const result = rule.custom(value, field);
-            if (result !== true) {
-                this.showError(field, result || "Giá trị không hợp lệ.");
-                return false;
-            }
         }
 
         this.removeError(field);
         return true;
     }
 
-    attachEvents() {
-        // blur/change
+    bindEvents() {
         this.form.querySelectorAll("input, textarea, select").forEach(field => {
-            field.addEventListener("blur", () => this.validateField(field));
+            // blur
+            field.addEventListener("blur", () => {
+                if (this.validateField(field)) {
+                    if (field.dataset.type === "vnd") {
+                        const num = Helper.parseVND(field.value);
+                        field.value = num ? Helper.formatVND(num) : "";
+                    }
+                }
+            });
+
+            // change (hợp với select / checkbox / radio)
             field.addEventListener("change", () => this.validateField(field));
+
+            // input (validate realtime khi nhập)
+            field.addEventListener("input", () => this.validateField(field));
         });
 
-        // submit
         this.form.addEventListener("submit", (e) => {
             e.preventDefault();
             let isValid = true;
@@ -140,4 +160,5 @@ export class Validator {
             }
         });
     }
+
 }

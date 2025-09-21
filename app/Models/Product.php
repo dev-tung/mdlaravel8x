@@ -2,65 +2,57 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
-    
+
+    // Nếu tên bảng không phải là "products" thì khai báo lại
+    protected $table = 'products';
+
+    // Khóa chính (mặc định là "id")
+    protected $primaryKey = 'id';
+
+    // Các cột được phép fill
     protected $fillable = [
         'name',
-        'price_output',
+        'slug',
+        'sku',
+        'price_original',
+        'price_sale',
         'description',
-        'thumbnail',
+        'quantity',
+        'thumbnail_image',
         'unit',
         'supplier_id',
         'taxonomy_id',
-        'slug'
     ];
 
-    public function getPriceOutputFormattedAttribute()
+    public function getPriceSaleFormattedAttribute()
     {
-        return number_format($this->attributes['price_output'], 0, ',', '.') . ' đ';
+        return number_format($this->attributes['price_sale'], 0, ',', '.') . ' đ';
     }
 
-    /**
-     * Tự động sinh slug khi tạo hoặc cập nhật name
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($product) {
-            if (empty($product->slug)) {
-                $product->slug = Str::slug($product->name);
-            }
-        });
-
-        static::updating(function ($product) {
-            if (empty($product->slug)) {
-                $product->slug = Str::slug($product->name);
-            }
-        });
-    }
-
-    // Quan hệ: mỗi sản phẩm thuộc về 1 nhà cung cấp
+    // Các quan hệ
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 
-    // Quan hệ: mỗi sản phẩm thuộc về 1 taxonomy (danh mục/loại sản phẩm)
     public function taxonomy()
     {
         return $this->belongsTo(Taxonomy::class, 'taxonomy_id');
     }
 
-    // Quan hệ: 1 sản phẩm có thể có nhiều lần nhập hàng
     public function imports()
     {
         return $this->hasMany(Import::class, 'product_id');
+    }
+
+    public function exports()
+    {
+        return $this->hasMany(Export::class, 'product_id');
     }
 }

@@ -15,3 +15,27 @@
 tr[data-href] {
   cursor: pointer;
 }
+
+.ProductSelectedTable th{
+    font-weight: 500;
+}
+
+.ProductSelectedTable tr, 
+.ProductSelectedTable th, 
+.ProductSelectedTable td,
+.ProductSelectedTable input{
+    padding: 4px 10px;
+}
+
+.ProductSelectedTable input{
+    width: auto;
+}
+
+.DropdownInput-Select{
+    display:none; 
+    z-index:1000; 
+    width: calc(100% - 16px); /* trừ width scrollbar */
+    max-height:200px; 
+    overflow-y:auto; 
+    box-sizing:border-box;
+}

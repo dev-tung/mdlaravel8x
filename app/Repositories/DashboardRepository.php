@@ -76,7 +76,7 @@ class DashboardRepository
                 ->where('items.is_gift', 0);
 
         return $this->whereTime($query, 'orders.order_date')
-                    ->sum(DB::raw('((items.product_price_output - items.product_price_input) * items.quantity - items.discount)'));
+                    ->sum(DB::raw('((items.product_price_output - items.product_import_price) * items.quantity - items.discount)'));
     }
 
     public function inventory()
@@ -86,7 +86,7 @@ class DashboardRepository
                 SUM(
                     GREATEST(
                         IFNULL((SELECT SUM(quantity * price_input) FROM imports im WHERE im.product_id = products.id), 0)
-                    - IFNULL((SELECT SUM(quantity * product_price_input) FROM items it WHERE it.product_id = products.id), 0),
+                    - IFNULL((SELECT SUM(quantity * product_import_price) FROM items it WHERE it.product_id = products.id), 0),
                     0)
                 ) AS total_inventory_value
             '))
@@ -109,7 +109,7 @@ class DashboardRepository
             ->whereYear('orders.order_date', $year)
             ->select(
                 DB::raw('MONTH(orders.order_date) as month'),
-                DB::raw('SUM((items.product_price_output - items.product_price_input) * items.quantity - items.discount) as profit')
+                DB::raw('SUM((items.product_price_output - items.product_import_price) * items.quantity - items.discount) as profit')
             )
             ->groupBy(DB::raw('MONTH(orders.order_date)'))
             ->get();

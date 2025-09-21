@@ -14,7 +14,7 @@ class Item extends Model
         'order_id',
         'product_id',
         'quantity',
-        'product_price_input',
+        'product_import_price',
         'product_price_output',
         'discount',
         'subtotal',

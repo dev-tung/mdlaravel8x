@@ -3,7 +3,8 @@ use App\Http\Controllers\Api\{
     ExportController,
     ImportController,
     CustomerController,
-    ProductController
+    ProductController,
+    SupplierController
 };
 
 Route::post('exports/update-field/{id}', [ExportController::class, 'updateField'])
@@ -17,3 +18,6 @@ Route::get('customers', [CustomerController::class, 'index'])
 
 Route::get('products', [ProductController::class, 'index'])
     ->name('api.products.index');
+
+Route::get('suppliers', [SupplierController::class, 'index'])
+    ->name('api.suppliers.index');

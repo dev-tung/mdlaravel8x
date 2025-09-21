@@ -40,7 +40,7 @@ class OrderService
                 'product_id'            => $product_id,
                 'quantity'              => $data['quantity'][$product_id],
                 'product_price_output'  => $data['product_price_output'][$product_id],
-                'product_price_input'   => $data['product_price_input'][$product_id],
+                'product_import_price'   => $data['product_import_price'][$product_id],
                 'is_gift'               => !empty( $data['is_gift'][$product_id] ) ? true : false,
                 'discount'              => $data['discount'][$product_id],
                 'subtotal'              => $subtotal
@@ -51,7 +51,7 @@ class OrderService
                 $this->expenseRepository->create([
                     'name'          => "<a href='".route('admin.orders.show', $order->id)."' target='_blank'>Quà tặng đơn hàng</a>",
                     'taxonomy_id'   => 50, // Chi phí bán hàng
-                    'amount'        => $data['product_price_input'][$product_id] * $data['quantity'][$product_id],
+                    'amount'        => $data['product_import_price'][$product_id] * $data['quantity'][$product_id],
                     'expense_date'  => $order->order_date
                 ]);
             }

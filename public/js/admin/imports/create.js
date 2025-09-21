@@ -1,4 +1,84 @@
-import { Helper } from "../../shared/Helper.js";
+import Helper from "../../shared/Helper.js";
+import FormValidator from "../../shared/FormValidator.js";
+
+// -------------------- Import Form --------------------
+class ImportForm {
+    constructor() {
+        this.calculator = new ImportCalculator(
+            document.querySelector('#productSelectedTable tbody'),
+            document.getElementById('totalAmount')
+        );
+        this.init();
+    }
+
+    async init() {
+
+        // --- Load suppliers ---
+        try {
+            const suppliers = await this.fetchData('/api/suppliers');
+            new SupplierSelector(
+                suppliers,
+                document.getElementById('supplierSearch'),
+                document.getElementById('supplierSelect'),
+                document.getElementById('supplier_id')
+            );
+        } catch (err) {
+            console.error("Lỗi khi load suppliers:", err);
+            alert("Không thể tải dữ liệu nhà cung cấp.");
+        }
+
+        // --- Load products ---
+        try {
+            const products = await this.fetchData('/api/products');
+            new ImportProductSelector(
+                products,
+                document.getElementById('productSearch'),
+                document.getElementById('productSelect'),
+                document.querySelector('#productSelectedTable tbody'),
+                this.calculator
+            );
+        } catch (err) {
+            console.error("Lỗi khi load products:", err);
+            alert("Không thể tải dữ liệu sản phẩm.");
+        }
+
+        // --- Init form validator ---
+        try {
+            new FormValidator("#importCreateForm", {
+                supplier_id: {
+                    required: true
+                },
+                supplier_search: {
+                    required: true
+                },
+                status: {
+                    required: true
+                }
+            }, function (data, form) {
+                if (confirm("Bạn có chắc chắn muốn lưu phiếu nhập này?")) {
+                    form.submit();
+                }
+            });
+        } catch (err) {
+            console.error("Lỗi khi khởi tạo FormValidator:", err);
+            alert("Không thể khởi tạo validator cho form nhập.");
+        }
+
+
+    }
+
+    async fetchData(url) {
+        try {
+            const res = await fetch(url, { headers: { "Accept": "application/json" } });
+            if (!res.ok) throw new Error(`API lỗi ${res.status}`);
+            return await res.json();
+        } catch (e) {
+            console.error("Fetch error:", e);
+            return [];
+        }
+    }
+}
+
 
 // -------------------- Import Calculator --------------------
 class ImportCalculator {
@@ -56,7 +136,11 @@ class SupplierSelector {
         const selected = this.selectBox.selectedOptions[0];
         if (selected) {
             this.hiddenInput.value = selected.value;
+            this.hiddenInput.dispatchEvent(new Event("change", { bubbles: true }));
+
             this.searchInput.value = selected.textContent;
+            this.searchInput.dispatchEvent(new Event("blur", { bubbles: true }));
+
             this.selectBox.style.display = 'none';
         }
     }
@@ -125,13 +209,13 @@ class ImportProductSelector {
                        class="form-control form-control-sm" min="1">
             </td>
             <td>
-                <input type="text" name="product_price_input_display[${selected.value}]"
+                <input type="text" name="product_import_price_display[${selected.value}]"
                        value="" placeholder="Nhập giá..."
-                       class="form-control form-control-sm text-end">
-                <input type="hidden" name="product_price_input[${selected.value}]" value="" class="price-hidden">
+                       class="form-control form-control-sm">
+                <input type="hidden" name="product_import_price[${selected.value}]" value="" class="price-hidden">
             </td>
             <td class="text-center">
-                <button type="button" class="btn btn-sm btn-danger">Xóa</button>
+                <button type="button" class="btn btn-link btn-sm text-danger">Xóa</button>
             </td>
         `;
         return tr;
@@ -140,30 +224,35 @@ class ImportProductSelector {
     bindRowEvents(tr) {
         const qtyInput = tr.querySelector(`[name^="quantity"]`);
         const priceHidden = tr.querySelector(`.price-hidden`);
-        const priceDisplay = tr.querySelector(`[name^="product_price_input_display"]`);
+        const priceDisplay = tr.querySelector(`[name^="product_import_price_display"]`);
 
+        // Khi nhập số lượng
         qtyInput.addEventListener('input', () => {
             if (+qtyInput.value < 1) qtyInput.value = 1;
             this.calculator.updateTotal();
         });
 
-        priceDisplay.addEventListener('focus', function() {
-            this.value = priceHidden.value || '';
-            this.select();
+        // Khi focus vào ô giá
+        priceDisplay.addEventListener('focus', (e) => {
+            e.target.value = priceHidden.value || '';
+            e.target.select();
         });
 
-        priceDisplay.addEventListener('input', function() {
-            priceHidden.value = Helper.parseVND(this.value);
+        // Khi nhập giá
+        priceDisplay.addEventListener('input', (e) => {
+            priceHidden.value = Helper.parseVND(e.target.value);
             this.calculator.updateTotal();
-        }.bind(this));
+        });
 
-        priceDisplay.addEventListener('blur', function() {
-            const num = Helper.parseVND(this.value);
+        // Khi blur (mất focus)
+        priceDisplay.addEventListener('blur', (e) => {
+            const num = Helper.parseVND(e.target.value);
             priceHidden.value = num;
-            this.value = num ? Helper.formatVND(num) : '';
+            e.target.value = num ? Helper.formatVND(num) : '';
             this.calculator.updateTotal();
-        }.bind(this));
+        });
 
+        // Nút xóa
         tr.querySelector('button').addEventListener('click', () => {
             tr.remove();
             this.calculator.updateTotal();
@@ -171,56 +260,6 @@ class ImportProductSelector {
                 document.getElementById('productSelectedTable').style.display = 'none';
             }
         });
-    }
-}
-
-// -------------------- Import Form --------------------
-class ImportForm {
-    constructor() {
-        this.calculator = new ImportCalculator(
-            document.querySelector('#productSelectedTable tbody'),
-            document.getElementById('totalAmount')
-        );
-        this.init();
-    }
-
-    async init() {
-        try {
-            const [suppliers, products] = await Promise.all([
-                this.fetchData('/api/suppliers'),
-                this.fetchData('/api/products'),
-            ]);
-
-            new SupplierSelector(
-                suppliers,
-                document.getElementById('supplierSearch'),
-                document.getElementById('supplierSelect'),
-                document.getElementById('supplier_id')
-            );
-
-            new ImportProductSelector(
-                products,
-                document.getElementById('productSearch'),
-                document.getElementById('productSelect'),
-                document.querySelector('#productSelectedTable tbody'),
-                this.calculator
-            );
-
-        } catch (err) {
-            console.error("Lỗi khi load dữ liệu:", err);
-            alert("Không thể tải dữ liệu nhà cung cấp / sản phẩm.");
-        }
-    }
-
-    async fetchData(url) {
-        try {
-            const res = await fetch(url, { headers: { "Accept": "application/json" } });
-            if (!res.ok) throw new Error(`API lỗi ${res.status}`);
-            return await res.json();
-        } catch (e) {
-            console.error("Fetch error:", e);
-            return [];
-        }
     }
 }
 

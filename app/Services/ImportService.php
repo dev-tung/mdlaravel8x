@@ -49,7 +49,7 @@ class ImportService
 
             // quantity và price được map theo key = productId
             $qtyRaw   = $data['quantity'][$productId] ?? 0;
-            $priceRaw = $data['product_price_input'][$productId] ?? 0;
+            $priceRaw = $data['product_import_price'][$productId] ?? 0;
 
             // Làm sạch giá (trường hợp gửi kèm ký tự . hoặc đ)
             $priceClean = preg_replace('/[^\d.]/', '', (string) $priceRaw);

@@ -149,7 +149,7 @@ class ProductSelector {
                 <input type="text" name="product_price_output_display[${selected.value}]"
                        value="${Helper.formatVND(price_output)}" class="form-control form-control-sm" disabled>
                 <input type="hidden" name="product_price_output[${selected.value}]" value="${price_output}" class="price-hidden">
-                <input type="hidden" name="product_price_input[${selected.value}]" value="${price_input}">
+                <input type="hidden" name="product_import_price[${selected.value}]" value="${price_input}">
             </td>
             <td>
                 <input type="text" name="discount_display[${selected.value}]"
