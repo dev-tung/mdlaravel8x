@@ -115,5 +115,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/admin/orders/create.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/exports/create.js') }}"></script>
 @endpush
