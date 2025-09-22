@@ -1,7 +1,7 @@
-// ImportCalculator.js
+// TotalCalculator.js
 import Helper from "../utils/Helper.js";
 
-export default class ImportCalculator {
+export default class TotalCalculator {
     /**
      * @param {HTMLElement} totalEl - element hiển thị tổng tiền
      */

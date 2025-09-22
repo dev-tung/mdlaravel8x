@@ -5,7 +5,7 @@ import ProductService from "../../services/ProductService.js";
 import SupplierService from "../../services/SupplierService.js";
 import SupplierSelector from "../../components/SupplierSelector.js";
 import ProductSelector from "../../components/ProductSelector.js";
-import ImportCalculator from "../../components/ImportCalculator.js";
+import TotalCalculator from "../../components/TotalCalculator.js";
 
 export default class FormHandler{
 
@@ -59,7 +59,7 @@ export default class FormHandler{
             this.productService = new ProductService();
             const products = await this.productService.getProducts();
             
-            this.calculator = new ImportCalculator(
+            this.calculator = new TotalCalculator(
                 document.getElementById('total-import-amount') // span hoặc div hiển thị tổng
             );
 

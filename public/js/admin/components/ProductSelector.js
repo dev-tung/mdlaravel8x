@@ -56,8 +56,6 @@ export default class ProductSelector {
         document.getElementById('product-selected-table').style.display = 'table';
         this.searchInput.value = '';
         this.selectBox.style.display = 'none';
-
-
     }
 
     renderRow(selected) {

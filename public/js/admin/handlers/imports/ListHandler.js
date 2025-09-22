@@ -3,7 +3,7 @@ import FormValidator from "../../shared/FormValidator.js";
 import ImportService from "../../services/ImportService.js";
 import SupplierSelector from "../../components/SupplierSelector.js";
 import ProductSelector from "../../components/ProductSelector.js";
-import ImportCalculator from "../../components/ImportCalculator.js";
+import TotalCalculator from "../../components/TotalCalculator.js";
 import Handler from "../../shared/Handler.js";
 
 export default class ListHandler extends Handler {
