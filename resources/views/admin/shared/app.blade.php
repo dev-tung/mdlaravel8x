@@ -38,7 +38,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/libraries/adminlte.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/admin/Style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" />
 
   </head>
   <!--end::Head-->

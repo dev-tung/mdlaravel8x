@@ -4,7 +4,7 @@ import ImportService from "../../services/ImportService.js";
 import SupplierSelector from "../../components/SupplierSelector.js";
 import ProductSelector from "../../components/ProductSelector.js";
 import ImportCalculator from "../../components/ImportCalculator.js";
-import Handler from "../Handler.js";
+import Handler from "../../shared/Handler.js";
 
 export default class ListHandler extends Handler {
     constructor() {

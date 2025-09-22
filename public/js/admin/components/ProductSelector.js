@@ -7,6 +7,7 @@ export default class ProductSelector {
         this.selectBox = selectBox;
         this.tableBody = tableBody;
         this.calculator = calculator;
+        this.selectedProducts = []; // ← lưu sản phẩm đã chọn
         this.bindEvents();
     }
 
@@ -38,14 +39,25 @@ export default class ProductSelector {
         const selected = this.selectBox.selectedOptions[0];
         if (!selected || this.tableBody.querySelector(`[data-id="${selected.value}"]`)) return;
 
+        // Thêm vào state
+        const productData = {
+            id: selected.value,
+            name: selected.dataset.name,
+            quantity: 1,
+            price: 0 // giá mặc định
+        };
+
+        this.selectedProducts.push(productData);
+
         const tr = this.renderRow(selected);
         this.tableBody.appendChild(tr);
-        this.bindRowEvents(tr);
+        this.bindRowEvents(tr, productData);
 
         document.getElementById('product-selected-table').style.display = 'table';
         this.searchInput.value = '';
         this.selectBox.style.display = 'none';
-        this.calculator.updateTotal();
+
+
     }
 
     renderRow(selected) {
@@ -70,14 +82,14 @@ export default class ProductSelector {
         return tr;
     }
 
-    bindRowEvents(tr) {
-        const qtyInput = tr.querySelector(`[name^="quantity"]`);
+    bindRowEvents(tr, productData) {
+        const qtyInput  = tr.querySelector(`[name^="quantity"]`);
         const priceHidden = tr.querySelector(`.price-hidden`);
         const priceDisplay = tr.querySelector(`[name^="product_import_price_display"]`);
 
         qtyInput.addEventListener('input', () => {
-            if (+qtyInput.value < 1) qtyInput.value = 1;
-            this.calculator.updateTotal();
+            productData.quantity = +qtyInput.value;
+            this.calculator.updateTotal(this.selectedProducts);
         });
 
         priceDisplay.addEventListener('focus', e => {
@@ -87,22 +99,19 @@ export default class ProductSelector {
 
         priceDisplay.addEventListener('input', e => {
             priceHidden.value = Helper.parseVND(e.target.value);
-            this.calculator.updateTotal();
-        });
-
-        priceDisplay.addEventListener('blur', e => {
-            const num = Helper.parseVND(e.target.value);
-            priceHidden.value = num;
-            e.target.value = num ? Helper.formatVND(num) : '';
-            this.calculator.updateTotal();
+            productData.price = priceHidden.value;
+            this.calculator.updateTotal(this.selectedProducts);
         });
 
         tr.querySelector('button').addEventListener('click', () => {
             tr.remove();
-            this.calculator.updateTotal();
+
             if (!this.tableBody.children.length) {
                 document.getElementById('product-selected-table').style.display = 'none';
             }
+
+            this.selectedProducts = this.selectedProducts.filter(p => p.id !== productData.id);
+            this.calculator.updateTotal(this.selectedProducts);
         });
     }
 }

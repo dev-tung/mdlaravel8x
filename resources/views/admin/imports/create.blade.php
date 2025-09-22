@@ -55,7 +55,7 @@
                                         <tbody></tbody>
                                         <tfoot>
                                             <tr class="form-label small">
-                                                <td colspan="4" class="text-danger">Tổng <span id="total-amount">0 ₫</span></td>
+                                                <td colspan="4" class="text-danger">Tổng <span id="total-import-amount">0 ₫</span></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -142,5 +142,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/admin/imports/create.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/handlers/imports/FormHandler.js') }}"></script>
 @endpush
