@@ -18,16 +18,7 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        dd('Dashboard Area!');
         
-        // return view('admin.dashboard', [
-        //     'revenue'        => $this->repository->revenue($request),
-        //     'discount'       => $this->repository->discount($request),
-        //     'expense'        => $this->repository->expense($request),
-        //     'gift'           => $this->repository->gift($request),
-        //     'profit'         => $this->repository->profit($request),
-        //     'inventory'      => $this->repository->inventory($request),
-        //     'profitMonths'   => $this->repository->profitMonths(),
-        // ]);
+        return view('admin.dashboard');
     }
 }
