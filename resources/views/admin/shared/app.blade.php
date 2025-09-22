@@ -37,8 +37,9 @@
     <!--end::Third Party Plugin(Bootstrap Icons)-->
 
     <link rel="stylesheet" href="{{ asset('css/libraries/adminlte.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" />
-    
+    <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin/Style.css') }}" />
+
   </head>
   <!--end::Head-->
   <!--begin::Body-->

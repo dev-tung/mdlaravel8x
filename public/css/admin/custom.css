@@ -1,0 +1,16 @@
+.app-footer strong {
+    font-weight: 400;
+}
+
+.table td, .table th, table select, table a, table button {
+    vertical-align: middle;
+    font-size: 0.8rem!important;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+tr[data-href] {
+  cursor: pointer;
+}
