@@ -36,8 +36,9 @@
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
 
-    <link rel="stylesheet" href="{{ asset('css/admin/adminlte.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/libraries/adminlte.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" />
+    
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -146,13 +147,12 @@
 
     <!--begin::Script-->
     <!-- Bootstrap JS + Popper -->
-    <script src="{{ asset('js/admin/shared/processing.js') }}"></script>
 
-    <script src="{{ asset('js/shared/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/libraries/bootstrap.bundle.min.js') }}"></script>
 
-    <script src="{{ asset('js/admin/shared/adminlte.js') }}"></script>
+    <script src="{{ asset('js/libraries/adminlte.js') }}"></script>
 
-    <script src="{{ asset('js/admin/shared/app.js') }}"></script>
+    <script src="{{ asset('js/admin/shared/App.js') }}"></script>
 
     @stack('scripts')
     <!--end::Script-->

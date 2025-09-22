@@ -1,0 +1,29 @@
+body {
+    background: #f0f0f1;
+}
+.login-box {
+    margin-top: 15px;
+    width: 400px;
+}
+.login-card-body {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.form-control {
+    border-radius: 30px;
+    padding-left: 40px; /* để icon không đè chữ */
+}
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+.btn-primary {
+    border-radius: 10px;
+}
+
+.Login-Logo{
+    filter: invert(33%);
+}

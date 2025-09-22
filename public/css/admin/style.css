@@ -16,6 +16,10 @@ tr[data-href] {
   cursor: pointer;
 }
 
+.ProductSelectedTable{
+    display: none;
+}
+
 .ProductSelectedTable th{
     font-weight: 500;
 }

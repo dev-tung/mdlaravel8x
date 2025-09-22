@@ -20,12 +20,13 @@ class ImportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'supplier_id'         => 'required|exists:suppliers,id',
-            'import_date'         => 'required|date',
-            'total_import_amount' => 'required|numeric|min:0',
-            'notes'               => 'nullable|string|max:1000',
-            'status'              => 'required|in:pending,completed,cancelled',
-            'payment_method'      => 'required|in:cash,bank_transfer,credit'
+            'supplier_id'            => 'required|exists:suppliers,id',
+            'import_date'            => 'required|date',
+            'product_import_price'   => 'required|array',
+            'product_import_price.*' => 'required|numeric|min:1',
+            'notes'                  => 'nullable|string|max:1000',
+            'status'                 => 'required|in:pending,completed,cancelled',
+            'payment_method'         => 'required|in:pending,cash,bank_transfer,card'
         ];
     }
 
@@ -39,8 +40,9 @@ class ImportRequest extends FormRequest
             'supplier_id.exists'   => 'Nhà cung cấp không tồn tại.',
             'import_date.required' => 'Ngày nhập là bắt buộc.',
             'import_date.date'     => 'Ngày nhập không đúng định dạng.',
-            'total_import_amount.required' => 'Tổng tiền nhập là bắt buộc.',
-            'total_import_amount.numeric'  => 'Tổng tiền nhập phải là số.',
+            'product_import_price.*.required' => 'Vui lòng nhập giá nhập cho tất cả sản phẩm.',
+            'product_import_price.*.numeric'  => 'Giá nhập phải là số hợp lệ.',
+            'product_import_price.*.min'      => 'Giá nhập phải lớn hơn 0.',
             'status.required'      => 'Vui lòng chọn trạng thái.',
             'status.in'            => 'Trạng thái không hợp lệ.',
             'payment_method.required' => 'Vui lòng chọn phương thức thanh toán.',

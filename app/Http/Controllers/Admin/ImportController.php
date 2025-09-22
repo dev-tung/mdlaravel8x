@@ -15,18 +15,18 @@ class ImportController extends Controller
     protected ImportRepository $importRepository;
     protected SupplierRepository $supplierRepository;
     protected ProductRepository $productRepository;
-    protected ImportService $ImportService;
+    protected ImportService $importService;
 
     public function __construct(
         ImportRepository $importRepository,
         SupplierRepository $supplierRepository,
         ProductRepository $productRepository,
-        ImportService $ImportService
+        ImportService $importService
     ) {
         $this->importRepository = $importRepository;
         $this->supplierRepository = $supplierRepository;
         $this->productRepository = $productRepository;
-        $this->ImportService = $ImportService;
+        $this->importService = $importService;
     }
 
     /**
@@ -61,7 +61,8 @@ class ImportController extends Controller
      */
     public function store(ImportRequest $request)
     {
-        $this->ImportService->create($request->all());
+        dd($request->all());
+        $this->importService->create($request->all());
 
         return redirect()->route('admin.imports.index')
             ->with('success', 'Phiếu nhập tạo thành công.');
@@ -84,7 +85,7 @@ class ImportController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $this->ImportService->update($id, $request->all());
+        $this->importService->update($id, $request->all());
 
         return redirect()->route('admin.imports.index')
             ->with('success', 'Phiếu nhập đã được cập nhật.');
@@ -95,7 +96,7 @@ class ImportController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->ImportService->delete($id);
+        $this->importService->delete($id);
 
         return redirect()->route('admin.imports.index')
             ->with('success', 'Phiếu nhập đã được xóa.');

@@ -16,25 +16,33 @@ Mục tiêu: **thống nhất – dễ đọc – dễ bảo trì – dễ mở 
 
 ## 1. Backend (Laravel)
 
-| Thành phần        | Quy ước đặt tên                | Ví dụ                                  |
-| ----------------- | ------------------------------ | -------------------------------------- |
-| **Controller**    | PascalCase + `Controller`      | `ProductController`, `CartController`  |
-| **Model**         | PascalCase (số ít)             | `User`, `Order`, `Product`             |
-| **Observer**      | PascalCase + `Observer`        | `UserObserver`, `OrderObserver`        |
-| **Middleware**    | PascalCase                     | `Authenticate`, `CheckAdmin`           |
-| **Service class** | PascalCase + `Service`         | `PaymentService`, `ReportService`      |
-| **Helper func**   | snake_case                     | `format_currency()`, `generate_token()`|
-| **Policy**        | PascalCase + `Policy`          | `OrderPolicy`, `UserPolicy`            |
-| **Form Request**  | PascalCase + `Request`         | `StoreProductRequest`, `UpdateUserRequest` |
-| **Resource (API)**| PascalCase + `Resource`        | `UserResource`, `OrderResource`        |
-| **Notification**  | PascalCase                     | `OrderShipped`, `ResetPassword`        |
-| **Enum (PHP 8.1)**| PascalCase                     | `OrderStatus`, `UserRole`              |
-| **Event**         | PascalCase (quá khứ)           | `OrderCreated`, `UserRegistered`       |
-| **Listener/Job**  | PascalCase + (Listener/Job)    | `SendEmailNotification`, `ProcessOrderJob` |
-| **Command (class)**| PascalCase                    | `SendReport`, `CleanLogs`              |
-| **Command (name)**| kebab-case                     | `php artisan send-report`              |
-| **Test class**    | PascalCase + `Test`            | `UserTest`, `OrderControllerTest`      |
-| **Test method**   | camelCase                      | `testUserCanLogin()`, `testOrderCheckout()` |
+| Thành phần          | Quy ước đặt tên             | Ví dụ                                        |
+| ------------------- | --------------------------- | -------------------------------------------- |
+| **Controller**      | PascalCase + `Controller`   | `ProductController`, `CartController`        |
+| **Model**           | PascalCase (số ít)          | `User`, `Order`, `Product`                   |
+| **Observer**        | PascalCase + `Observer`     | `UserObserver`, `OrderObserver`              |
+| **Middleware**      | PascalCase                  | `Authenticate`, `CheckAdmin`                 |
+| **Service class**   | PascalCase + `Service`      | `PaymentService`, `ReportService`            |
+| **Helper func**     | snake\_case                 | `format_currency()`, `generate_token()`      |
+| **Policy**          | PascalCase + `Policy`       | `OrderPolicy`, `UserPolicy`                  |
+| **Form Request**    | PascalCase + `Request`      | `StoreProductRequest`, `UpdateUserRequest`   |
+| **Resource (API)**  | PascalCase + `Resource`     | `UserResource`, `OrderResource`              |
+| **Notification**    | PascalCase                  | `OrderShipped`, `ResetPassword`              |
+| **Enum (PHP 8.1)**  | PascalCase                  | `OrderStatus`, `UserRole`                    |
+| **Event**           | PascalCase (quá khứ)        | `OrderCreated`, `UserRegistered`             |
+| **Listener/Job**    | PascalCase + (Listener/Job) | `SendEmailNotification`, `ProcessOrderJob`   |
+| **Command (class)** | PascalCase                  | `SendReport`, `CleanLogs`                    |
+| **Command (name)**  | kebab-case                  | `php artisan send-report`                    |
+| **Seeder**          | PascalCase + `Seeder`       | `UserSeeder`, `ProductSeeder`                |
+| **Factory**         | PascalCase + `Factory`      | `UserFactory`, `OrderFactory`                |
+| **Migration file**  | snake\_case (quá khứ)       | `2025_09_22_123456_create_orders_table.php`  |
+| **Migration class** | PascalCase                  | `CreateOrdersTable`, `AddStatusToUsersTable` |
+| **Config key**      | snake\_case                 | `app.debug`, `queue.connections`             |
+| **Env variable**    | UPPER\_SNAKE\_CASE          | `APP_ENV`, `DB_CONNECTION`, `MAIL_HOST`      |
+| **PHP variable**    | camelCase                   | `$orderId`, `$totalAmount`, `$userName`      |
+| **PHP constant**    | UPPER\_SNAKE\_CASE          | `MAX_UPLOAD_SIZE`, `DEFAULT_ROLE`            |
+| **Test class**      | PascalCase + `Test`         | `UserTest`, `OrderControllerTest`            |
+| **Test method**     | camelCase                   | `testUserCanLogin()`, `testOrderCheckout()`  |
 
 ---
 
@@ -66,16 +74,24 @@ Mục tiêu: **thống nhất – dễ đọc – dễ bảo trì – dễ mở 
 
 ## 4. Frontend (CSS/JS)
 
-| Thành phần                   | Quy ước đặt tên                | Ví dụ                                                            |
-| ---------------------------- | ------------------------------ | ---------------------------------------------------------------- |
-| **CSS class (custom)**       | Algolia/BEM (PascalCase)       | `.ProductCard`, `.ProductCard-Title`, `.ProductCard-Title-large` |
-| **Bootstrap/Tailwind class** | Theo framework                 | `container`, `row`, `btn-primary`, `text-center`                 |
-| **CSS variable (custom)**    | `--kebab-case`                 | `--primary-color`, `--font-size-base`, `--spacing-lg`            |
-| **SCSS/SASS variable**       | `$kebab-case`                  | `$primary-color`, `$font-size-base`, `$spacing-lg`               |
-| **JS biến/hàm**              | camelCase                      | `let productId`, `function addToCart()`                          |
-| **JS class (ES6)**           | PascalCase                     | `class CartManager {}`                                           |
-| **JS file**                  | kebab-case                     | `cart-manager.js`, `order-list.js`                               |
-| **JS folder**                | kebab-case                     | `orders/`, `users/`, `products/`                                 |
+| Thành phần                   | Quy ước đặt tên                              | Ví dụ                                                              |
+| ---------------------------- | -------------------------------------------- | ------------------------------------------------------------------ |
+| **CSS class (custom)**       | Algolia/BEM (PascalCase)                     | `.ProductCard`, `.ProductCard-Title`, `.ProductCard-Title-large`   |
+| **Bootstrap/Tailwind class** | Theo framework                               | `container`, `row`, `btn-primary`, `text-center`                   |
+| **CSS variable (custom)**    | `--kebab-case`                               | `--primary-color`, `--font-size-base`, `--spacing-lg`              |
+| **SCSS/SASS variable**       | `$kebab-case`                                | `$primary-color`, `$font-size-base`, `$spacing-lg`                 |
+| **SCSS file/folder**         | kebab-case                                   | `_variables.scss`, `_mixins.scss`, `components/_product-card.scss` |
+| **HTML id**                  | kebab-case                                   | `id="product-list"`, `id="order-form"`, `id="user-profile"`        |
+| **HTML data-attribute**      | `data-namespace-action`                      | `data-cart-add`, `data-user-id`, `data-modal-target`               |
+| **JS biến/hàm**              | camelCase                                    | `let productId`, `function addToCart()`                            |
+| **JS class (ES6)**           | PascalCase                                   | `class CartManager {}`                                             |
+| **JS constant**              | UPPER\_CASE\_SNAKE                           | `const API_BASE_URL = "/api/v1"`, `const MAX_ITEMS = 50`           |
+| **JS file**                  | PascalCase cho class, camelCase cho function | `ImportForm.js`, `supplierSelector.js`, `helper.js`                |
+| **JS folder**                | kebab-case                                   | `components/`, `handlers/`, `services/`, `shared/`                 |
+| **JS event handler**         | on + Event + Action (camelCase)              | `onInputSearch`, `onClickDeleteProduct`, `onChangeQuantity`        |
+| **Form handler JS**          | PascalCase cho class                         | `CustomerFormHandler.js`, `ImportFormHandler.js`                   |
+| **Service JS**               | PascalCase + Service                         | `ImportService.js`, `CustomerService.js`                           |
+| **Shared utils JS**          | camelCase / PascalCase (tùy loại)            | `helper.js`, `formatCurrency.js`                                   |
 
 ---
 
