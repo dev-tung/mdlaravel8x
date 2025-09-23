@@ -2,41 +2,67 @@
 
 namespace App\Repositories;
 
-use App\Models\Import;
+use App\Models\ImportItem;
+use Illuminate\Database\Eloquent\Collection;
 
 class ImportItemRepository
 {
     /**
-     * Tạo mới 1 record trong bảng imports
+     * Lấy tất cả item theo import_id
      */
-    public function create(array $data)
+    public function getByImportId(int $importId): Collection
     {
-        return Import::create($data);
+        return ImportItem::with('product')
+            ->where('import_id', $importId)
+            ->get();
     }
 
     /**
-     * Lấy danh sách imports theo purchase_id
+     * Tìm 1 item theo id
      */
-    public function getByPurchaseId(int $purchaseId)
+    public function find(int $id): ImportItem
     {
-        return Import::where('purchase_id', $purchaseId)->get();
+        return ImportItem::with('product')->findOrFail($id);
     }
 
     /**
-     * Xoá toàn bộ imports theo purchase_id (dùng khi update phiếu nhập)
+     * Tạo mới item
      */
-    public function deleteByPurchaseId(int $purchaseId)
+    public function create(array $data): ImportItem
     {
-        return Import::where('purchase_id', $purchaseId)->delete();
+        dd($data);
+        return ImportItem::create($data);
     }
 
     /**
-     * Cập nhật import theo id
+     * Tạo nhiều items một lúc
      */
-    public function update(int $id, array $data)
+    public function createMany(array $items): void
     {
-        $import = Import::findOrFail($id);
-        $import->update($data);
-        return $import;
+        ImportItem::insert($items);
+    }
+
+    /**
+     * Cập nhật item
+     */
+    public function update(ImportItem $item, array $data): bool
+    {
+        return $item->update($data);
+    }
+
+    /**
+     * Xóa item theo id
+     */
+    public function delete(int $id): ?bool
+    {
+        return ImportItem::destroy($id);
+    }
+
+    /**
+     * Xóa toàn bộ items theo import_id
+     */
+    public function deleteByImportId(int $importId): int
+    {
+        return ImportItem::where('import_id', $importId)->delete();
     }
 }

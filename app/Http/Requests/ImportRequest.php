@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\EnumOptions;
 
 class ImportRequest extends FormRequest
 {
@@ -25,8 +26,8 @@ class ImportRequest extends FormRequest
             'product_import_price'   => 'required|array',
             'product_import_price.*' => 'required|numeric|min:1',
             'notes'                  => 'nullable|string|max:1000',
-            'status'                 => 'required|in:pending,completed,cancelled',
-            'payment_method'         => 'required|in:pending,cash,bank_transfer,card'
+            'status'         => 'required|in:' . implode(',', EnumOptions::importStatusKeys()),
+            'payment_method' => 'required|in:' . implode(',', EnumOptions::paymentKeys()),
         ];
     }
 

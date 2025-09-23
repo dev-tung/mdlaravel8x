@@ -15,14 +15,13 @@ class Import extends Model
     // cho phép Laravel tự quản lý created_at, updated_at
     public $timestamps = true;
 
-    // các cột có thể gán dữ liệu hàng loạt (mass assignment)
     protected $fillable = [
         'supplier_id',
         'import_date',
         'total_import_amount',
         'notes',
         'status',
-        'payment_method'
+        'payment_method',
     ];
 
     protected $casts = [

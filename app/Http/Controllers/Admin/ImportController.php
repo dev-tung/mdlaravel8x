@@ -9,6 +9,7 @@ use App\Repositories\SupplierRepository;
 use App\Repositories\ProductRepository;
 use App\Services\ImportService;
 use Illuminate\Http\Request;
+use App\Enums\EnumOptions;
 
 class ImportController extends Controller
 {
@@ -36,9 +37,9 @@ class ImportController extends Controller
     {
         $filters  = $request->only(['supplier_name', 'status', 'payment_method', 'from_date', 'to_date']);
         $perPage  = $request->get('per_page', config('shared.pagination_per_page', 10));
-        $imports  = $this->importRepository->paginateWithFilters($filters, $perPage);
-        $statuses = $this->importRepository->statuses();
-        $payments = $this->importRepository->payments();
+        $imports  = $this->importService->paginateWithFilters($filters, $perPage);
+        $statuses = EnumOptions::importStatuses();
+        $payments = EnumOptions::payments();
 
         return view('admin.imports.index', compact('imports', 'filters', 'statuses', 'payments'));
     }
@@ -49,9 +50,9 @@ class ImportController extends Controller
     public function create()
     {
         $suppliers = $this->supplierRepository->all();
-        $products = $this->productRepository->all();
-        $statuses = $this->importRepository->statuses();
-        $payments = $this->importRepository->payments();
+        $products  = $this->productRepository->all();
+        $statuses  = EnumOptions::importStatuses();
+        $payments  = EnumOptions::payments();
 
         return view('admin.imports.create', compact('suppliers', 'products', 'statuses', 'payments'));
     }
@@ -61,7 +62,6 @@ class ImportController extends Controller
      */
     public function store(ImportRequest $request)
     {
-        dd($request->all());
         $this->importService->create($request->all());
 
         return redirect()->route('admin.imports.index')

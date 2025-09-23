@@ -3,108 +3,113 @@
 namespace App\Services;
 
 use App\Repositories\ImportRepository;
-use App\Repositories\ProductRepository;
 use App\Repositories\ImportItemRepository;
 use Illuminate\Support\Facades\DB;
-use Exception;
+use App\Models\Import;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ImportService
 {
-    protected ImportRepository $importRepository;
-    protected ProductRepository $productRepository;
-    protected ImportItemRepository $importItemRepository;
+    protected $importRepository;
+    protected $importItemRepository;
 
     public function __construct(
         ImportRepository $importRepository,
-        ProductRepository $productRepository,
         ImportItemRepository $importItemRepository
     ) {
-        $this->importRepository  = $importRepository;
-        $this->productRepository = $productRepository;
-        $this->importItemRepository  = $importItemRepository;
+        $this->importRepository = $importRepository;
+        $this->importItemRepository = $importItemRepository;
+    }
+
+    public function paginateWithFilters(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->importRepository->query();
+
+        $query->when(!empty($filters['supplier_name']), function ($q) use ($filters) {
+            $q->whereHas('supplier', fn($c) =>
+                $c->where('name', 'like', '%' . $filters['supplier_name'] . '%')
+            );
+        });
+
+        $query->when(!empty($filters['status']), fn($q) =>
+            $q->where('status', $filters['status'])
+        );
+
+        $query->when(!empty($filters['payment_method']), fn($q) =>
+            $q->where('payment_method', $filters['payment_method'])
+        );
+
+        $query->when(!empty($filters['from_date']) && !empty($filters['to_date']), function ($q) use ($filters) {
+            $q->whereBetween('import_date', [$filters['from_date'], $filters['to_date']]);
+        });
+
+        $query->when(!empty($filters['from_date']) && empty($filters['to_date']), fn($q) =>
+            $q->whereDate('import_date', '>=', $filters['from_date'])
+        );
+
+        $query->when(empty($filters['from_date']) && !empty($filters['to_date']), fn($q) =>
+            $q->whereDate('import_date', '<=', $filters['to_date'])
+        );
+
+        return $query->orderBy('created_at', 'desc')
+                     ->paginate($perPage)
+                     ->appends($filters);
     }
 
     /**
-     * Tạo phiếu nhập mới
+     * Tạo phiếu nhập + chi tiết items
      */
     public function create(array $data)
     {
+        return DB::transaction(function () use ($data) {
 
-        // Tạo phiếu nhập
-        $purchase = $this->importRepository->create([
-            'supplier_id'   => $data['supplier_id'],
-            'purchase_date' => $data['purchase_date'],
-            'notes'         => $data['notes'] ?? null,
-            'status'        => $data['status']
-        ]);
+            $totalAmount = 0;
+            $items       = [];
 
-        $totalAmount = 0;
+            // Duyệt từng sản phẩm
+            foreach ($data['product_id'] as $i => $productId) {
+                $quantity = isset($data['quantity'][$i])
+                    ? (int) $data['quantity'][$i]
+                    : 0;
 
-        // Duyệt theo product_id (mảng từ form)
-        foreach ($data['product_id'] ?? [] as $productId) {
-            $productId = (int) $productId;
-            if ($productId <= 0) {
-                continue;
+                $price = isset($data['product_import_price'][$productId])
+                    ? (int) $data['product_import_price'][$productId]
+                    : 0;
+
+                $totalAmount += $quantity * $price;
+
+                $items[] = [
+                    'product_id'         => $productId,
+                    'quantity'           => $quantity,
+                    'import_price'       => $price,
+                    'total_import_price' => $quantity * $price,
+                    'created_at'         => now(),
+                    'updated_at'         => now(),
+                ];
             }
 
-            // quantity và price được map theo key = productId
-            $qtyRaw   = $data['quantity'][$productId] ?? 0;
-            $priceRaw = $data['product_import_price'][$productId] ?? 0;
-
-            // Làm sạch giá (trường hợp gửi kèm ký tự . hoặc đ)
-            $priceClean = preg_replace('/[^\d.]/', '', (string) $priceRaw);
-            $price      = $priceClean === '' ? 0.0 : (float) $priceClean;
-            $qty        = max(0, (int) $qtyRaw);
-
-            if ($qty <= 0 || $price <= 0) {
-                continue;
-            }
-
-            $subtotal = $qty * $price;
-
-            // Thêm chi tiết nhập hàng
-            $this->importItemRepository->create([
-                'purchase_id' => $purchase->id,
-                'product_id'  => $productId,
-                'quantity'    => $qty,
-                'price_input' => $price,
-                'total_price' => $subtotal,
+            // 1. Tạo Import chính
+            $import = $this->importRepository->create([
+                'supplier_id'         => $data['supplier_id'],
+                'import_date'         => $data['import_date'],
+                'status'              => $data['status'],
+                'payment_method'      => $data['payment_method'],
+                'notes'               => $data['notes'] ?? null,
+                'total_import_amount' => $totalAmount,
             ]);
 
-            $totalAmount += $subtotal;
-        }
+            // 2. Gắn import_id vào từng item
+            foreach ($items as &$item) {
+                $item['import_id'] = $import->id;
+            }
+            unset($item);
 
-        // Cập nhật tổng tiền cho phiếu nhập
-        $this->importRepository->update($purchase->id, [
-            'total_amount' => $totalAmount
-        ]);
+            // 3. Lưu items (1 lần insert)
+            $this->importItemRepository->createMany($items);
 
-        return $purchase;
+            return $import;
+        });
     }
 
-
-    /**
-     * Xóa phiếu nhập
-     */
-    public function delete(int $id)
-    {
-        DB::beginTransaction();
-        try {
-            // Lấy purchase
-            $purchase = $this->importRepository->find($id);
-
-            // Xóa các imports liên quan đến purchase này
-            DB::table('imports')->where('purchase_id', $id)->delete();
-
-            // Xóa purchase
-            $this->importRepository->delete($id);
-
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-    }
 
 }

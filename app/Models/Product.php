@@ -9,13 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    // Nếu tên bảng không phải là "products" thì khai báo lại
     protected $table = 'products';
-
-    // Khóa chính (mặc định là "id")
     protected $primaryKey = 'id';
 
-    // Các cột được phép fill
     protected $fillable = [
         'name',
         'slug',
@@ -30,12 +26,24 @@ class Product extends Model
         'taxonomy_id',
     ];
 
+    protected $casts = [
+        'price_original' => 'decimal:2',
+        'price_sale'     => 'decimal:2',
+        'quantity'       => 'integer',
+    ];
+
+    // Accessor format giá
     public function getPriceSaleFormattedAttribute()
     {
         return number_format($this->attributes['price_sale'], 0, ',', '.') . ' đ';
     }
 
-    // Các quan hệ
+    public function getPriceOriginalFormattedAttribute()
+    {
+        return number_format($this->attributes['price_original'], 0, ',', '.') . ' đ';
+    }
+
+    // Quan hệ
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
@@ -46,13 +54,22 @@ class Product extends Model
         return $this->belongsTo(Taxonomy::class, 'taxonomy_id');
     }
 
-    public function imports()
+    // Quan hệ với ImportItem
+    public function importItems()
     {
-        return $this->hasMany(Import::class, 'product_id');
+        return $this->hasMany(ImportItem::class, 'product_id');
     }
 
-    public function exports()
+    // Quan hệ với Import qua ImportItem
+    public function imports()
     {
-        return $this->hasMany(Export::class, 'product_id');
+        return $this->hasManyThrough(
+            Import::class,       // Model cuối
+            ImportItem::class,   // Model trung gian
+            'product_id',        // Khóa ngoại trên bảng import_items
+            'id',                // Khóa chính trên bảng imports
+            'id',                // Khóa chính trên bảng products
+            'import_id'          // Khóa ngoại liên kết trên import_items
+        );
     }
 }

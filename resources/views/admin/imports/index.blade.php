@@ -4,7 +4,7 @@
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row align-items-center my-2">
-                <div class="col-auto"><h3 class="mb-0">Nhập hàng</h3></div>
+                <div class="col-auto"><h3 class="mb-0">Phiếu nhập hàng</h3></div>
                 <div class="col-auto">
                     <a href="{{ route('admin.imports.create') }}" class="btn btn-outline-primary btn-sm">
                         + Thêm mới
