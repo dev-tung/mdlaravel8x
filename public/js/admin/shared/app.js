@@ -2,7 +2,7 @@
 class FlashMessages {
     constructor(timeout = 5000) {
         this.timeout = timeout;
-        document.addEventListener("DOMContentLoaded", () => this.init());
+        this.init()
     }
 
     init() {
@@ -34,7 +34,7 @@ class FlashMessages {
 // -------------------- Clickable Rows --------------------
 class ClickableRows {
     constructor() {
-        document.addEventListener("DOMContentLoaded", () => this.init());
+        this.init()
     }
 
     init() {

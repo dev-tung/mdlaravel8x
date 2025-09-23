@@ -107,6 +107,4 @@
     </div>
 @endsection
 
-@push('scripts')
-    <script src="{{ asset('js/admin/imports/index.js') }}"></script>
-@endpush
+

@@ -41,6 +41,7 @@ class ImportRequest extends FormRequest
             'supplier_id.exists'   => 'Nhà cung cấp không tồn tại.',
             'import_date.required' => 'Ngày nhập là bắt buộc.',
             'import_date.date'     => 'Ngày nhập không đúng định dạng.',
+            'product_import_price.required'       => 'Vui lòng chọn sản phẩm và nhập giá.',
             'product_import_price.*.required' => 'Vui lòng nhập giá nhập cho tất cả sản phẩm.',
             'product_import_price.*.numeric'  => 'Giá nhập phải là số hợp lệ.',
             'product_import_price.*.min'      => 'Giá nhập phải lớn hơn hoặc bằng 0.',
