@@ -1,14 +1,14 @@
 import Helper from "../utils/Helper.js";
-import PriceValidator from "./PriceValidator.js";
 
 export default class ProductSelector {
-    constructor(products, searchInput, selectBox, tableBody, calculator) {
+    constructor(products, searchInput, selectBox, tableBody, calculator, priceValidator) {
         this.products = products;
         this.searchInput = searchInput;
         this.selectBox = selectBox;
         this.tableBody = tableBody;
         this.calculator = calculator;
         this.selectedProducts = []; // ← lưu sản phẩm đã chọn
+        this.priceValidator = priceValidator;
         this.bindEvents();
     }
 
@@ -104,8 +104,7 @@ export default class ProductSelector {
 
         priceDisplay.addEventListener('blur', e => {
             // validate giá
-            const priceValidator = new PriceValidator();
-            if (!priceValidator.validate()) return;
+            if (!this.priceValidator.validate()) return;
 
             const num = Helper.parseVND(e.target.value);
             priceHidden.value = num;

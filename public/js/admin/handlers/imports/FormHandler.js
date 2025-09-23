@@ -15,6 +15,11 @@ export default class FormHandler{
     }
 
     initValidator() {
+        this.priceValidator = new PriceValidator(
+            document.querySelector('#product-selected-table tbody'),
+            'product_import_price_display'
+        );
+
         this.validator = new FormValidator(
             "#import-create-form",
             {
@@ -32,8 +37,7 @@ export default class FormHandler{
                 }
             }, 
             (formData, form) => {
-                const priceValidator = new PriceValidator();
-                if (!priceValidator.validate()) return;
+                if (!this.priceValidator.validate()) return;
                 this.onFormSubmit(formData, form);
             }
         );
@@ -70,7 +74,8 @@ export default class FormHandler{
                 document.getElementById('product-search'),
                 document.getElementById('product-select'),
                 document.querySelector('#product-selected-table tbody'),
-                this.totalCalculator
+                this.totalCalculator,
+                this.priceValidator
             );
 
         } catch (err) {

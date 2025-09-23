@@ -1,6 +1,7 @@
 export default class PriceValidator {
-    constructor(tableSelector = '#product-selected-table tbody') {
-        this.tableBody = document.querySelector(tableSelector);
+    constructor(tableBody, rowPriceName) {
+        this.tableBody = tableBody;
+        this.rowPriceName = rowPriceName;
     }
 
     showError(field, message) {
@@ -23,7 +24,7 @@ export default class PriceValidator {
         if (!this.tableBody) return true;
 
         this.tableBody.querySelectorAll('tr').forEach(tr => {
-            const priceInput = tr.querySelector(`[name^="product_import_price_display"]`);
+            const priceInput = tr.querySelector(`[name^="${this.rowPriceName}"]`);
             if (!priceInput) return;
 
             const price = parseFloat(priceInput.value.replace(/[^0-9.-]+/g,"")) || 0;
