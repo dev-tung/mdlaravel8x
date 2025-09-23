@@ -111,4 +111,7 @@ export default class FormHandler {
 }
 
 // -------------------- Khởi tạo khi DOM ready --------------------
-document.addEventListener("DOMContentLoaded", () => new FormHandler());
+document.addEventListener("DOMContentLoaded", () => {
+    const handler = new FormHandler();
+
+});

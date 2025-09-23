@@ -1,19 +1,43 @@
-// src/shared/app.js
-
+// -------------------- Flash Messages --------------------
 class FlashMessages {
     constructor(timeout = 5000) {
+        this.timeout = timeout;
+        document.addEventListener("DOMContentLoaded", () => this.init());
+    }
+
+    init() {
+        setTimeout(() => this.hideAll(), this.timeout);
+    }
+
+    hideAll() {
+        document.querySelectorAll('.alert').forEach(msg => {
+            msg.classList.remove('show');
+            msg.classList.add('fade');
+            setTimeout(() => msg.remove(), 500);
+        });
+    }
+
+    static show(type = 'info', message = '', timeout = 5000) {
+        const container = document.body;
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type} show`;
+        alert.textContent = message;
+        container.prepend(alert);
         setTimeout(() => {
-            document.querySelectorAll('.alert').forEach(msg => {
-                msg.classList.remove('show');
-                msg.classList.add('fade');
-                setTimeout(() => msg.remove(), 500);
-            });
+            alert.classList.remove('show');
+            alert.classList.add('fade');
+            setTimeout(() => alert.remove(), 500);
         }, timeout);
     }
 }
 
+// -------------------- Clickable Rows --------------------
 class ClickableRows {
     constructor() {
+        document.addEventListener("DOMContentLoaded", () => this.init());
+    }
+
+    init() {
         document.querySelectorAll('*[data-href]').forEach(row =>
             row.addEventListener('click', () => window.location = row.dataset.href)
         );
@@ -23,20 +47,52 @@ class ClickableRows {
     }
 }
 
+// -------------------- Global Overlay --------------------
 class GlobalOverlay {
     constructor() {
         this.pending = 0;
         this.navInProgress = false;
 
+        // tạo overlay
         this.overlay = document.createElement('div');
         Object.assign(this.overlay.style, {
-            display: 'none', position: 'fixed', inset: 0,
-            background: 'rgba(255,255,255,0.8)', zIndex: 9999,
-            justifyContent: 'center', alignItems: 'center',
-            fontSize: '24px', color: '#333'
+            display: 'none',
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(255,255,255,0.8)',
+            zIndex: 9999,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            fontSize: '18px',
+            color: '#333'
         });
-        this.overlay.innerHTML = `<div>Đang xử lý...</div>`;
+
+        this.overlay.innerHTML = `
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="global-overlay-spinner" style="
+                    border: 6px solid #f3f3f3;
+                    border-top: 6px solid #2271b1;
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 1s linear infinite;
+                "></div>
+                <div>Đang xử lý...</div>
+            </div>
+        `;
+
         document.body.appendChild(this.overlay);
+
+        // thêm animation keyframes
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
 
         this.initEvents();
         this.overrideFetch();
@@ -107,6 +163,7 @@ class GlobalOverlay {
     }
 }
 
+// -------------------- App --------------------
 class App {
     constructor() {
         document.addEventListener('DOMContentLoaded', () => {
