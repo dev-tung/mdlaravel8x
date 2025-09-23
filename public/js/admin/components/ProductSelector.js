@@ -1,4 +1,5 @@
 import Helper from "../utils/Helper.js";
+import PriceValidator from "./PriceValidator.js";
 
 export default class ProductSelector {
     constructor(products, searchInput, selectBox, tableBody, calculator) {
@@ -99,6 +100,16 @@ export default class ProductSelector {
             priceHidden.value = Helper.parseVND(e.target.value);
             productData.price = priceHidden.value;
             this.calculator.updateTotal(this.selectedProducts);
+        });
+
+        priceDisplay.addEventListener('blur', e => {
+            // validate giá
+            const priceValidator = new PriceValidator();
+            if (!priceValidator.validate()) return;
+
+            const num = Helper.parseVND(e.target.value);
+            priceHidden.value = num;
+            e.target.value = num ? Helper.formatVND(num) : '';
         });
 
         tr.querySelector('button').addEventListener('click', () => {

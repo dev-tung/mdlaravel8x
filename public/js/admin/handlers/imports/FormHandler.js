@@ -1,11 +1,10 @@
-import Helper from "../../utils/Helper.js";
 import FormValidator from "../../shared/FormValidator.js";
-import ImportService from "../../services/ImportService.js";
 import ProductService from "../../services/ProductService.js";
 import SupplierService from "../../services/SupplierService.js";
 import SupplierSelector from "../../components/SupplierSelector.js";
 import ProductSelector from "../../components/ProductSelector.js";
 import TotalCalculator from "../../components/TotalCalculator.js";
+import PriceValidator from "../../components/PriceValidator.js";
 
 export default class FormHandler{
 
@@ -33,6 +32,8 @@ export default class FormHandler{
                 }
             }, 
             (formData, form) => {
+                const priceValidator = new PriceValidator();
+                if (!priceValidator.validate()) return;
                 this.onFormSubmit(formData, form);
             }
         );
@@ -56,10 +57,11 @@ export default class FormHandler{
 
     async initProductSelector() {
         try {
+
             this.productService = new ProductService();
             const products = await this.productService.getProducts();
             
-            this.calculator = new TotalCalculator(
+            this.totalCalculator = new TotalCalculator(
                 document.getElementById('total-import-amount') // span hoặc div hiển thị tổng
             );
 
@@ -68,8 +70,9 @@ export default class FormHandler{
                 document.getElementById('product-search'),
                 document.getElementById('product-select'),
                 document.querySelector('#product-selected-table tbody'),
-                this.calculator
+                this.totalCalculator
             );
+
         } catch (err) {
             console.error(err);
             alert("Không thể tải dữ liệu sản phẩm");
@@ -78,6 +81,7 @@ export default class FormHandler{
 
     onFormSubmit(data, form) {
         console.log("Submit form data:", data, form);
+        form.submit();
     }
 }
 
