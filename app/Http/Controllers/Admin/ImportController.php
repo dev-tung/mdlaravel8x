@@ -96,7 +96,7 @@ class ImportController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->importService->delete($id);
+        $this->importService->destroy($id);
 
         return redirect()->route('admin.imports.index')
             ->with('success', 'Phiếu nhập đã được xóa.');
