@@ -45,7 +45,8 @@ export default class ProductSelector {
             id: selected.value,
             name: selected.dataset.name,
             quantity: 1,
-            price: 0 // giá mặc định
+            price: 0,       // giá mặc định
+            is_gift: 0      // mặc định không phải hàng tặng
         };
 
         this.selectedProducts.push(productData);
@@ -75,6 +76,9 @@ export default class ProductSelector {
                 <input type="hidden" name="product_import_price[${selected.value}]" value="" class="price-hidden">
             </td>
             <td class="text-center">
+                <input type="checkbox" name="is_gift[${selected.value}]" value="1" class="form-check-input">
+            </td>
+            <td class="text-center">
                 <button type="button" class="btn btn-link btn-sm text-danger">Xóa</button>
             </td>
         `;
@@ -82,9 +86,10 @@ export default class ProductSelector {
     }
 
     bindRowEvents(tr, productData) {
-        const qtyInput  = tr.querySelector(`[name^="quantity"]`);
-        const priceHidden = tr.querySelector(`.price-hidden`);
-        const priceDisplay = tr.querySelector(`[name^="product_import_price_display"]`);
+        const qtyInput      = tr.querySelector(`[name^="quantity"]`);
+        const priceHidden   = tr.querySelector(`.price-hidden`);
+        const priceDisplay  = tr.querySelector(`[name^="product_import_price_display"]`);
+        const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
 
         qtyInput.addEventListener('input', () => {
             productData.quantity = +qtyInput.value;
@@ -109,6 +114,31 @@ export default class ProductSelector {
             const num = Helper.parseVND(e.target.value);
             priceHidden.value = num;
             e.target.value = num ? Helper.formatVND(num) : '';
+        });
+
+        giftCheckbox.addEventListener('change', e => {
+            const isGift = e.target.checked;
+            productData.is_gift = isGift;
+
+            if (isGift) {
+                // Tick → hàng tặng
+                productData.price  = 0;
+                priceHidden.value  = 0;
+                priceDisplay.value = '';
+                priceDisplay.disabled = true;
+                this.priceValidator.removeError(priceDisplay);
+            } else {
+                // Bỏ tick → hàng thường
+                priceDisplay.disabled = false;
+                // khôi phục giá từ hidden (nếu có)
+                productData.price = parseFloat(priceHidden.value) || 0;
+                priceDisplay.value = productData.price ? Helper.formatVND(productData.price) : '';
+            }
+
+            console.log(this.selectedProducts);
+
+            // update total ngay dựa vào selectedProducts
+            this.calculator.updateTotal(this.selectedProducts);
         });
 
         tr.querySelector('button').addEventListener('click', () => {

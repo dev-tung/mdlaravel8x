@@ -15,7 +15,8 @@ class ImportItem extends Model
         'product_id',
         'quantity',
         'import_price',
-        'total_import_price'
+        'total_import_price',
+        'is_gift',
     ];
 
     /**

@@ -49,6 +49,7 @@
                                                 <th>Tên sản phẩm</th>
                                                 <th>Số lượng</th>
                                                 <th>Giá nhập</th>
+                                                <th class="text-center">Quà tặng</th>
                                                 <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>

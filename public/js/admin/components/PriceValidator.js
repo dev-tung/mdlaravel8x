@@ -27,6 +27,14 @@ export default class PriceValidator {
             const priceInput = tr.querySelector(`[name^="${this.rowPriceName}"]`);
             if (!priceInput) return;
 
+            const giftCheckbox = tr.querySelector(`[name^="is_gift"]`);
+            const isGift = giftCheckbox && giftCheckbox.checked;
+
+            if (isGift) {
+                this.removeError(priceInput);
+                return;
+            }
+
             const price = parseFloat(priceInput.value.replace(/[^0-9.-]+/g,"")) || 0;
 
             if (price <= 0) {

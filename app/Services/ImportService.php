@@ -62,7 +62,7 @@ class ImportService
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {
-
+            dd($data);
             $totalAmount = 0;
             $items       = [];
 
@@ -76,13 +76,24 @@ class ImportService
                     ? (int) $data['product_import_price'][$productId]
                     : 0;
 
-                $totalAmount += $quantity * $price;
+                // lấy trạng thái gift
+                $isGift = isset($data['is_gift'][$productId]) ? 1 : 0;
+
+                // nếu là hàng tặng thì giá & tổng tiền = 0
+                if ($isGift) {
+                    $price = 0;
+                    $totalPrice = 0;
+                } else {
+                    $totalPrice = $quantity * $price;
+                    $totalAmount += $totalPrice;
+                }
 
                 $items[] = [
                     'product_id'         => $productId,
                     'quantity'           => $quantity,
                     'import_price'       => $price,
-                    'total_import_price' => $quantity * $price,
+                    'total_import_price' => $totalPrice,
+                    'is_gift'            => $isGift,
                     'created_at'         => now(),
                     'updated_at'         => now(),
                 ];
@@ -110,6 +121,7 @@ class ImportService
             return $import;
         });
     }
+
 
 
 }
