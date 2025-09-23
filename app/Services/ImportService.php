@@ -62,24 +62,22 @@ class ImportService
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {
-            dd($data);
+
             $totalAmount = 0;
-            $items       = [];
+            $items = [];
 
-            // Duyệt từng sản phẩm
-            foreach ($data['product_id'] as $i => $productId) {
-                $quantity = isset($data['quantity'][$i])
-                    ? (int) $data['quantity'][$i]
-                    : 0;
+            foreach ($data['product_id'] as $productId) {
 
-                $price = isset($data['product_import_price'][$productId])
-                    ? (int) $data['product_import_price'][$productId]
-                    : 0;
+                // Lấy quantity theo product_id
+                $quantity = isset($data['quantity'][$productId]) ? (int) $data['quantity'][$productId] : 0;
 
-                // lấy trạng thái gift
+                // Lấy giá nhập theo product_id
+                $price = isset($data['product_import_price'][$productId]) ? (int) $data['product_import_price'][$productId] : 0;
+
+                // Lấy trạng thái gift
                 $isGift = isset($data['is_gift'][$productId]) ? 1 : 0;
 
-                // nếu là hàng tặng thì giá & tổng tiền = 0
+                // Nếu là hàng tặng → giá & total_import_price = 0
                 if ($isGift) {
                     $price = 0;
                     $totalPrice = 0;
@@ -99,7 +97,7 @@ class ImportService
                 ];
             }
 
-            // 1. Tạo Import chính
+            // Tạo import chính
             $import = $this->importRepository->create([
                 'supplier_id'         => $data['supplier_id'],
                 'import_date'         => $data['import_date'],
@@ -109,18 +107,19 @@ class ImportService
                 'total_import_amount' => $totalAmount,
             ]);
 
-            // 2. Gắn import_id vào từng item
+            // Gắn import_id vào từng item
             foreach ($items as &$item) {
                 $item['import_id'] = $import->id;
             }
             unset($item);
 
-            // 3. Lưu items (1 lần insert)
+            // Lưu items
             $this->importItemRepository->createMany($items);
 
             return $import;
         });
     }
+
 
 
 

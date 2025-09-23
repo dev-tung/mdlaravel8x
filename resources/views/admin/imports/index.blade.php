@@ -77,8 +77,8 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td>{{ number_format($import->total_amount, 0, ',', '.') }} đ</td>
-                                            <td>{{ $import->note ?? '–' }}</td>
+                                            <td>{{ number_format($import->total_import_amount, 0, ',', '.') }} đ</td>
+                                            <td>{{ $import->notes ?? '–' }}</td>
                                             <td class="NoBubble">
                                                 <form action="{{ route('admin.imports.destroy', $import->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf
