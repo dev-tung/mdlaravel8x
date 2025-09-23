@@ -2,7 +2,7 @@ import Service from "../shared/Service.js"; // Base Service, wrapper fetch
 
 export default class ImportService extends Service {
     constructor() {
-        super('/api/import-items'); // baseUrl trực tiếp cho import-items
+        super('/api/imports'); // baseUrl trực tiếp cho import-items
     }
 
     // === Import Items ===

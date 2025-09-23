@@ -119,8 +119,29 @@ class ImportService
             return $import;
         });
     }
+    
+    /**
+     * Xóa phiếu nhập và tất cả items liên quan
+     */
+    public function destroy(int $importId)
+    {
+        return DB::transaction(function () use ($importId) {
 
+            // 1. Lấy import
+            $import = $this->importRepository->find($importId);
+            if (!$import) {
+                throw new \Exception("Import #{$importId} không tồn tại.");
+            }
 
+            // 2. Xóa tất cả import items
+            $this->importItemRepository->deleteByImportId($importId);
+
+            // 3. Xóa import chính
+            $this->importRepository->delete($importId);
+
+            return true;
+        });
+    }
 
 
 }

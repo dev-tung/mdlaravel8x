@@ -64,7 +64,7 @@
                                 </thead>
                                 <tbody>
                                     @forelse($imports as $import)
-                                        <tr data-import-id="{{ $import->id }}" data-href="{{ route('admin.imports.show', $import->id) }}">
+                                        <tr data-import-id="{{ $import->id }}" data-href="{{ route('admin.imports.edit', $import->id) }}">
                                             <td>{{ $loop->iteration + ($imports->currentPage()-1) * $imports->perPage() }}</td>
                                             <td>{{ $import->supplier->name ?? '–' }}</td>
                                             <td>{{ $import->import_date->format('d/m/Y') }}</td>

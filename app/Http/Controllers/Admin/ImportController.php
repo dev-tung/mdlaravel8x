@@ -71,14 +71,21 @@ class ImportController extends Controller
     /**
      * Form chỉnh sửa phiếu nhập
      */
-    public function edit(int $id)
+    public function edit($id)
     {
-        $purchase = $this->importRepository->find($id);
-        $suppliers = $this->supplierRepository->all();
-        $products = $this->productRepository->all();
+        if (!$import = $this->importRepository->find($id)) {
+            return redirect()->route('admin.imports.index')->with('error', 'Phiếu nhập không tồn tại.');
+        }
 
-        return view('admin.imports.edit', compact('purchase', 'suppliers', 'products'));
+        return view('admin.imports.edit', [
+            'import'    => $import,
+            'suppliers' => $this->supplierRepository->all(),
+            'products'  => $this->productRepository->all(),
+            'statuses'  => EnumOptions::importStatuses(),
+            'payments'  => EnumOptions::payments(),
+        ]);
     }
+
 
     /**
      * Cập nhật phiếu nhập

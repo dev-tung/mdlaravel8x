@@ -133,7 +133,7 @@
                     </div>
                     
                     <div class="card-footer">
-                        <button class="btn btn-outline-primary btn-sm" type="submit">Lưu</button>
+                        <button class="btn btn-outline-primary btn-sm" type="submit">Thêm mới</button>
                     </div>
                 </form>
             </div>

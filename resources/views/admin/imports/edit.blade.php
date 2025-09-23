@@ -1,81 +1,131 @@
 @extends('admin.shared.app')
 
 @section('content')
-    <div class="app-content-header">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6"><h3 class="mb-0">Chỉnh sửa Order</h3></div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.orders.index') }}">Orders</a></li>
-                        <li class="breadcrumb-item active">Chỉnh sửa</li>
-                    </ol>
-                </div>
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row align-items-center my-2">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Chỉnh sửa phiếu nhập hàng</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.imports.index') }}">Nhập hàng</a></li>
+                    <li class="breadcrumb-item active">Chỉnh sửa</li>
+                </ol>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="app-content">
-        <div class="container-fluid">
-            <div class="row g-4">
-                <div class="col-12">
-                    <div class="card mb-4">
-                        <form id="orderEditForm" method="POST" action="{{ route('admin.orders.update', $order->id) }}" novalidate>
-                            @csrf
-                            @method('PUT')
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Customer ID <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" name="customer_id" value="{{ old('customer_id', $order->customer_id) }}" required>
-                                        @error('customer_id') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Status <span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" name="status" required>
-                                            <option value="">-- Chọn trạng thái --</option>
-                                            <option value="pending" {{ old('status', $order->status)=='pending'?'selected':'' }}>Pending</option>
-                                            <option value="processing" {{ old('status', $order->status)=='processing'?'selected':'' }}>Processing</option>
-                                            <option value="completed" {{ old('status', $order->status)=='completed'?'selected':'' }}>Completed</option>
-                                            <option value="cancelled" {{ old('status', $order->status)=='cancelled'?'selected':'' }}>Cancelled</option>
-                                        </select>
-                                        @error('status') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label small">Total Amount <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" name="total_amount" value="{{ old('total_amount', $order->total_amount) }}" step="0.01" required>
-                                        @error('total_amount') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small">Payment Method</label>
-                                        <input type="text" class="form-control form-control-sm" name="payment_method" value="{{ old('payment_method', $order->payment_method) }}">
-                                        @error('payment_method') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small">Shipping Address</label>
-                                        <input type="text" class="form-control form-control-sm" name="shipping_address" value="{{ old('shipping_address', $order->shipping_address) }}">
-                                        @error('shipping_address') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label small">Note</label>
-                                        <textarea class="form-control form-control-sm" name="note" rows="3">{{ old('note', $order->note) }}</textarea>
-                                        @error('note') <small class="text-danger">{{ $message }}</small> @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-success btn-sm" type="submit">Cập nhật Order</button>
-                            </div>
-                        </form>
+<div class="app-content">
+    <div class="container-fluid">
+        <form method="POST" action="{{ route('admin.imports.update', $import->id) }}" id="import-edit-form">
+            @csrf
+            @method('PUT')
+            <input type="hidden" id="import-id" value="{{ $import->id ?? '' }}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Sản phẩm -->
+                        <div class="col-md-12 position-relative DropdownInput">
+                            <label for="product-search" class="form-label">Sản phẩm <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="product-search" placeholder="Tìm sản phẩm..." autocomplete="off">
+                            <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="product-select" size="5"></select>
+                            @error('product_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <!-- Table sản phẩm đã chọn -->
+                        <div class="col-12 mt-2">
+                            <table class="table table-sm table-bordered table-striped mb-0 align-middle ProductSelectedTable" id="product-selected-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá nhập</th>
+                                        <th class="text-center">Quà tặng</th>
+                                        <th class="text-center">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr class="form-label small">
+                                        <td colspan="4" class="text-danger">Tổng <span id="total-import-amount">0 ₫</span></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Nhà cung cấp -->
+                        <div class="col-md-6 position-relative DropdownInput">
+                            <label for="supplier-search" class="form-label">Nhà cung cấp <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="supplier-search" name="supplier_search" value="{{ $import->supplier->name }}" placeholder="Tìm nhà cung cấp..." autocomplete="off">
+                            <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="supplier-select" size="5"></select>
+                            <input type="hidden" name="supplier_id" id="supplier-id" value="{{ $import->supplier_id }}">
+                            @error('supplier_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <!-- Ngày nhập hàng -->
+                        <div class="col-md-6">
+                            <label for="import-date" class="form-label">Ngày nhập</label>
+                            <input type="date" name="import_date" id="import-date" class="form-control form-control-sm" value="{{ old('import_date', $import->import_date->format('Y-m-d')) }}">
+                        </div>
+
+                        <!-- Trạng thái -->
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" id="status" name="status">
+                                <option value="">-- Chọn --</option>
+                                @foreach($statuses as $value => $label)
+                                    <option value="{{ $value }}" selected="@selected(old('status', $import->status) == $value)">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <!-- Phương thức thanh toán -->
+                        <div class="col-md-6">
+                            <label for="payment-method" class="form-label">Phương thức thanh toán <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" id="payment-method" name="payment_method">
+                                <option value="">-- Chọn --</option>
+                                @foreach($payments as $value => $label)
+                                    <option value="{{ $value }}" selected="@selected(old('payment_method', $import->payment_method) == $value)">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                            @error('payment_method')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <!-- Ghi chú -->
+                        <div class="col-md-12">
+                            <label for="notes" class="form-label">Ghi chú</label>
+                            <input type="text" name="notes" id="notes" class="form-control form-control-sm" value="{{ old('notes', $import->notes) }}" placeholder="Ghi chú...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="btn btn-outline-primary btn-sm" type="submit">Cập nhật</button>
+            </div>
+        </form>
     </div>
+</div>
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/shared/validation.js') }}"></script>
-<script src="{{ asset('js/admin/orders/create.js') }}"></script>
+<script type="module" src="{{ asset('js/admin/handlers/imports/FormHandler.js') }}"></script>
 @endpush

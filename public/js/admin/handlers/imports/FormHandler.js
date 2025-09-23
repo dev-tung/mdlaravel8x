@@ -1,19 +1,30 @@
 import FormValidator from "../../shared/FormValidator.js";
 import ProductService from "../../services/ProductService.js";
 import SupplierService from "../../services/SupplierService.js";
+import ImportService from "../../services/ImportService.js";
+import ImportItemService from "../../services/ImportItemService.js";
 import SupplierSelector from "../../components/SupplierSelector.js";
 import ProductSelector from "../../components/ProductSelector.js";
 import TotalCalculator from "../../components/TotalCalculator.js";
 import PriceValidator from "../../components/PriceValidator.js";
 
-export default class FormHandler{
-
+export default class FormHandler {
     constructor() {
         this.initValidator();
-        this.initProductSelector();
-        this.initSupplierSelector();
+        this.initServices();
+        this.initSelectors();
+        this.initFormMode(); // phân tách create / edit
     }
 
+    // -------------------- Initialize services --------------------
+    initServices() {
+        this.productService    = new ProductService();
+        this.supplierService   = new SupplierService();
+        this.importService     = new ImportService();
+        this.importItemService = new ImportItemService();
+    }
+
+    // -------------------- Form validation --------------------
     initValidator() {
         this.priceValidator = new PriceValidator(
             document.querySelector('#product-selected-table tbody'),
@@ -23,19 +34,11 @@ export default class FormHandler{
         this.validator = new FormValidator(
             "#import-create-form",
             {
-                supplier_search: { 
-                    required: true 
-                },
-                import_date: { 
-                    required: true 
-                },
-                status: { 
-                    required: true 
-                },
-                payment_method: { 
-                    required: true 
-                }
-            }, 
+                supplier_search: { required: true },
+                import_date:    { required: true },
+                status:         { required: true },
+                payment_method: { required: true }
+            },
             (formData, form) => {
                 if (!this.priceValidator.validate()) return;
                 this.onFormSubmit(formData, form);
@@ -43,9 +46,14 @@ export default class FormHandler{
         );
     }
 
+    // -------------------- Initialize selectors --------------------
+    async initSelectors() {
+        await this.initSupplierSelector();
+        await this.initProductSelector();
+    }
+
     async initSupplierSelector() {
         try {
-            this.supplierService = new SupplierService();
             const suppliers = await this.supplierService.getSuppliers();
             this.supplierSelector = new SupplierSelector(
                 suppliers,
@@ -60,35 +68,47 @@ export default class FormHandler{
     }
 
     async initProductSelector() {
-        try {
+        const products = await this.productService.getProducts();
+        this.totalCalculator = new TotalCalculator(
+            document.getElementById('total-import-amount')
+        );
 
-            this.productService = new ProductService();
-            const products = await this.productService.getProducts();
-            
-            this.totalCalculator = new TotalCalculator(
-                document.getElementById('total-import-amount') // span hoặc div hiển thị tổng
-            );
+        const importId = document.getElementById('import-id')?.value;
+        let existingProducts = [];
 
-            this.productSelector = new ProductSelector(
-                products,
-                document.getElementById('product-search'),
-                document.getElementById('product-select'),
-                document.querySelector('#product-selected-table tbody'),
-                this.totalCalculator,
-                this.priceValidator
-            );
-
-        } catch (err) {
-            console.error(err);
-            alert("Không thể tải dữ liệu sản phẩm");
+        if (importId) {
+            const items = await this.importItemService.getByImportId(importId);
+            existingProducts = items.map(i => ({
+                id: i.product_id,
+                name: i.product.name,
+                quantity: i.quantity,
+                price: parseFloat(i.import_price),
+                is_gift: i.is_gift
+            }));
         }
+
+        this.productSelector = new ProductSelector(
+            products,
+            document.getElementById('product-search'),
+            document.getElementById('product-select'),
+            document.querySelector('#product-selected-table tbody'),
+            this.totalCalculator,
+            this.priceValidator,
+            existingProducts  // ← load sẵn bảng cho edit
+        );
     }
 
-    onFormSubmit(data, form) {
-        console.log("Submit form data:", data, form);
+    // -------------------- Form mode --------------------
+    initFormMode() {
+        const importId = document.getElementById('import-id')?.value;
+        this.isEdit = !!importId; // phân biệt create / edit
+    }
+
+    // -------------------- Submit --------------------
+    onFormSubmit(formData, form) {
         form.submit();
     }
 }
 
-// Khởi tạo khi DOM ready
+// -------------------- Khởi tạo khi DOM ready --------------------
 document.addEventListener("DOMContentLoaded", () => new FormHandler());
