@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Repositories\TaxonomyRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -10,13 +11,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProductService
 {
     protected ProductRepository $productRepository;
+    protected TaxonomyRepository $taxonomyRepository;
     protected ImageService $imageService;
 
     public function __construct(
         ProductRepository $productRepository,
+        TaxonomyRepository $taxonomyRepository,
         ImageService $imageService
     ) {
         $this->productRepository = $productRepository;
+        $this->taxonomyRepository = $taxonomyRepository;
         $this->imageService = $imageService;
     }
 
@@ -56,22 +60,49 @@ class ProductService
                      ->appends($filters);
     }
 
-    public function create(array $data): Product
+    public function create(array $data)
     {
-        if (isset($data['thumbnail'])) {
-            $data['thumbnail'] = $this->imageService->upload($data['thumbnail'], 'products');
+        // Xử lý ảnh trước
+        if (isset($data['thumbnail_image'])) {
+            $data['thumbnail_image'] = $this->imageService->upload(
+                $data['thumbnail_image'],
+                'products'
+            );
         }
 
-        return $this->productRepository->create($data);
+        // Tạo SKU
+        $data['sku'] = $this->generateSku($data['taxonomy_id'] ?? null, $data['name']);
+
+        // Tạo sản phẩm
+        $product = $this->productRepository->create($data);
+
+        return $product;
     }
 
-    public function update(int $id, array $data): Product
+    private function generateSku($taxonomyId, $productName)
+    {
+        $taxonomyAbbr = $taxonomyId
+            ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
+            : 'XXX';   
+        $productAbbr = abbreviation($productName);
+        $timestamp   = now()->format('YmdHis'); // 20250924132215
+        return "{$taxonomyAbbr}-{$productAbbr}-{$timestamp}";
+    }
+
+
+    public function update(int $id, array $data)
     {
         $product = $this->productRepository->find($id);
 
-        if (isset($data['thumbnail'])) {
-            $this->imageService->delete($product->thumbnail ?? null);
-            $data['thumbnail'] = $this->imageService->upload($data['thumbnail'], 'products');
+        // Nếu có đổi taxonomy thì regenerate SKU
+        if (isset($data['taxonomy_id']) && $data['taxonomy_id'] != $product->taxonomy_id) {
+            $data['sku'] = $this->generateSku($data['taxonomy_id'], $data['name'] ?? $product->name);
+        }
+
+        // Nếu đổi thumbnail
+        if (isset($data['thumbnail_image'])) {
+            $this->imageService->delete($product->thumbnail_image ?? null);
+            $data['thumbnail_image'] = $this->imageService->upload($data['thumbnail_image'], 'products');
         }
 
         return $this->productRepository->update($id, $data);
@@ -80,7 +111,7 @@ class ProductService
     public function delete(int $id): ?bool
     {
         $product = $this->productRepository->find($id);
-        $this->imageService->delete($product->thumbnail ?? null);
+        $this->imageService->delete($product->thumbnail_image ?? null);
 
         return $this->productRepository->delete($id);
     }

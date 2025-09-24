@@ -71,28 +71,36 @@
                                         @enderror
                                     </div>
 
-                                    <!-- Thumbnail -->
-                                    <div class="col-md-4">
-                                        <label for="thumbnail" class="form-label small">Ảnh sản phẩm</label>
-                                        <input type="file" class="form-control form-control-sm" id="thumbnail" name="thumbnail" accept="image/*">
-                                        <img id="thumbnail-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
-                                        @error('thumbnail')
+                                    <!-- Thumbnail_image -->
+                                    <div class="col-md-3">
+                                        <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
+                                        <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                        <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
+                                        @error('thumbnail_image')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
-                                    <!-- Price Output -->
-                                    <div class="col-md-4">
-                                        <label for="price_output" class="form-label small">Giá bán <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" id="price_output" 
-                                            name="price_output" value="{{ old('price_output') }}">
-                                        @error('price_output')
+                                    <!-- Price Original -->
+                                    <div class="col-md-3">
+                                        <label for="price_original" class="form-label small">Giá gốc <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="price_original" name="price_original" value="{{ old('price_original') }}">
+                                        @error('price_original')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Price Sale -->
+                                    <div class="col-md-3">
+                                        <label for="price_sale" class="form-label small">Giá bán <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="price_sale" name="price_sale" value="{{ old('price_sale') }}">
+                                        @error('price_sale')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
                                     <!-- Unit -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="unit" class="form-label small">Đơn vị <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-sm" id="unit" 
                                             name="unit" value="{{ old('unit') }}">

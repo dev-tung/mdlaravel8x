@@ -60,12 +60,13 @@
                             <table class="table table-bordered table-hover align-middle">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>#</th>
+                                        <th>SKU</th>
                                         <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Nhóm</th>
                                         <th>Nhà cung cấp</th>
                                         <th>Số lượng</th>
+                                        <th>Giá gốc</th>
                                         <th>Giá bán</th>
                                         <th class="text-center">Hành động</th>
                                     </tr>
@@ -73,17 +74,18 @@
                                 <tbody>
                                     @forelse($products as $product)
                                         <tr data-product-id="{{ $product->id }}" data-href="{{ route('admin.products.edit', $product->id) }}">
-                                            <td>{{ $loop->iteration + ($products->currentPage()-1) * $products->perPage() }}</td>
+                                            <td>{{ $product->sku }}</td>
                                             <td class="NoBubble">
-                                                <a href="{{ displayThumnail($product->thumbnail) }}" target="_blank">
-                                                    <img id="thumbnail-preview" alt="Preview" src="{{ displayThumnail($product->thumbnail) }}" target="_blank" style="height: 18px">
+                                                <a href="{{ displayThumnail($product->thumbnail_image) }}" target="_blank">
+                                                    <img id="thumbnail-preview" alt="Preview" src="{{ displayThumnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
                                                 </a>
                                             </td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
                                             <td>{{ $product->quantity }}</td>
-                                            <td>{{ number_format($product->price_output,0,',','.') }} đ</td>
+                                            <td>{{ number_format($product->price_original,0,',','.') }} đ</td>
+                                            <td>{{ number_format($product->price_sale,0,',','.') }} đ</td>
                                             <td class="NoBubble text-center">
                                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf

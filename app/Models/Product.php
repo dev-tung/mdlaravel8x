@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Taxonomy;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -31,6 +33,13 @@ class Product extends Model
         'price_sale'     => 'decimal:2',
         'quantity'       => 'integer',
     ];
+    
+    // Mutator tự động tạo slug từ name
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value); // chuyển name thành slug
+    }
 
     // Accessor format giá
     public function getPriceSaleFormattedAttribute()

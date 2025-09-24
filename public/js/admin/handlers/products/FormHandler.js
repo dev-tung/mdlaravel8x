@@ -9,8 +9,8 @@ export default class FormHandler {
 
     initEvents() {
         // === Preview ảnh mới ===
-        const thumbnailInput = document.getElementById("thumbnail");
-        const preview = document.getElementById("thumbnail-preview");
+        const thumbnailInput = document.getElementById("thumbnail-image");
+        const preview = document.getElementById("thumbnail-image-preview");
 
         if (thumbnailInput && preview) {
             thumbnailInput.addEventListener("change", function (event) {
@@ -39,7 +39,6 @@ export default class FormHandler {
                 unit: { required: true }
             },
             (formData, form) => {
-                if (!this.priceValidator.validate()) return;
                 this.onFormSubmit(formData, form);
             }
         );
