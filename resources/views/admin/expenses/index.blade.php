@@ -4,10 +4,10 @@
     <!--begin::App Content Header-->
     <div class="app-content-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6"><h3 class="mb-0">Chi phí</h3></div>
-                <div class="col-sm-6 text-end">
-                    <a href="{{ route('admin.expenses.create') }}" class="btn btn-success btn-sm">
+            <div class="row align-items-center my-2">
+                <div class="col-auto"><h3 class="mb-0">Chi phí</h3></div>
+                <div class="col-auto">
+                    <a href="{{ route('admin.expenses.create') }}" class="btn btn-outline-primary btn-sm">
                         + Thêm mới
                     </a>
                 </div>
