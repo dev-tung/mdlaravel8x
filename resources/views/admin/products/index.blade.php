@@ -3,10 +3,10 @@
 @section('content')
     <div class="app-content-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-6"><h3 class="mb-0">Sản phẩm</h3></div>
-                <div class="col-sm-6 text-end">
-                    <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm">
+            <div class="row align-items-center my-2">
+                <div class="col-auto"><h3 class="mb-0">Sản phẩm</h3></div>
+                <div class="col-auto">
+                    <a href="{{ route('admin.products.create') }}" class="btn btn-outline-primary btn-sm">
                         + Thêm mới
                     </a>
                 </div>
@@ -31,7 +31,7 @@
                                         <option value="">-- Nhà cung cấp --</option>
                                         @foreach($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}"
-                                                {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                selected="{{ request('supplier_id') == $supplier->id ? 'selected' : '' }}">
                                                 {{ $supplier->name }}
                                             </option>
                                         @endforeach
@@ -42,7 +42,7 @@
                                         <option value="">-- Nhóm sản phẩm --</option>
                                         @foreach($taxonomies as $taxonomy)
                                             <option value="{{ $taxonomy->id }}"
-                                                {{ request('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
+                                                selected="{{ request('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}">
                                                 {{ $taxonomy->name }}
                                             </option>
                                         @endforeach
@@ -60,21 +60,21 @@
                             <table class="table table-bordered table-hover align-middle">
                                 <thead class="table-light">
                                     <tr>
-                                        <th style="width:50px;">#</th>
+                                        <th>#</th>
                                         <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Nhóm</th>
                                         <th>Nhà cung cấp</th>
                                         <th>Số lượng</th>
                                         <th>Giá bán</th>
-                                        <th class="text-center" style="width:150px;">Hành động</th>
+                                        <th class="text-center">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($products as $product)
-                                        <tr onclick="window.location='{{ route('admin.products.edit', $product->id) }}'" style="cursor:pointer;">
+                                        <tr data-product-id="{{ $product->id }}" data-href="{{ route('admin.products.edit', $product->id) }}">
                                             <td>{{ $loop->iteration + ($products->currentPage()-1) * $products->perPage() }}</td>
-                                            <td onclick="event.stopPropagation()">
+                                            <td class="NoBubble">
                                                 <a href="{{ displayThumnail($product->thumbnail) }}" target="_blank">
                                                     <img id="thumbnail-preview" alt="Preview" src="{{ displayThumnail($product->thumbnail) }}" target="_blank" style="height: 18px">
                                                 </a>
@@ -84,8 +84,8 @@
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
                                             <td>{{ $product->quantity }}</td>
                                             <td>{{ number_format($product->price_output,0,',','.') }} đ</td>
-                                            <td onclick="event.stopPropagation()" class="text-center">
-                                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onclick="event.stopPropagation();" class="d-inline">
+                                            <td class="NoBubble text-center">
+                                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-link text-danger btn-sm p-0" onclick="return confirm('Bạn có chắc muốn xóa khách hàng này?')">

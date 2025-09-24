@@ -32,12 +32,12 @@ export default class FormHandler {
         );
 
         this.validator = new FormValidator(
-            "#import-create-form",
+            "#import-form",
             {
-                supplier_search: { required: true },
-                import_date:    { required: true },
-                status:         { required: true },
-                payment_method: { required: true }
+                supplier_search : { required: true },
+                import_date     : { required: true },
+                status          : { required: true },
+                payment_method  : { required: true }
             },
             (formData, form) => {
                 if (!this.priceValidator.validate()) return;
@@ -111,7 +111,4 @@ export default class FormHandler {
 }
 
 // -------------------- Khởi tạo khi DOM ready --------------------
-document.addEventListener("DOMContentLoaded", () => {
-    const handler = new FormHandler();
-
-});
+document.addEventListener("DOMContentLoaded", () => new FormHandler());

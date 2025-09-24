@@ -15,6 +15,6 @@ if (!function_exists('displayThumnail')) {
             return asset('storage/' . $path);
         }
 
-        return asset('img/No_Image_Available.jpg');
+        return asset('img/shared/No_Image_Available.jpg');
     }
 }

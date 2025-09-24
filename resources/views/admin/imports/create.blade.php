@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <div class="row g-4">
                 <div class="col-12">
-                    <form method="POST" action="{{ route('admin.imports.store') }}" id="import-create-form">
+                    <form method="POST" action="{{ route('admin.imports.store') }}" id="import-form">
                         @csrf
                         <div class="card mb-4">
                             <div class="card-body">
@@ -96,7 +96,7 @@
                                         <select class="form-select form-select-sm" id="status" name="status">
                                             <option value="">-- Chọn --</option>
                                             @foreach($statuses as $value => $label)
-                                                <option value="{{ $value }}" selected="@selected(old('status') == $value)">
+                                                <option value="{{ $value }}" @selected(old('status') == $value)>
                                                     {{ $label }}
                                                 </option>
                                             @endforeach
@@ -112,7 +112,7 @@
                                         <select class="form-select form-select-sm" id="payment-method" name="payment_method">
                                             <option value="">-- Chọn --</option>
                                             @foreach($payments as $value => $label)
-                                                <option value="{{ $value }}" selected="@selected(old('payment_method') == $value)">
+                                                <option value="{{ $value }}" @selected(old('payment_method') == $value)>
                                                     {{ $label }}
                                                 </option>
                                             @endforeach

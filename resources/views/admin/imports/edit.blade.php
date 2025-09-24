@@ -19,7 +19,7 @@
 
     <div class="app-content">
         <div class="container-fluid">
-            <form method="POST" action="{{ route('admin.imports.update', $import->id) }}" id="import-edit-form">
+            <form method="POST" action="{{ route('admin.imports.update', $import->id) }}" id="import-form">
                 @csrf
                 @method('PUT')
                 <input type="hidden" id="import-id" name="import_id" value="{{ $import->id ?? '' }}">
@@ -90,7 +90,7 @@
                                 <select class="form-select form-select-sm" id="status" name="status">
                                     <option value="">-- Chọn --</option>
                                     @foreach($statuses as $value => $label)
-                                        <option value="{{ $value }}" selected="@selected(old('status', $import->status) == $value)">{{ $label }}</option>
+                                        <option value="{{ $value }}" @selected(old('status', $import->status) == $value)>{{ $label }}</option>
                                     @endforeach
                                 </select>
                                 @error('status')
@@ -104,7 +104,7 @@
                                 <select class="form-select form-select-sm" id="payment-method" name="payment_method">
                                     <option value="">-- Chọn --</option>
                                     @foreach($payments as $value => $label)
-                                        <option value="{{ $value }}" selected="@selected(old('payment_method', $import->payment_method) == $value)">{{ $label }}</option>
+                                        <option value="{{ $value }}" @selected(old('payment_method', $import->payment_method) == $value)>{{ $label }}</option>
                                     @endforeach
                                 </select>
                                 @error('payment_method')

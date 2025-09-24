@@ -3,7 +3,7 @@
 @section('content')
     <div class="app-content-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
+            <div class="row align-items-center my-2">
                 <div class="col-sm-6">
                     <h3 class="mb-0">Chỉnh sửa sản phẩm</h3>
                 </div>
@@ -49,7 +49,7 @@
                                             <option value="">-- Chọn danh mục --</option>
                                             @foreach($taxonomies as $taxonomy)
                                                 <option value="{{ $taxonomy->id }}" 
-                                                    {{ old('taxonomy_id', $product->taxonomy_id) == $taxonomy->id ? 'selected' : '' }}>
+                                                    selected="{{ old('taxonomy_id', $product->taxonomy_id) == $taxonomy->id ? 'selected' : '' }}">
                                                     {{ $taxonomy->name }}
                                                 </option>
                                             @endforeach
@@ -66,7 +66,7 @@
                                             <option value="">-- Chọn NCC --</option>
                                             @foreach($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}" 
-                                                    {{ old('supplier_id', $product->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                                                    selected="{{ old('supplier_id', $product->supplier_id) == $supplier->id ? 'selected' : '' }}">
                                                     {{ $supplier->name }}
                                                 </option>
                                             @endforeach
@@ -76,11 +76,24 @@
                                         @enderror
                                     </div>
 
+                                    <!-- Thumbnail -->
+                                    <div class="col-md-4">
+                                        <label for="thumbnail" class="form-label small">Ảnh sản phẩm</label>
+                                        <input type="file" class="form-control form-control-sm" id="thumbnail" name="thumbnail" accept="image/*">
+                                        <img 
+                                            id="thumbnail-preview" alt="Preview" 
+                                            src="{{ displayThumnail($product->thumbnail) }}"  
+                                            style="max-height: 100px; margin-top:10px;">
+                                            
+                                        @error('thumbnail')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
                                     <!-- Price Output -->
                                     <div class="col-md-4">
                                         <label for="price_output" class="form-label small">Giá bán</label>
-                                        <input type="number" class="form-control form-control-sm" id="price_output" 
-                                               name="price_output" value="{{ old('price_output', $product->price_output) }}">
+                                        <input type="number" class="form-control form-control-sm" id="price_output" name="price_output" value="{{ old('price_output', $product->price_output) }}">
                                         @error('price_output')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -89,23 +102,8 @@
                                     <!-- Unit -->
                                     <div class="col-md-4">
                                         <label for="unit" class="form-label small">Đơn vị</label>
-                                        <input type="text" class="form-control form-control-sm" id="unit" 
-                                               name="unit" value="{{ old('unit', $product->unit) }}">
+                                        <input type="text" class="form-control form-control-sm" id="unit" name="unit" value="{{ old('unit', $product->unit) }}">
                                         @error('unit')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Thumbnail -->
-                                    <div class="col-md-12">
-                                        <label for="thumbnail" class="form-label small">Ảnh sản phẩm</label>
-                                        <input type="file" class="form-control form-control-sm" id="thumbnail" name="thumbnail" accept="image/*">
-                                        <img 
-                                            id="thumbnail-preview" alt="Preview" 
-                                            src="{{ $product->thumbnail ? asset('storage/' . $product->thumbnail) : 'https://via.placeholder.com/150x150?text=No+Image' }}"  
-                                            style="max-height: 150px; margin-top:10px;">
-                                            
-                                        @error('thumbnail')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -135,6 +133,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/shared/validation.js') }}"></script>
-<script src="{{ asset('js/admin/products/edit.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/handlers/products/FormHandler.js') }}"></script>
 @endpush

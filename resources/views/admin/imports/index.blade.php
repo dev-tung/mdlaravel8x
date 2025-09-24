@@ -35,7 +35,7 @@
                                     <select name="status" class="form-control form-control-sm">
                                         <option value="">-- Trạng thái --</option>
                                         @foreach($statuses as $key => $label)
-                                            <option value="{{ $key }}" selected="@selected(request('status') == $key)">
+                                            <option value="{{ $key }}" @selected(request('status') == $key)>
                                                 {{ $label }}
                                             </option>
                                         @endforeach
@@ -71,7 +71,7 @@
                                             <td class="NoBubble">
                                                 <select data-id="{{ $import->id }}" class="form-select form-select-sm py-0 w-auto UpdateStatus">
                                                     @foreach($statuses as $key => $label)
-                                                        <option value="{{ $key }}" {{ $import->status == $key ? 'selected' : '' }}>
+                                                        <option value="{{ $key }}" @selected($import->status == $key)>
                                                             {{ $label }}
                                                         </option>
                                                     @endforeach
