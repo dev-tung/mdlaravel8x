@@ -41,7 +41,7 @@
                                     <div class="col-md-4">
                                         <label for="taxonomy_id" class="form-label small">Danh mục <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
-                                            <option value="">-- Chọn danh mục --</option>
+                                            <option value="">-- Chọn --</option>
                                             @foreach($taxonomies as $taxonomy)
                                                 <option value="{{ $taxonomy->id }}" @selected(old('taxonomy_id') == $taxonomy->id)>
                                                     {{ $taxonomy->name }}
@@ -57,7 +57,7 @@
                                     <div class="col-md-4">
                                         <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
                                         <select class="form-select form-select-sm" id="supplier_id" name="supplier_id">
-                                            <option value="">-- Chọn NCC --</option>
+                                            <option value="">-- Chọn --</option>
                                             @foreach($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}" 
                                                     @selected(old('supplier_id') == $supplier->id)>
