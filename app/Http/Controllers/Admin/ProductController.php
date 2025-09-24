@@ -34,7 +34,7 @@ class ProductController extends Controller
         $filters = $request->only(['name', 'taxonomy_id', 'supplier_id']);
         $perPage = $request->input('per_page', config('shared.pagination_per_page', 15));
 
-        $products = $this->productRepository->paginateWithFilters($filters, $perPage);
+        $products = $this->productService->paginateWithFilters($filters, $perPage);
         $taxonomies = $this->taxonomyRepository->getByType('product');
         $suppliers = $this->supplierRepository->all();
 

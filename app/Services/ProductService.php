@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
-use App\Services\ImageService;
-use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductService
 {
@@ -17,6 +18,42 @@ class ProductService
     ) {
         $this->productRepository = $productRepository;
         $this->imageService = $imageService;
+    }
+
+    /**
+     * Lấy danh sách sản phẩm với filter + paginate
+     */
+    public function paginateWithFilters(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->productRepository->query();
+
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%'.$filters['name'].'%');
+        }
+
+        if (!empty($filters['supplier_id'])) {
+            $query->where('supplier_id', $filters['supplier_id']);
+        }
+
+        if (!empty($filters['taxonomy_id'])) {
+            $query->where('taxonomy_id', $filters['taxonomy_id']);
+        }
+
+        if (!empty($filters['price_min'])) {
+            $query->where('price_output', '>=', $filters['price_min']);
+        }
+
+        if (!empty($filters['price_max'])) {
+            $query->where('price_output', '<=', $filters['price_max']);
+        }
+
+        if (!empty($filters['in_stock'])) {
+            $query->where('stock', '>', 0);
+        }
+
+        return $query->orderBy('created_at', 'desc')
+                     ->paginate($perPage)
+                     ->appends($filters);
     }
 
     public function create(array $data): Product
