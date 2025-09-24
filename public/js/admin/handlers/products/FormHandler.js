@@ -4,6 +4,27 @@ export default class FormHandler {
     constructor() {
         this.initValidator();
         this.initFormMode(); // phân tách create / edit
+        this.initEvents();
+    }
+
+    initEvents() {
+        // === Preview ảnh mới ===
+        const thumbnailInput = document.getElementById("thumbnail");
+        const preview = document.getElementById("thumbnail-preview");
+
+        if (thumbnailInput && preview) {
+            thumbnailInput.addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result; // Hiển thị ảnh chọn
+                        preview.style.display = "block"; // đảm bảo hiện ra
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     }
 
     // -------------------- Form validation --------------------

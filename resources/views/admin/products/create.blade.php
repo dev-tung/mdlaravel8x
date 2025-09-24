@@ -43,7 +43,8 @@
                                         <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
                                             <option value="">-- Chọn --</option>
                                             @foreach($taxonomies as $taxonomy)
-                                                <option value="{{ $taxonomy->id }}" @selected(old('taxonomy_id') == $taxonomy->id)>
+                                                <option value="{{ $taxonomy->id }}" 
+                                                    {{ old('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
                                                     {{ $taxonomy->name }}
                                                 </option>
                                             @endforeach
@@ -60,7 +61,7 @@
                                             <option value="">-- Chọn --</option>
                                             @foreach($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}" 
-                                                    @selected(old('supplier_id') == $supplier->id)>
+                                                    {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
                                                     {{ $supplier->name }}
                                                 </option>
                                             @endforeach
@@ -74,7 +75,7 @@
                                     <div class="col-md-4">
                                         <label for="thumbnail" class="form-label small">Ảnh sản phẩm</label>
                                         <input type="file" class="form-control form-control-sm" id="thumbnail" name="thumbnail" accept="image/*">
-                                        <img id="thumbnail-preview" src="#" alt="Preview" style="display:none; max-height: 150px; margin-top:10px;">
+                                        <img id="thumbnail-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
                                         @error('thumbnail')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
