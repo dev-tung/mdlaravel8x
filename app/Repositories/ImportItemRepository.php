@@ -64,4 +64,9 @@ class ImportItemRepository
     {
         return ImportItem::where('import_id', $importId)->delete();
     }
+
+    public function deleteMany(array $ids)
+    {
+        return ImportItem::whereIn('id', $ids)->delete();
+    }
 }

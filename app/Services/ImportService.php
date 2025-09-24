@@ -139,8 +139,7 @@ class ImportService
             ]);
 
             // Lấy items hiện tại
-            $existingItems = $this->importItemRepository->getByImportId($importId)
-                ->keyBy('product_id');
+            $existingItems = $this->importItemRepository->getByImportId($importId)->keyBy('product_id');
 
             // Xử lý items
             $itemsToUpdate = $newItems->intersectByKeys($existingItems)->map(function ($item, $productId) use ($existingItems) {

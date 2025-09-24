@@ -90,7 +90,7 @@ class ImportController extends Controller
     /**
      * Cập nhật phiếu nhập
      */
-    public function update(Request $request, int $id)
+    public function update(ImportRequest $request, int $id)
     {
         $this->importService->update($request->all());
 
