@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 if (!function_exists('displayThumnail')) {
     /**
@@ -28,20 +29,29 @@ if (!function_exists('abbreviation')) {
      * @param int    $length   Độ dài mong muốn (mặc định 3)
      * @return string
      */
-    function abbreviation(string $string, int $length = 3): string
-    {
-        // Lấy chữ cái đầu mỗi từ
-        $abbr = collect(explode(' ', $string))
-            ->filter() // loại bỏ khoảng trắng thừa
-            ->map(fn ($word) => strtoupper(mb_substr($word, 0, 1)))
-            ->implode('');
 
-        // Nếu ngắn hơn -> padding bằng X
-        if (strlen($abbr) < $length) {
-            $abbr = str_pad($abbr, $length, 'X');
+
+    if (!function_exists('abbreviation')) {
+        /**
+         * Sinh viết tắt dạng ASCII, length cố định (mặc định 3)
+         */
+        function abbreviation(string $string, int $length = 3): string
+        {
+            // Chuyển về ASCII (loại bỏ dấu)
+            $ascii = Str::ascii($string);
+
+            // Lấy ký tự đầu mỗi từ (chỉ [A-Za-z0-9])
+            preg_match_all('/\b[A-Za-z0-9]/', $ascii, $matches);
+            $abbr = strtoupper(implode('', $matches[0]));
+
+            // Loại bỏ ký tự khác, pad/cắt về đúng độ dài
+            $abbr = preg_replace('/[^A-Z0-9]/', '', $abbr);
+            if (strlen($abbr) < $length) {
+                $abbr = str_pad($abbr, $length, 'X');
+            }
+
+            return substr($abbr, 0, $length);
         }
-
-        // Nếu dài hơn -> cắt lại
-        return substr($abbr, 0, $length);
     }
+
 }

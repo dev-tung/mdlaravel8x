@@ -79,14 +79,19 @@ class ProductService
         return $product;
     }
 
-    private function generateSku($taxonomyId, $productName)
+    public function generateSku($taxonomyId, $productName)
     {
         $taxonomyAbbr = $taxonomyId
             ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
-            : 'XXX';   
+            : 'XXX';
+
         $productAbbr = abbreviation($productName);
-        $timestamp   = now()->format('YmdHis'); // 20250924132215
-        return "{$taxonomyAbbr}-{$productAbbr}-{$timestamp}";
+
+        // random 10 ký tự, chỉ gồm chữ và số
+        $random = strtoupper(Str::random(10));
+        $random = preg_replace('/[^A-Z0-9]/', '', $random);
+
+        return "{$taxonomyAbbr}-{$productAbbr}-{$random}";
     }
 
 
