@@ -68,15 +68,7 @@
                                             <td>{{ $loop->iteration + ($imports->currentPage()-1) * $imports->perPage() }}</td>
                                             <td>{{ $import->supplier->name ?? '–' }}</td>
                                             <td>{{ $import->import_date->format('d/m/Y') }}</td>
-                                            <td class="NoBubble">
-                                                <select data-id="{{ $import->id }}" class="form-select form-select-sm py-0 w-auto UpdateStatus">
-                                                    @foreach($statuses as $key => $label)
-                                                        <option value="{{ $key }}" @selected($import->status == $key)>
-                                                            {{ $label }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
+                                            <td>{{ $statuses[$import->status] ?? '–' }}</td>
                                             <td>{{ number_format($import->total_import_amount, 0, ',', '.') }} đ</td>
                                             <td>{{ $import->notes ?? '–' }}</td>
                                             <td class="NoBubble">
