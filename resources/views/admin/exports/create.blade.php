@@ -76,8 +76,7 @@
                                         </label>
 
                                         <!-- Ô nhập tìm kiếm -->
-                                        <input type="text" 
-                                            class="form-control form-control-sm" 
+                                        <input type="text" class="form-control form-control-sm" 
                                             id="customer-search" 
                                             name="customer_search" 
                                             placeholder="Tìm khách hàng..." 
