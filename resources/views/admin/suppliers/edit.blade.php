@@ -22,62 +22,60 @@
         <div class="container-fluid">
             <div class="row g-4">
                 <div class="col-12">
-                    
-                        <form class="needs-validation" id="supplierEditForm" method="POST" 
-                              action="{{ route('admin.suppliers.update', $supplier->id) }}" novalidate>
-                            @csrf
-                            @method('PUT')
+                    <form class="needs-validation" id="supplierEditForm" method="POST" action="{{ route('admin.suppliers.update', $supplier->id) }}" novalidate>
+                        @csrf
+                        @method('PUT')
 
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="row g-3">
-                                        <!-- Name -->
-                                        <div class="col-md-6">
-                                            <label for="name" class="form-label small">Tên nhà cung cấp <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control form-control-sm" id="name" 
-                                                    name="name" value="{{ old('name', $supplier->name) }}" required>
-                                            @error('name')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <!-- Name -->
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label small">Tên nhà cung cấp <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="name" 
+                                                name="name" value="{{ old('name', $supplier->name) }}" required>
+                                        @error('name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                                        <!-- Phone -->
-                                        <div class="col-md-6">
-                                            <label for="phone" class="form-label small">Điện thoại</label>
-                                            <input type="text" class="form-control form-control-sm" id="phone" 
-                                                    name="phone" value="{{ old('phone', $supplier->phone) }}">
-                                            @error('phone')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                                    <!-- Phone -->
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label small">Điện thoại</label>
+                                        <input type="text" class="form-control form-control-sm" id="phone" 
+                                                name="phone" value="{{ old('phone', $supplier->phone) }}">
+                                        @error('phone')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                                        <!-- Email -->
-                                        <div class="col-md-6">
-                                            <label for="email" class="form-label small">Email</label>
-                                            <input type="email" class="form-control form-control-sm" id="email" 
-                                                    name="email" value="{{ old('email', $supplier->email) }}">
-                                            @error('email')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label small">Email</label>
+                                        <input type="email" class="form-control form-control-sm" id="email" 
+                                                name="email" value="{{ old('email', $supplier->email) }}">
+                                        @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
-                                        <!-- Address -->
-                                        <div class="col-md-6">
-                                            <label for="address" class="form-label small">Địa chỉ</label>
-                                            <input type="text" class="form-control form-control-sm" id="address" 
-                                                    name="address" value="{{ old('address', $supplier->address) }}">
-                                            @error('address')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                                    <!-- Address -->
+                                    <div class="col-md-6">
+                                        <label for="address" class="form-label small">Địa chỉ</label>
+                                        <input type="text" class="form-control form-control-sm" id="address" 
+                                                name="address" value="{{ old('address', $supplier->address) }}">
+                                        @error('address')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="card-footer">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">Cập nhật</button>
-                            </div>
-                        </form>
+                        <div class="card-footer">
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Cập nhật</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
