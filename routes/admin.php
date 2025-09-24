@@ -5,12 +5,12 @@ use App\Http\Controllers\Admin\{
     CustomerController,
     ExpenseController,
     MediaController,
-    OrderController,
     PaymentController,
     PermissionController,
     PointController,
     ProductController,
     ImportController,
+    ExportController,
     RoleController,
     SupplierController,
     TaxonomyController,
@@ -20,10 +20,10 @@ use App\Http\Controllers\Admin\{
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('imports', ImportController::class);
+    Route::resource('exports', ExportController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('expenses', ExpenseController::class);
     Route::resource('media', MediaController::class);
-    Route::resource('orders', OrderController::class);
     Route::resource('payments', PaymentController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('points', PointController::class);

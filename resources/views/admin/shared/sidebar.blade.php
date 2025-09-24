@@ -90,20 +90,20 @@
         </ul>
       </li>
 
-      <!-- Orders -->
+      <!-- Exports -->
       <li class="nav-item">
-        <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+        <a href="{{ route('admin.exports.index') }}" class="nav-link {{ request()->routeIs('admin.exports.*') ? 'active' : '' }}">
           <i class="nav-icon bi bi-cart-check"></i>
           <p>Đơn hàng</p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ route('admin.orders.index') }}" class="nav-link">
+            <a href="{{ route('admin.exports.index') }}" class="nav-link">
               <p>Danh sách</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.orders.create') }}" class="nav-link">
+            <a href="{{ route('admin.exports.create') }}" class="nav-link">
               <p>Thêm mới</p>
             </a>
           </li>
