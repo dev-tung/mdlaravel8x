@@ -22,7 +22,7 @@
             <form method="POST" action="{{ route('admin.imports.update', $import->id) }}" id="import-edit-form">
                 @csrf
                 @method('PUT')
-                <input type="hidden" id="import-id" value="{{ $import->id ?? '' }}">
+                <input type="hidden" id="import-id" name="import_id" value="{{ $import->id ?? '' }}">
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row g-3">

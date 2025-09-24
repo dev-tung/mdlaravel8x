@@ -63,30 +63,19 @@ class ImportService
     {
         return DB::transaction(function () use ($data) {
 
-            $totalAmount = 0;
-            $items = [];
-
-            foreach ($data['product_id'] as $productId) {
-
-                // Lấy quantity theo product_id
-                $quantity = isset($data['quantity'][$productId]) ? (int) $data['quantity'][$productId] : 0;
-
-                // Lấy giá nhập theo product_id
-                $price = isset($data['product_import_price'][$productId]) ? (int) $data['product_import_price'][$productId] : 0;
-
-                // Lấy trạng thái gift
+            $items = collect($data['product_id'])->map(function ($productId) use ($data) {
+                $quantity = (int) ($data['quantity'][$productId] ?? 0);
+                $price = (int) ($data['product_import_price'][$productId] ?? 0);
                 $isGift = isset($data['is_gift'][$productId]) ? 1 : 0;
 
-                // Nếu là hàng tặng → giá & total_import_price = 0
                 if ($isGift) {
                     $price = 0;
                     $totalPrice = 0;
                 } else {
                     $totalPrice = $quantity * $price;
-                    $totalAmount += $totalPrice;
                 }
 
-                $items[] = [
+                return [
                     'product_id'         => $productId,
                     'quantity'           => $quantity,
                     'import_price'       => $price,
@@ -95,9 +84,10 @@ class ImportService
                     'created_at'         => now(),
                     'updated_at'         => now(),
                 ];
-            }
+            });
 
-            // Tạo import chính
+            $totalAmount = $items->sum('total_import_price');
+
             $import = $this->importRepository->create([
                 'supplier_id'         => $data['supplier_id'],
                 'import_date'         => $data['import_date'],
@@ -107,18 +97,81 @@ class ImportService
                 'total_import_amount' => $totalAmount,
             ]);
 
-            // Gắn import_id vào từng item
-            foreach ($items as &$item) {
-                $item['import_id'] = $import->id;
-            }
-            unset($item);
+            $items = $items->map(fn($item) => array_merge($item, ['import_id' => $import->id]));
 
-            // Lưu items
-            $this->importItemRepository->createMany($items);
+            $this->importItemRepository->createMany($items->toArray());
 
             return $import;
         });
     }
+
+
+    public function update(array $data)
+    {
+        return DB::transaction(function () use ($data) {
+            $importId = $data['import_id'];
+            $import = $this->importRepository->find($importId);
+
+            // Chuẩn bị items mới
+            $newItems = collect($data['product_id'])->mapWithKeys(function ($productId) use ($data) {
+                $quantity = (int) ($data['quantity'][$productId] ?? 0);
+                $price = (float) ($data['product_import_price'][$productId] ?? 0);
+                $isGift = isset($data['is_gift'][$productId]);
+                $totalPrice = $isGift ? 0 : $quantity * $price;
+
+                return [$productId => [
+                    'product_id'         => $productId,
+                    'quantity'           => $quantity,
+                    'import_price'       => $price,
+                    'total_import_price' => $totalPrice,
+                    'is_gift'            => $isGift,
+                ]];
+            });
+
+            // Cập nhật import chính
+            $this->importRepository->update($importId, [
+                'supplier_id'         => $data['supplier_id'],
+                'import_date'         => $data['import_date'],
+                'status'              => $data['status'],
+                'payment_method'      => $data['payment_method'],
+                'notes'               => $data['notes'] ?? null,
+                'total_import_amount' => $newItems->sum('total_import_price'),
+            ]);
+
+            // Lấy items hiện tại
+            $existingItems = $this->importItemRepository->getByImportId($importId)
+                ->keyBy('product_id');
+
+            // Xử lý items
+            $itemsToUpdate = $newItems->intersectByKeys($existingItems)->map(function ($item, $productId) use ($existingItems) {
+                return array_merge($item, ['id' => $existingItems[$productId]->id]);
+            });
+
+            $itemsToInsert = $newItems->diffKeys($existingItems)->map(fn($item) => array_merge($item, [
+                'import_id'  => $importId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
+
+            $itemsToDelete = $existingItems->diffKeys($newItems)->pluck('id');
+
+            if ($itemsToDelete->isNotEmpty()) {
+                $this->importItemRepository->deleteMany($itemsToDelete->all());
+            }
+
+            foreach ($itemsToUpdate as $item) {
+                $this->importItemRepository->update($item['id'], $item);
+            }
+
+            if ($itemsToInsert->isNotEmpty()) {
+                $this->importItemRepository->createMany($itemsToInsert->values()->all());
+            }
+
+            return $this->importRepository->find($importId);
+        });
+    }
+
+
     
     /**
      * Xóa phiếu nhập và tất cả items liên quan

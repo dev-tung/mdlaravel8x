@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use App\Enums\EnumOptions;
 
 class ImportRequest extends FormRequest
@@ -20,7 +21,7 @@ class ImportRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules =  [
             'supplier_id'            => 'required|exists:suppliers,id',
             'import_date'            => 'required|date',
             'product_import_price'   => 'required|array',
@@ -29,6 +30,17 @@ class ImportRequest extends FormRequest
             'status'         => 'required|in:' . implode(',', EnumOptions::importStatusKeys()),
             'payment_method' => 'required|in:' . implode(',', EnumOptions::paymentKeys()),
         ];
+
+        // Nếu là update, thêm validate import_id
+        if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+            $rules['import_id'] = [
+                'required',
+                'integer',
+                Rule::exists('imports', 'id'),
+            ];
+        }
+
+        return $rules;
     }
 
     /**
@@ -48,7 +60,9 @@ class ImportRequest extends FormRequest
             'status.required'      => 'Vui lòng chọn trạng thái.',
             'status.in'            => 'Trạng thái không hợp lệ.',
             'payment_method.required' => 'Vui lòng chọn phương thức thanh toán.',
-            'payment_method.in'       => 'Phương thức thanh toán không hợp lệ.'
+            'payment_method.in'       => 'Phương thức thanh toán không hợp lệ.',
+            'import_id.required'         => 'Import ID bắt buộc khi cập nhật.',
+            'import_id.exists'           => 'Import không tồn tại.'
         ];
     }
 }

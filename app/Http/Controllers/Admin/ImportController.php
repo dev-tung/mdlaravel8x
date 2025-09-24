@@ -92,7 +92,7 @@ class ImportController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $this->importService->update($id, $request->all());
+        $this->importService->update($request->all());
 
         return redirect()->route('admin.imports.index')
             ->with('success', 'Phiếu nhập đã được cập nhật.');

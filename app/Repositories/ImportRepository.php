@@ -21,9 +21,9 @@ class ImportRepository
         return Import::create($data);
     }
 
-    public function update(Import $import, array $data): bool
+    public function update(int $id, array $data): bool
     {
-        return $import->update($data);
+        return Import::where('id', $id)->update($data);
     }
 
     public function delete(int $id): ?bool

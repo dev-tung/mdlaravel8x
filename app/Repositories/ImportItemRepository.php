@@ -44,9 +44,9 @@ class ImportItemRepository
     /**
      * Cập nhật item
      */
-    public function update(ImportItem $item, array $data): bool
+    public function update(int $id, array $data): bool
     {
-        return $item->update($data);
+        return ImportItem::where('id', $id)->update($data);
     }
 
     /**
