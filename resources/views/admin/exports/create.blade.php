@@ -47,7 +47,8 @@
                                                 <tr>
                                                     <th>Tên sản phẩm</th>
                                                     <th>Số lượng</th>
-                                                    <th>Giá nhập</th>
+                                                    <th>Giá bán</th>
+                                                    <th>Triết khấu</th>
                                                     <th class="text-center">Quà tặng</th>
                                                     <th class="text-center">Hành động</th>
                                                 </tr>

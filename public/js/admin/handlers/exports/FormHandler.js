@@ -4,7 +4,7 @@ import CustomerService from "../../services/CustomerService.js";
 import ExportService from "../../services/ExportService.js";
 import ExportItemService from "../../services/ExportItemService.js";
 import CustomerSelector from "../../components/CustomerSelector.js";
-import ProductSelector from "../../components/ProductSelector.js";
+import ProductExportSelector from "../../components/ProductExportSelector.js";
 import TotalCalculator from "../../components/TotalCalculator.js";
 import PriceValidator from "../../components/PriceValidator.js";
 
@@ -49,7 +49,7 @@ export default class FormHandler {
     // -------------------- Initialize selectors --------------------
     async initSelectors() {
         await this.initCustomerSelector();
-        await this.initProductSelector();
+        await this.initProductExportSelector();
     }
 
     async initCustomerSelector() {
@@ -67,7 +67,7 @@ export default class FormHandler {
         }
     }
 
-    async initProductSelector() {
+    async initProductExportSelector() {
         const products = await this.productService.getProducts();
         this.totalCalculator = new TotalCalculator(
             document.getElementById('total-export-amount')
@@ -87,7 +87,7 @@ export default class FormHandler {
             }));
         }
 
-        this.productSelector = new ProductSelector(
+        this.productExportSelector = new ProductExportSelector(
             products,
             document.getElementById('product-search'),
             document.getElementById('product-select'),

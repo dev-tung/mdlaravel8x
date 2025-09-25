@@ -1,6 +1,6 @@
 import Helper from "../utils/Helper.js";
 
-export default class ProductSelector {
+export default class ProductImportSelector {
     constructor(products, searchInput, selectBox, tableBody, calculator, priceValidator, existingProducts = []) {
         this.products = products;
         this.searchInput = searchInput;
