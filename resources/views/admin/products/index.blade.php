@@ -65,7 +65,7 @@
                                         <th>Tên</th>
                                         <th>Danh mục</th>
                                         <th>NCC</th>
-                                        <th>Tồn</th>
+                                        <th class="text-center">Tồn</th>
                                         <th>Giá nhập</th>
                                         <th>Giá gốc</th>
                                         <th>Giá bán</th>
