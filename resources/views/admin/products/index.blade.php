@@ -49,12 +49,6 @@
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <input type="number" name="price_sale_from" class="form-control form-control-sm" value="{{ request('price_sale_from') }}" placeholder="Giá từ">
-                                </div>
-                                <div class="col-auto">
-                                    <input type="number" name="price_sale_to" class="form-control form-control-sm" value="{{ request('price_sale_to') }}" placeholder="Giá đến">
-                                </div>
-                                <div class="col-auto">
                                     <button type="submit" class="btn btn-primary btn-sm mr-2 px-4">Lọc</button>
                                     <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
                                 </div>
