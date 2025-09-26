@@ -6,9 +6,7 @@ use App\Http\Controllers\Ecommerce\{
     ProductController
 };
 
-Route::get('/', function () {
-    return response()->view('errors.503', [], 503);
-});
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-// Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
-// Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');
+Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
+Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');
