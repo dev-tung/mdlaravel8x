@@ -7,7 +7,7 @@ use App\Http\Controllers\Ecommerce\{
 };
 
 Route::get('/', function () {
-    return response()->view('errors.503', [], 503);
+    dd("Website đang bảo trì!");
 });
 
 
