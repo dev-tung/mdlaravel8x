@@ -36,7 +36,7 @@ export default class ProductExportSelector {
                 option.value = p.id;
                 option.dataset.name = p.name;
                 option.textContent = p.name;
-                option.dataset.price_sale = p.price_sale;
+                option.dataset.price_sale = Helper.formatVND(p.price_sale);
                 this.selectBox.appendChild(option);
             });
             this.selectBox.style.display = 'block';
@@ -50,11 +50,13 @@ export default class ProductExportSelector {
         const selected = this.selectBox.selectedOptions[0];
         if (!selected || this.tableBody.querySelector(`[data-id="${selected.value}"]`)) return;
 
+        console.log(selected);
+
         const productData = {
             id: selected.value,
             name: selected.dataset.name,
             quantity: 1,
-            price: 0,
+            price: selected.dataset.price_sale || 0,
             is_gift: 0
         };
 
@@ -93,11 +95,11 @@ export default class ProductExportSelector {
             id: p.id,
             name: p.name,
             quantity: p.quantity,
-            price: p.price,
+            price: p.price_sale,
             is_gift: p.is_gift
         };
+        
         this.selectedProducts.push(productData);
-
         
         this.bindRowEvents(tr, productData);
         
@@ -109,7 +111,6 @@ export default class ProductExportSelector {
 
     // -------------------- Render 1 dòng sản phẩm --------------------
     renderRow(selected) {
-        console.log(selected);
         const tr = document.createElement('tr');
         tr.dataset.id = selected.value;
         tr.innerHTML = `
