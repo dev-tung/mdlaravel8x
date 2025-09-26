@@ -63,7 +63,7 @@
                                         <th>SKU</th>
                                         <th>Ảnh</th>
                                         <th>Tên</th>
-                                        <th>Nhóm</th>
+                                        <th>Danh mục</th>
                                         <th>Nhà cung cấp</th>
                                         <th>Số lượng</th>
                                         <th>Giá nhập</th>
