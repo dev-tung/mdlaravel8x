@@ -62,6 +62,7 @@ class ExportController extends Controller
      */
     public function store(ExportRequest $request)
     {
+        dd($request->all());
         $this->exportService->create($request->all());
 
         return redirect()->route('admin.exports.index')

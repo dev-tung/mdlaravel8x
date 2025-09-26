@@ -28,7 +28,7 @@ export default class FormHandler {
     initValidator() {
         this.priceValidator = new PriceValidator(
             document.querySelector('#product-selected-table tbody'),
-            'product_export_price_display'
+            'product_export_discount_display'
         );
 
         this.validator = new FormValidator(

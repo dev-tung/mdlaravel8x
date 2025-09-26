@@ -20,7 +20,7 @@ export default class TotalCalculator {
             const qty = +p.quantity || 0;
             const price = +p.price || 0;
             const discount = +p.discount || 0;
-            total += qty * price;
+            total += (qty * price) - discount;
         });
 
         if (this.totalEl) {

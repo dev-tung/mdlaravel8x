@@ -36,7 +36,7 @@ export default class ProductExportSelector {
                 option.value = p.id;
                 option.dataset.name = p.name;
                 option.textContent = p.name;
-                option.dataset.price_sale = Helper.formatVND(p.price_sale);
+                option.dataset.price_sale = p.price_sale;
                 this.selectBox.appendChild(option);
             });
             this.selectBox.style.display = 'block';
@@ -80,13 +80,13 @@ export default class ProductExportSelector {
 
         const qtyInput      = tr.querySelector(`[name^="quantity"]`);
         const discountHidden   = tr.querySelector(`.price-hidden`);
-        const discountDisplay  = tr.querySelector(`[name^="product_export_price_display"]`);
+        const discountDisplay  = tr.querySelector(`[name^="product_export_discount_display"]`);
         const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
 
         // set giá trị theo existing product
         qtyInput.value = p.quantity;
-        discountHidden.value = p.price;
-        discountDisplay.value = p.price ? Helper.formatVND(p.price) : '';
+        discountHidden.value = p.discount;
+        discountDisplay.value = p.discount ? Helper.formatVND(p.discount) : '';
         giftCheckbox.checked = !!p.is_gift;
         
         if (p.is_gift) discountDisplay.disabled = true;
@@ -95,10 +95,10 @@ export default class ProductExportSelector {
             id: p.id,
             name: p.name,
             quantity: p.quantity,
-            price: p.price_sale,
+            price_sale: p.price_sale,
             is_gift: p.is_gift
         };
-        
+
         this.selectedProducts.push(productData);
         
         this.bindRowEvents(tr, productData);
@@ -123,7 +123,7 @@ export default class ProductExportSelector {
             </td>
             <td>
                 <input type="hidden" name="price_sale[]" value="${selected.value}">
-                ${selected.dataset.price_sale}
+                ${Helper.formatVND(selected.dataset.price_sale)}
             </td>
             <td>
                 <input type="text" name="discount_display[${selected.value}]" value="" placeholder="Nhập triết khấu..." class="form-control form-control-sm">
@@ -158,12 +158,11 @@ export default class ProductExportSelector {
 
         discountDisplay.addEventListener('input', e => {
             discountHidden.value = Helper.parseVND(e.target.value);
-            productData.price = discountHidden.value;
+            productData.discount = discountHidden.value;
             this.calculator.updateTotal(this.selectedProducts);
         });
 
         discountDisplay.addEventListener('blur', e => {
-            if (!this.priceValidator.validate()) return;
             const num = Helper.parseVND(e.target.value);
             discountHidden.value = num;
             e.target.value = num ? Helper.formatVND(num) : '';
@@ -174,15 +173,14 @@ export default class ProductExportSelector {
             productData.is_gift = isGift;
 
             if (isGift) {
-                productData.price  = 0;
+                productData.discount  = 0;
                 discountHidden.value  = 0;
                 discountDisplay.value = '';
                 discountDisplay.disabled = true;
-                this.priceValidator.removeError(discountDisplay);
             } else {
                 discountDisplay.disabled = false;
-                productData.price = parseFloat(discountHidden.value) || 0;
-                discountDisplay.value = productData.price ? Helper.formatVND(productData.price) : '';
+                productData.discount = parseFloat(discountHidden.value) || 0;
+                discountDisplay.value = productData.discount ? Helper.formatVND(productData.discount) : '';
             }
 
             this.calculator.updateTotal(this.selectedProducts);
