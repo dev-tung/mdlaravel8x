@@ -4,12 +4,14 @@
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row align-items-center my-2">
-                <div class="col-auto"><h3 class="mb-0">Sản phẩm</h3></div>
+                <div class="col-auto">
+                    <h3>{{ $products->total() }} sản phẩm</h3>
+                </div>
                 <div class="col-auto">
                     <a href="{{ route('admin.products.create') }}" class="btn btn-outline-primary btn-sm">
                         + Thêm mới
                     </a>
-                </div>
+                </div>  
             </div>
         </div>
     </div>
@@ -30,8 +32,7 @@
                                     <select name="supplier_id" class="form-control form-control-sm">
                                         <option value="">-- Nhà cung cấp --</option>
                                         @foreach($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}"
-                                                selected="{{ request('supplier_id') == $supplier->id ? 'selected' : '' }}">
+                                            <option value="{{ $supplier->id }}" {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
                                                 {{ $supplier->name }}
                                             </option>
                                         @endforeach
@@ -39,17 +40,22 @@
                                 </div>
                                 <div class="col-auto">
                                     <select name="taxonomy_id" class="form-control form-control-sm">
-                                        <option value="">-- Nhóm sản phẩm --</option>
+                                        <option value="">-- Danh mục --</option>
                                         @foreach($taxonomies as $taxonomy)
-                                            <option value="{{ $taxonomy->id }}"
-                                                selected="{{ request('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}">
+                                            <option value="{{ $taxonomy->id }}" {{ request('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
                                                 {{ $taxonomy->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary btn-sm mx-2 px-4">Lọc</button>
+                                    <input type="number" name="price_sale_from" class="form-control form-control-sm" value="{{ request('price_sale_from') }}" placeholder="Giá từ">
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" name="price_sale_to" class="form-control form-control-sm" value="{{ request('price_sale_to') }}" placeholder="Giá đến">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary btn-sm mr-2 px-4">Lọc</button>
                                     <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-sm">Clear</a>
                                 </div>
                             </form>
@@ -66,6 +72,7 @@
                                         <th>Nhóm</th>
                                         <th>Nhà cung cấp</th>
                                         <th>Số lượng</th>
+                                        <th>Giá nhập</th>
                                         <th>Giá gốc</th>
                                         <th>Giá bán</th>
                                         <th class="text-center">Hành động</th>
@@ -76,16 +83,17 @@
                                         <tr data-product-id="{{ $product->id }}" data-href="{{ route('admin.products.edit', $product->id) }}">
                                             <td>{{ $product->sku }}</td>
                                             <td class="NoBubble">
-                                                <a href="{{ displayThumnail($product->thumbnail_image) }}" target="_blank">
-                                                    <img id="thumbnail-preview" alt="Preview" src="{{ displayThumnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
+                                                <a href="{{ HPdisplayThumnail($product->thumbnail_image) }}" target="_blank">
+                                                    <img id="thumbnail-preview" alt="Preview" src="{{ HPdisplayThumnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
                                                 </a>
                                             </td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
                                             <td>{{ $product->quantity }}</td>
-                                            <td>{{ number_format($product->price_original,0,',','.') }} đ</td>
-                                            <td>{{ number_format($product->price_sale,0,',','.') }} đ</td>
+                                            <td>{{ HPformatCurrency($product->import_price) }}</td>
+                                            <td>{{ HPformatCurrency($product->price_original) }}</td>
+                                            <td>{{ HPformatCurrency($product->price_sale) }}</td>
                                             <td class="NoBubble text-center">
                                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf

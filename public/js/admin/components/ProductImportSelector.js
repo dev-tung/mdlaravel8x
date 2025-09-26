@@ -2,33 +2,46 @@ import Helper from "../utils/Helper.js";
 
 export default class ProductImportSelector {
     constructor(products, searchInput, selectBox, tableBody, calculator, priceValidator, existingProducts = []) {
-        this.products = products;
+        this.products = Array.isArray(products) ? products : [];
         this.searchInput = searchInput;
         this.selectBox = selectBox;
         this.tableBody = tableBody;
         this.calculator = calculator;
-        this.selectedProducts = []; // ← lưu sản phẩm đã chọn
         this.priceValidator = priceValidator;
+        this.selectedProducts = [];
+        this.tableWrapper = document.getElementById('product-selected-table');
 
         this.bindEvents();
 
-        // Nếu có existingProducts (edit), render sẵn table
-        if (existingProducts.length) {
-            existingProducts.forEach(p => this.addExistingProduct(p));
+        if (Array.isArray(existingProducts) && existingProducts.length) {
+            existingProducts.forEach(p => this.addProduct({
+                id: p.id,
+                name: p.name,
+                quantity: p.quantity,
+                price: p.price,
+                is_gift: p.is_gift
+            }, true));
         }
     }
 
     // -------------------- Bind events cho search + select --------------------
     bindEvents() {
-        this.searchInput.addEventListener('input', Helper.debounce(() => this.onSearch()));
-        this.selectBox.addEventListener('change', () => this.onSelect());
+        // debounce đúng: truyền function đã bind (giả sử Helper.debounce(fn, ms) có signature này)
+        this.searchInput.addEventListener('input', Helper.debounce(this.onSearch.bind(this), 250));
+        this.selectBox.addEventListener('change', this.onSelect.bind(this));
     }
 
     // -------------------- Tìm kiếm sản phẩm --------------------
     onSearch() {
-        const term = this.searchInput.value.toLowerCase();
+        const term = (this.searchInput.value || '').toLowerCase().trim();
         this.selectBox.innerHTML = '';
-        const filtered = this.products.filter(p => p.name.toLowerCase().includes(term));
+
+        if (!term) {
+            this.selectBox.style.display = 'none';
+            return;
+        }
+
+        const filtered = this.products.filter(p => (p.name || '').toLowerCase().includes(term));
 
         if (filtered.length) {
             filtered.forEach(p => {
@@ -46,84 +59,101 @@ export default class ProductImportSelector {
 
     // -------------------- Chọn sản phẩm mới --------------------
     onSelect() {
-        const selected = this.selectBox.selectedOptions[0];
-        if (!selected || this.tableBody.querySelector(`[data-id="${selected.value}"]`)) return;
+        // selectOptions bảo đảm làm việc với <select>
+        const selected = (this.selectBox.selectedOptions && this.selectBox.selectedOptions[0]) || this.selectBox.options[this.selectBox.selectedIndex];
+        if (!selected) return;
+
+        const idStr = String(selected.value);
+        // tránh thêm trùng (dựa vào data-id trên row)
+        if (this.tableBody.querySelector(`tr[data-id="${idStr}"]`)) {
+            // reset UI
+            this.searchInput.value = '';
+            this.selectBox.style.display = 'none';
+            return;
+        }
 
         const productData = {
-            id: selected.value,
-            name: selected.dataset.name,
+            id: idStr,
+            name: selected.dataset.name || selected.textContent || '',
             quantity: 1,
             price: 0,
             is_gift: 0
         };
 
-        this.selectedProducts.push(productData);
-        const tr = this.renderRow(selected);
-        this.tableBody.appendChild(tr);
-        this.bindRowEvents(tr, productData);
+        this.addProduct(productData, false);
 
-        document.getElementById('product-selected-table').style.display = 'table';
+        // reset UI
         this.searchInput.value = '';
         this.selectBox.style.display = 'none';
-
-        this.calculator.updateTotal(this.selectedProducts);
     }
 
-    // -------------------- Load product có sẵn (edit) --------------------
-    addExistingProduct(p) {
-        const selected = { value: p.id, dataset: { name: p.name } };
-        const tr = this.renderRow(selected);
+    // -------------------- Hàm dùng chung để add product (new hoặc existing) --------------------
+    addProduct(productData, isExisting = false) {
+        // tránh duplicate trong selectedProducts
+        if (this.selectedProducts.find(p => String(p.id) === String(productData.id))) return;
+
+        const tr = this.renderRow(productData);
         this.tableBody.appendChild(tr);
 
+        // lấy input trong row
         const qtyInput      = tr.querySelector(`[name^="quantity"]`);
         const priceHidden   = tr.querySelector(`.price-hidden`);
         const priceDisplay  = tr.querySelector(`[name^="product_import_price_display"]`);
         const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
 
-        // set giá trị theo existing product
-        qtyInput.value = p.quantity;
-        priceHidden.value = p.price;
-        priceDisplay.value = p.price ? Helper.formatVND(p.price) : '';
-        giftCheckbox.checked = !!p.is_gift;
-        
-        if (p.is_gift) priceDisplay.disabled = true;
+        // nếu là existing, set giá trị
+        if (isExisting) {
+            qtyInput.value = productData.quantity ?? 1;
+            priceHidden.value = (productData.price !== undefined && productData.price !== null) ? productData.price : '';
+            priceDisplay.value = productData.price ? Helper.formatVND(productData.price) : '';
+            giftCheckbox.checked = !!productData.is_gift;
+            if (productData.is_gift) priceDisplay.disabled = true;
+        }
 
-        const productData = {
-            id: p.id,
-            name: p.name,
-            quantity: p.quantity,
-            price: p.price,
-            is_gift: p.is_gift
+        // lưu ở dạng chuẩn (id => string, numbers chuẩn)
+        const stored = {
+            id: String(productData.id),
+            name: productData.name || '',
+            quantity: Number(productData.quantity) || 0,
+            price: Number(productData.price) || 0,
+            is_gift: productData.is_gift ? 1 : 0
         };
-        this.selectedProducts.push(productData);
 
-        
-        this.bindRowEvents(tr, productData);
-        
-        document.getElementById('product-selected-table').style.display = 'table';
+        this.selectedProducts.push(stored);
 
-        this.calculator.updateTotal(this.selectedProducts);
+        // bind events, truyền reference tới item đã lưu để cập nhật trực tiếp
+        this.bindRowEvents(tr, stored);
+
+        // show table nếu cần
+        if (this.tableWrapper) {
+            this.tableWrapper.style.display = this.tableWrapper.tagName.toLowerCase() === 'table' ? 'table' : '';
+        }
+
+        // cập nhật tổng
+        if (this.calculator && typeof this.calculator.updateTotal === 'function') {
+            this.calculator.updateTotal(this.selectedProducts);
+        }
     }
 
-
     // -------------------- Render 1 dòng sản phẩm --------------------
-    renderRow(selected) {
+    renderRow(productData) {
+        const id = String(productData.id);
         const tr = document.createElement('tr');
-        tr.dataset.id = selected.value;
+        tr.dataset.id = id;
         tr.innerHTML = `
             <td>
-                <input type="hidden" name="product_id[]" value="${selected.value}">
-                ${selected.dataset.name}
+                <input type="hidden" name="product_id[]" value="${id}">
+                ${productData.name || ''}
             </td>
             <td>
-                <input type="number" name="quantity[${selected.value}]" value="1" class="form-control form-control-sm" min="1">
+                <input type="number" name="quantity[${id}]" value="${productData.quantity ?? 1}" class="form-control form-control-sm" min="1">
             </td>
             <td>
-                <input type="text" name="product_import_price_display[${selected.value}]" value="" placeholder="Nhập giá..." class="form-control form-control-sm">
-                <input type="hidden" name="product_import_price[${selected.value}]" value="" class="price-hidden">
+                <input type="text" name="product_import_price_display[${id}]" value="" placeholder="Nhập giá..." class="form-control form-control-sm">
+                <input type="hidden" name="product_import_price[${id}]" value="" class="price-hidden">
             </td>
             <td class="text-center">
-                <input type="checkbox" name="is_gift[${selected.value}]" value="1" class="form-check-input">
+                <input type="checkbox" name="is_gift[${id}]" value="1" class="form-check-input">
             </td>
             <td class="text-center">
                 <button type="button" class="btn btn-link btn-sm text-danger">Xóa</button>
@@ -133,62 +163,88 @@ export default class ProductImportSelector {
     }
 
     // -------------------- Bind event cho từng dòng --------------------
-    bindRowEvents(tr, productData) {
+    bindRowEvents(tr, productDataRef) {
         const qtyInput      = tr.querySelector(`[name^="quantity"]`);
         const priceHidden   = tr.querySelector(`.price-hidden`);
         const priceDisplay  = tr.querySelector(`[name^="product_import_price_display"]`);
         const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
+        const deleteButton  = tr.querySelector('button');
 
+        // Quantity change
         qtyInput.addEventListener('input', () => {
-            productData.quantity = +qtyInput.value;
-            this.calculator.updateTotal(this.selectedProducts);
+            productDataRef.quantity = Number(qtyInput.value) || 0;
+            this.calculator?.updateTotal(this.selectedProducts);
         });
 
+        // Focus: show raw number for editing
         priceDisplay.addEventListener('focus', e => {
             e.target.value = priceHidden.value || '';
             e.target.select();
         });
 
+        // Input: live-parse -> lưu vào hidden + dữ liệu
         priceDisplay.addEventListener('input', e => {
-            priceHidden.value = Helper.parseVND(e.target.value);
-            productData.price = priceHidden.value;
-            this.calculator.updateTotal(this.selectedProducts);
+            const parsed = Helper.parseVND(e.target.value) || 0;
+            priceHidden.value = parsed;
+            productDataRef.price = Number(parsed) || 0;
+            this.calculator?.updateTotal(this.selectedProducts);
         });
 
+        // Blur: validate + format
         priceDisplay.addEventListener('blur', e => {
-            if (!this.priceValidator.validate()) return;
-            const num = Helper.parseVND(e.target.value);
+            // call validator safely: if validate expects element, pass it; else call without param
+            let ok = true;
+            if (this.priceValidator && typeof this.priceValidator.validate === 'function') {
+                try {
+                    // First try calling with the element, fallback to no-arg
+                    ok = this.priceValidator.validate(priceDisplay);
+                } catch (err) {
+                    try {
+                        ok = this.priceValidator.validate();
+                    } catch (err2) {
+                        ok = true; // assume valid if validator misbehaves
+                    }
+                }
+            }
+            if (!ok) return;
+
+            const num = Helper.parseVND(e.target.value) || 0;
             priceHidden.value = num;
+            productDataRef.price = Number(num) || 0;
             e.target.value = num ? Helper.formatVND(num) : '';
+            this.calculator?.updateTotal(this.selectedProducts);
         });
 
+        // Gift checkbox
         giftCheckbox.addEventListener('change', e => {
-            const isGift = e.target.checked;
-            productData.is_gift = isGift;
+            const isGift = !!e.target.checked;
+            productDataRef.is_gift = isGift ? 1 : 0;
 
             if (isGift) {
-                productData.price  = 0;
-                priceHidden.value  = 0;
+                productDataRef.price = 0;
+                priceHidden.value = '';
                 priceDisplay.value = '';
                 priceDisplay.disabled = true;
-                this.priceValidator.removeError(priceDisplay);
+                if (this.priceValidator && typeof this.priceValidator.removeError === 'function') {
+                    this.priceValidator.removeError(priceDisplay);
+                }
             } else {
                 priceDisplay.disabled = false;
-                productData.price = parseFloat(priceHidden.value) || 0;
-                priceDisplay.value = productData.price ? Helper.formatVND(productData.price) : '';
+                productDataRef.price = Number(priceHidden.value) || 0;
+                priceDisplay.value = productDataRef.price ? Helper.formatVND(productDataRef.price) : '';
             }
 
-            this.calculator.updateTotal(this.selectedProducts);
+            this.calculator?.updateTotal(this.selectedProducts);
         });
 
-        tr.querySelector('button').addEventListener('click', () => {
+        // Delete row
+        deleteButton.addEventListener('click', () => {
             tr.remove();
-            if (!this.tableBody.children.length) {
-                document.getElementById('product-selected-table').style.display = 'none';
+            if (!this.tableBody.children.length && this.tableWrapper) {
+                this.tableWrapper.style.display = 'none';
             }
-
-            this.selectedProducts = this.selectedProducts.filter(p => p.id !== productData.id);
-            this.calculator.updateTotal(this.selectedProducts);
+            this.selectedProducts = this.selectedProducts.filter(p => String(p.id) !== String(productDataRef.id));
+            this.calculator?.updateTotal(this.selectedProducts);
         });
     }
 }

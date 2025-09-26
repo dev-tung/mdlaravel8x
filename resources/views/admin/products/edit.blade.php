@@ -85,12 +85,22 @@
                                         <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
                                         <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
                                         @if($product->thumbnail_image)
-                                            <img id="thumbnail-image-preview" src="{{ displayThumnail($product->thumbnail_image) }}" alt="Preview" style="max-height:100px; margin-top:10px;">
+                                            <img id="thumbnail-image-preview" src="{{ HPdisplayThumnail($product->thumbnail_image) }}" alt="Preview" style="max-height:100px; margin-top:10px;">
                                         @else
                                             <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height:100px; margin-top:10px;">
                                         @endif
                                         
                                         @error('thumbnail_image')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Price Original -->
+                                    <div class="col-md-3">
+                                        <label for="import_price" class="form-label small">Giá nhập <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="import_price" name="import_price" 
+                                            value="{{ old('import_price', $product->import_price) }}">
+                                        @error('import_price')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -125,6 +135,16 @@
                                         @enderror
                                     </div>
 
+                                    <!-- quantity -->
+                                    <div class="col-md-3">
+                                        <label for="quantity" class="form-label small">Số lượng <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="quantity" 
+                                            name="quantity" value="{{ old('quantity', $product->quantity) }}">
+                                        @error('quantity')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
                                     <!-- Description -->
                                     <div class="col-md-12">
                                         <label for="description" class="form-label small">Mô tả</label>
@@ -148,7 +168,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script type="module" src="{{ asset('js/admin/handlers/products/FormHandler.js') }}"></script>
-@endpush

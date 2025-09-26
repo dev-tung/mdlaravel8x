@@ -82,16 +82,20 @@ class ProductService
     public function generateSku($taxonomyId, $productName)
     {
         $taxonomyAbbr = $taxonomyId
-            ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
+            ? HPabbreviation($this->taxonomyRepository->find($taxonomyId)->name)
             : 'XXX';
 
-        $productAbbr = abbreviation($productName);
+        $random = $this->randomDigits();
 
-        // random 10 ký tự, chỉ gồm chữ và số
-        $random = strtoupper(Str::random(10));
-        $random = preg_replace('/[^A-Z0-9]/', '', $random);
+        return "MDS-{$taxonomyAbbr}-{$random}";
+    }
 
-        return "{$taxonomyAbbr}-{$productAbbr}-{$random}";
+    function randomDigits($length = 9) {
+        $digits = '';
+        for ($i = 0; $i < $length; $i++) {
+            $digits .= rand(0, 9);
+        }
+        return $digits;
     }
 
 

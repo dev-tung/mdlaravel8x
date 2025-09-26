@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        return route('admin.dashboard'); // hoặc bất kỳ route nào bạn muốn
+        return route('admin.products.index'); // hoặc bất kỳ route nào bạn muốn
     }
 
     protected function loggedOut(Request $request)

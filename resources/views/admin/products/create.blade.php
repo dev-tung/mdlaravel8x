@@ -83,6 +83,15 @@
 
                                     <!-- Price Original -->
                                     <div class="col-md-3">
+                                        <label for="import_price" class="form-label small">Giá nhập <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-sm" id="import_price" name="import_price" value="{{ old('import_price') }}">
+                                        @error('import_price')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Price Original -->
+                                    <div class="col-md-3">
                                         <label for="price_original" class="form-label small">Giá gốc <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control form-control-sm" id="price_original" name="price_original" value="{{ old('price_original') }}">
                                         @error('price_original')
@@ -110,6 +119,16 @@
                                     </div>
 
 
+                                    <!-- quantity -->
+                                    <div class="col-md-3">
+                                        <label for="quantity" class="form-label small">Số lượng <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="quantity" 
+                                            name="quantity" value="{{ old('quantity') }}">
+                                        @error('quantity')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
 
                                     <!-- Description -->
                                     <div class="col-md-12">
@@ -134,7 +153,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script type="module" src="{{ asset('js/admin/handlers/products/FormHandler.js') }}"></script>
-@endpush

@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-if (!function_exists('displayThumnail')) {
+if (!function_exists('HPdisplayThumnail')) {
     /**
      * Lấy URL của thumbnail sản phẩm
      *
@@ -10,7 +10,7 @@ if (!function_exists('displayThumnail')) {
      * @param string $default    Ảnh mặc định nếu không có
      * @return string
      */
-    function displayThumnail($path = null)
+    function HPdisplayThumnail($path = null)
     {
         if (Storage::disk('public')->exists($path)) {
             return asset('storage/' . $path);
@@ -21,7 +21,7 @@ if (!function_exists('displayThumnail')) {
 }
 
 
-if (!function_exists('abbreviation')) {
+if (!function_exists('HPabbreviation')) {
     /**
      * Sinh từ viết tắt có độ dài cố định
      *
@@ -31,11 +31,11 @@ if (!function_exists('abbreviation')) {
      */
 
 
-    if (!function_exists('abbreviation')) {
+    if (!function_exists('HPabbreviation')) {
         /**
          * Sinh viết tắt dạng ASCII, length cố định (mặc định 3)
          */
-        function abbreviation(string $string, int $length = 3): string
+        function HPabbreviation(string $string, int $length = 3): string
         {
             // Chuyển về ASCII (loại bỏ dấu)
             $ascii = Str::ascii($string);
@@ -54,4 +54,11 @@ if (!function_exists('abbreviation')) {
         }
     }
 
+}
+
+if (!function_exists('HPformatCurrency')) {
+    function HPformatCurrency($number, $suffix = 'đ')
+    {
+        return number_format($number, 0, ',', '.') . ' ' . $suffix;
+    }
 }

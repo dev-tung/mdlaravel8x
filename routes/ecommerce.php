@@ -6,7 +6,9 @@ use App\Http\Controllers\Ecommerce\{
     ProductController
 };
 
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/', function () {
+    return redirect()->route('login'); // redirect bằng route name
+});
 
-Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
-Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');
+// Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
+// Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');

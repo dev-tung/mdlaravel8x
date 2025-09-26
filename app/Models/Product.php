@@ -26,12 +26,7 @@ class Product extends Model
         'unit',
         'supplier_id',
         'taxonomy_id',
-    ];
-
-    protected $casts = [
-        'price_original' => 'decimal:2',
-        'price_sale'     => 'decimal:2',
-        'quantity'       => 'integer',
+        'import_price'
     ];
     
     // Mutator tự động tạo slug từ name

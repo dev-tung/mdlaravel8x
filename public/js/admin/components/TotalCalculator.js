@@ -19,6 +19,7 @@ export default class TotalCalculator {
         selectedProducts.forEach(p => {
             const qty = +p.quantity || 0;
             const price = +p.price || 0;
+            const discount = +p.discount || 0;
             total += qty * price;
         });
 
