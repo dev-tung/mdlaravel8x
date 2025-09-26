@@ -7,8 +7,9 @@ use App\Http\Controllers\Ecommerce\{
 };
 
 Route::get('/', function () {
-    return view('errors.503');
+    return response()->view('errors.503', [], 503);
 });
+
 
 
 
