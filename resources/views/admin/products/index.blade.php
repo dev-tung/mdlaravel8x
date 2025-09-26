@@ -89,11 +89,11 @@
                                             <td>{{ HPformatCurrency($product->price_original) }}</td>
                                             <td>{{ HPformatCurrency($product->price_sale) }}</td>
                                             <td class="NoBubble text-center">
-                                                <a class="btn btn-primary btn-sm p-0 pr-3" href="{{ route('admin.products.edit', $product->id) }}">Sửa</a>
+                                                <a class="btn btn-primary btn-sm mr-3" href="{{ route('admin.products.edit', $product->id) }}">Sửa</a>
                                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm p-0" onclick="return confirm('Bạn có chắc muốn xóa khách hàng này?')">
+                                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa khách hàng này?')">
                                                         Xóa
                                                     </button>
                                                 </form>
