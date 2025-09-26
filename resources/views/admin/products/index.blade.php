@@ -64,8 +64,8 @@
                                         <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Danh mục</th>
-                                        <th>Nhà cung cấp</th>
-                                        <th>Số lượng</th>
+                                        <th>NCC</th>
+                                        <th>Tồn</th>
                                         <th>Giá nhập</th>
                                         <th>Giá gốc</th>
                                         <th>Giá bán</th>
