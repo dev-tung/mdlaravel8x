@@ -7,8 +7,9 @@ use App\Http\Controllers\Ecommerce\{
 };
 
 Route::get('/', function () {
-    return redirect()->route('login'); // redirect bằng route name
+    return response()->view('errors.503', [], 503);
 });
+
 
 // Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
 // Route::get('product/{slug}', [ProductController::class, 'show'])->name('product.detail');
