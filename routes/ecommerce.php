@@ -7,8 +7,9 @@ use App\Http\Controllers\Ecommerce\{
 };
 
 Route::get('/', function () {
-    return response()->view('errors.503', [], 503);
+    abort(503);
 });
+
 
 
 // Route::get('products/{taxonomy?}', [ProductController::class, 'index'])->name('product.index');
