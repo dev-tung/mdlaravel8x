@@ -84,7 +84,7 @@
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
-                                            <td>{{ $product->quantity }}</td>
+                                            <td class="text-center">{{ $product->quantity }}</td>
                                             <td>{{ HPformatCurrency($product->import_price) }}</td>
                                             <td>{{ HPformatCurrency($product->price_original) }}</td>
                                             <td>{{ HPformatCurrency($product->price_sale) }}</td>
