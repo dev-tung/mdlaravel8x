@@ -104,16 +104,6 @@
                                 <div class="card">
                                     <div class="card-body"> 
                                         <div class="row g-3">
-                                            <!-- Thumbnail_image -->
-                                            <div class="col-md-12">
-                                                <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
-                                                <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
-                                                @error('thumbnail_image')
-                                                    <small class="text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-
                                             <!-- Supplier -->
                                             <div class="col-md-12">
                                                 <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
@@ -144,6 +134,16 @@
                                                     @endforeach
                                                 </select>
                                                 @error('taxonomy_id')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Thumbnail_image -->
+                                            <div class="col-md-12">
+                                                <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
+                                                <input type="file" class="form-control form-control-sm d-none" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                                <img id="thumbnail-image-preview" src="{{asset('img/shared/No_Image_Available.jpg')}}" alt="Preview" style="display: block; max-height: 148px;">
+                                                @error('thumbnail_image')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
