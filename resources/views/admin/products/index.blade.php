@@ -23,7 +23,7 @@
                         <!-- Filter Form -->
                         <div class="card-header">
                             <form id="filterForm" class="row g-2" method="GET" action="{{ route('admin.products.index') }}">
-                                <div class="col-auto">
+                                <div class="col-4">
                                     <input type="text" name="name" class="form-control form-control-sm"
                                            placeholder="Tên sản phẩm" value="{{ request('name') }}">
                                 </div>
@@ -97,7 +97,6 @@
                                                     </button>
                                                 </form>
                                             </td>
-                                            
                                         </tr>
                                     @empty
                                         <tr>
