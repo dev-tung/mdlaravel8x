@@ -22,128 +22,136 @@
         <div class="container-fluid">
             <div class="row g-4">
                 <div class="col-12">
-                    <form class="needs-validation" id="product-form" method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" novalidate>
+                    <form class="needs-validation" id="product-create-form" method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" novalidate>
                         @csrf
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <!-- Name -->
-                                    <div class="col-md-4">
-                                        <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" id="name" 
-                                            name="name" value="{{ old('name') }}" required>
-                                        @error('name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                        <div class="row mb-3">
+                            <div class="col-md-9">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <!-- Name -->
+                                            <div class="col-md-6">
+                                                <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-sm" id="name" autocomplete="off" 
+                                                    name="name" value="{{ old('name') }}" required>
+                                                @error('name')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Price Original -->
+                                            <div class="col-md-6">
+                                                <label for="import_price" class="form-label small">Giá nhập <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control form-control-sm" id="import_price" name="import_price" value="{{ old('import_price') }}">
+                                                @error('import_price')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Price Original -->
+                                            <div class="col-md-6">
+                                                <label for="price_original" class="form-label small">Giá gốc <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control form-control-sm" id="price_original" name="price_original" value="{{ old('price_original') }}">
+                                                @error('price_original')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Price Sale -->
+                                            <div class="col-md-6">
+                                                <label for="price_sale" class="form-label small">Giá bán <span class="text-danger">*</span></label>
+                                                <input type="number" class="form-control form-control-sm" id="price_sale" name="price_sale" value="{{ old('price_sale') }}">
+                                                @error('price_sale')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Unit -->
+                                            <div class="col-md-6">
+                                                <label for="unit" class="form-label small">Đơn vị</label>
+                                                <input type="text" class="form-control form-control-sm" id="unit" 
+                                                    name="unit" value="{{ old('unit') }}">
+                                                @error('unit')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- quantity -->
+                                            <div class="col-md-6">
+                                                <label for="quantity" class="form-label small">Số lượng <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control form-control-sm" id="quantity" 
+                                                    name="quantity" value="{{ old('quantity') }}">
+                                                @error('quantity')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="col-md-12">
+                                                <label for="description" class="form-label small">Mô tả</label>
+                                                <textarea class="form-control form-control-sm" id="description" 
+                                                        name="description" rows="3">{{ old('description') }}</textarea>
+                                                @error('description')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body"> 
+                                        <div class="row g-3">
+                                            <!-- Thumbnail_image -->
+                                            <div class="col-md-12">
+                                                <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
+                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                                <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
+                                                @error('thumbnail_image')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
 
-                                    <!-- Taxonomy -->
-                                    <div class="col-md-4">
-                                        <label for="taxonomy_id" class="form-label small">Danh mục <span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
-                                            <option value="">-- Chọn --</option>
-                                            @foreach($taxonomies as $taxonomy)
-                                                <option value="{{ $taxonomy->id }}" 
-                                                    {{ old('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
-                                                    {{ $taxonomy->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('taxonomy_id')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                                            <!-- Supplier -->
+                                            <div class="col-md-12">
+                                                <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
+                                                <select class="form-select form-select-sm" id="supplier_id" name="supplier_id">
+                                                    <option value="">-- Chọn --</option>
+                                                    @foreach($suppliers as $supplier)
+                                                        <option value="{{ $supplier->id }}" 
+                                                            {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                            {{ $supplier->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('supplier_id')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Taxonomy -->
+                                            <div class="col-md-12">
+                                                <label for="taxonomy_id" class="form-label small">Danh mục <span class="text-danger">*</span></label>
+                                                <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
+                                                    <option value="">-- Chọn --</option>
+                                                    @foreach($taxonomies as $taxonomy)
+                                                        <option value="{{ $taxonomy->id }}" 
+                                                            {{ old('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
+                                                            {{ $taxonomy->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('taxonomy_id')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <!-- Supplier -->
-                                    <div class="col-md-4">
-                                        <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" id="supplier_id" name="supplier_id">
-                                            <option value="">-- Chọn --</option>
-                                            @foreach($suppliers as $supplier)
-                                                <option value="{{ $supplier->id }}" 
-                                                    {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                                                    {{ $supplier->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('supplier_id')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Thumbnail_image -->
-                                    <div class="col-md-3">
-                                        <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                        <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
-                                        <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height: 100px; margin-top:10px;">
-                                        @error('thumbnail_image')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Price Original -->
-                                    <div class="col-md-3">
-                                        <label for="import_price" class="form-label small">Giá nhập <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" id="import_price" name="import_price" value="{{ old('import_price') }}">
-                                        @error('import_price')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Price Original -->
-                                    <div class="col-md-3">
-                                        <label for="price_original" class="form-label small">Giá gốc <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" id="price_original" name="price_original" value="{{ old('price_original') }}">
-                                        @error('price_original')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Price Sale -->
-                                    <div class="col-md-3">
-                                        <label for="price_sale" class="form-label small">Giá bán <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-sm" id="price_sale" name="price_sale" value="{{ old('price_sale') }}">
-                                        @error('price_sale')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Unit -->
-                                    <div class="col-md-3">
-                                        <label for="unit" class="form-label small">Đơn vị <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" id="unit" 
-                                            name="unit" value="{{ old('unit') }}">
-                                        @error('unit')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-
-                                    <!-- quantity -->
-                                    <div class="col-md-3">
-                                        <label for="quantity" class="form-label small">Số lượng <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" id="quantity" 
-                                            name="quantity" value="{{ old('quantity') }}">
-                                        @error('quantity')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-
-                                    <!-- Description -->
-                                    <div class="col-md-12">
-                                        <label for="description" class="form-label small">Mô tả</label>
-                                        <textarea class="form-control form-control-sm" id="description" 
-                                                name="description" rows="3">{{ old('description') }}</textarea>
-                                        @error('description')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
-
                         <div class="card-footer">
                             <button class="btn btn-outline-primary btn-sm" type="submit">Thêm mới</button>
                         </div>
@@ -153,3 +161,6 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script type="module" src="{{ asset('js/admin/handlers/products/CreateFormHandler.js') }}"></script>
+@endpush

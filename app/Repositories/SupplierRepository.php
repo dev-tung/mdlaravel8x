@@ -33,11 +33,9 @@ class SupplierRepository
         return Supplier::create($data);
     }
 
-    public function update(int $id, array $data): Supplier
+    public function update(int $id, array $data): bool
     {
-        $supplier = $this->find($id);
-        $supplier->update($data);
-        return $supplier;
+        return Supplier::where('id', $id)->update($data);
     }
 
     public function delete(int $id): ?bool

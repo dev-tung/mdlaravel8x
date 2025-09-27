@@ -1,63 +1,58 @@
 <?php
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
-if (!function_exists('HPdisplayThumnail')) {
+if (!function_exists('display_thumbnail')) {
     /**
-     * Lấy URL của thumbnail sản phẩm
+     * Lấy URL của thumbnail sản phẩm (PHP thuần)
      *
-     * @param string|null $path  Đường dẫn thumbnail trong storage
-     * @param string $default    Ảnh mặc định nếu không có
+     * @param string|null $path     Đường dẫn thumbnail (tương đối so với thư mục public)
+     * @param string $default       Ảnh mặc định nếu không có
+     * @param string $baseUrl       Base URL của website (vd: http://localhost/project/)
      * @return string
      */
-    function HPdisplayThumnail($path = null)
+    function display_thumbnail(?string $path = null, string $default = 'img/shared/No_Image_Available.jpg', string $baseUrl = '/'): string
     {
-        if (Storage::disk('public')->exists($path)) {
-            return asset('storage/' . $path);
+        // Chuẩn hóa base URL (đảm bảo có dấu / ở cuối)
+        if (substr($baseUrl, -1) !== '/') {
+            $baseUrl .= '/';
         }
 
-        return asset('img/shared/No_Image_Available.jpg');
+        // Nếu có path và file tồn tại
+        if ($path && file_exists(__DIR__ . '/public/' . $path)) {
+            return $baseUrl . 'public/' . ltrim($path, '/');
+        }
+
+        // Trả về ảnh mặc định
+        return $baseUrl . ltrim($default, '/');
     }
 }
 
 
-if (!function_exists('HPabbreviation')) {
+if (!function_exists('abbreviation')) {
     /**
-     * Sinh từ viết tắt có độ dài cố định
-     *
-     * @param string $string   Chuỗi gốc
-     * @param int    $length   Độ dài mong muốn (mặc định 3)
-     * @return string
+     * Sinh viết tắt dạng ASCII, length cố định (mặc định 3)
      */
+    function abbreviation(string $string, int $length = 3): string
+    {
+        // Chuyển về ASCII (loại bỏ dấu, dùng iconv)
+        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
 
+        // Lấy ký tự đầu mỗi từ (chỉ [A-Za-z0-9])
+        preg_match_all('/\b[A-Za-z0-9]/', $ascii, $matches);
+        $abbr = strtoupper(implode('', $matches[0]));
 
-    if (!function_exists('HPabbreviation')) {
-        /**
-         * Sinh viết tắt dạng ASCII, length cố định (mặc định 3)
-         */
-        function HPabbreviation(string $string, int $length = 3): string
-        {
-            // Chuyển về ASCII (loại bỏ dấu)
-            $ascii = Str::ascii($string);
-
-            // Lấy ký tự đầu mỗi từ (chỉ [A-Za-z0-9])
-            preg_match_all('/\b[A-Za-z0-9]/', $ascii, $matches);
-            $abbr = strtoupper(implode('', $matches[0]));
-
-            // Loại bỏ ký tự khác, pad/cắt về đúng độ dài
-            $abbr = preg_replace('/[^A-Z0-9]/', '', $abbr);
-            if (strlen($abbr) < $length) {
-                $abbr = str_pad($abbr, $length, 'X');
-            }
-
-            return substr($abbr, 0, $length);
+        // Loại bỏ ký tự khác, pad/cắt về đúng độ dài
+        $abbr = preg_replace('/[^A-Z0-9]/', '', $abbr);
+        if (strlen($abbr) < $length) {
+            $abbr = str_pad($abbr, $length, 'X');
         }
-    }
 
+        return substr($abbr, 0, $length);
+    }
 }
 
-if (!function_exists('HPformatCurrency')) {
-    function HPformatCurrency($number, $suffix = 'đ')
+
+if (!function_exists('format_currency')) {
+    function format_currency($number, $suffix = 'đ')
     {
         return number_format($number, 0, ',', '.') . ' ' . $suffix;
     }

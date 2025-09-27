@@ -7,27 +7,25 @@ export default class ProductExportSelector {
         this.selectBox = selectBox;
         this.tableBody = tableBody;
         this.calculator = calculator;
-        this.selectedProducts = []; // ← lưu sản phẩm đã chọn
+        this.selectedProducts = [];
         this.priceValidator = priceValidator;
 
         this.bindEvents();
 
-        // Nếu có existingProducts (edit), render sẵn table
         if (existingProducts.length) {
             existingProducts.forEach(p => this.addExistingProduct(p));
         }
     }
 
-    // -------------------- Bind events cho search + select --------------------
     bindEvents() {
         this.searchInput.addEventListener('input', Helper.debounce(() => this.onSearch()));
         this.selectBox.addEventListener('change', () => this.onSelect());
     }
 
-    // -------------------- Tìm kiếm sản phẩm --------------------
     onSearch() {
         const term = this.searchInput.value.toLowerCase();
         this.selectBox.innerHTML = '';
+
         const filtered = this.products.filter(p => p.name.toLowerCase().includes(term));
 
         if (filtered.length) {
@@ -35,8 +33,8 @@ export default class ProductExportSelector {
                 const option = document.createElement('option');
                 option.value = p.id;
                 option.dataset.name = p.name;
-                option.textContent = p.name;
                 option.dataset.price_sale = p.price_sale;
+                option.textContent = p.name;
                 this.selectBox.appendChild(option);
             });
             this.selectBox.style.display = 'block';
@@ -45,23 +43,24 @@ export default class ProductExportSelector {
         }
     }
 
-    // -------------------- Chọn sản phẩm mới --------------------
     onSelect() {
-        const selected = this.selectBox.selectedOptions[0];
-        if (!selected || this.tableBody.querySelector(`[data-id="${selected.value}"]`)) return;
+        const selectedOption = this.selectBox.selectedOptions[0];
+        if (!selectedOption || this.tableBody.querySelector(`[data-id="${selectedOption.value}"]`)) return;
 
-        console.log(selected);
+        const product = this.products.find(p => p.id == selectedOption.value);
+        if (!product) return;
 
         const productData = {
-            id: selected.value,
-            name: selected.dataset.name,
+            id: product.id,
+            name: product.name,
             quantity: 1,
-            price: selected.dataset.price_sale || 0,
+            price: product.price_sale || 0,
+            discount: 0,
             is_gift: 0
         };
 
         this.selectedProducts.push(productData);
-        const tr = this.renderRow(selected);
+        const tr = this.renderRow(productData);
         this.tableBody.appendChild(tr);
         this.bindRowEvents(tr, productData);
 
@@ -72,65 +71,55 @@ export default class ProductExportSelector {
         this.calculator.updateTotal(this.selectedProducts);
     }
 
-    // -------------------- Load product có sẵn (edit) --------------------
     addExistingProduct(p) {
-        const selected = { value: p.id, dataset: { name: p.name } };
-        const tr = this.renderRow(selected);
-        this.tableBody.appendChild(tr);
-
-        const qtyInput      = tr.querySelector(`[name^="quantity"]`);
-        const discountHidden   = tr.querySelector(`.price-hidden`);
-        const discountDisplay  = tr.querySelector(`[name^="product_export_discount_display"]`);
-        const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
-
-        // set giá trị theo existing product
-        qtyInput.value = p.quantity;
-        discountHidden.value = p.discount;
-        discountDisplay.value = p.discount ? Helper.formatVND(p.discount) : '';
-        giftCheckbox.checked = !!p.is_gift;
-        
-        if (p.is_gift) discountDisplay.disabled = true;
-
         const productData = {
             id: p.id,
             name: p.name,
             quantity: p.quantity,
-            price_sale: p.price_sale,
-            is_gift: p.is_gift
+            price: p.price_sale || 0,
+            discount: p.discount || 0,
+            is_gift: p.is_gift || 0
         };
 
+        const tr = this.renderRow(productData);
+        this.tableBody.appendChild(tr);
+
+        // Set giá trị input
+        tr.querySelector(`[name="quantity[${p.id}]"]`).value = p.quantity;
+        tr.querySelector(`[name="discount[${p.id}]"]`).value = p.discount || 0;
+        const discountDisplay = tr.querySelector(`[name="discount_display[${p.id}]"]`);
+        discountDisplay.value = p.discount ? Helper.formatVND(p.discount) : '';
+        const giftCheckbox = tr.querySelector(`[name="is_gift[${p.id}]"]`);
+        giftCheckbox.checked = !!p.is_gift;
+        if (p.is_gift) discountDisplay.disabled = true;
+
         this.selectedProducts.push(productData);
-        
         this.bindRowEvents(tr, productData);
-        
-        document.getElementById('product-selected-table').style.display = 'table';
 
         this.calculator.updateTotal(this.selectedProducts);
     }
 
-
-    // -------------------- Render 1 dòng sản phẩm --------------------
-    renderRow(selected) {
+    renderRow(product) {
         const tr = document.createElement('tr');
-        tr.dataset.id = selected.value;
+        tr.dataset.id = product.id;
         tr.innerHTML = `
             <td>
-                <input type="hidden" name="product_id[]" value="${selected.value}">
-                ${selected.dataset.name}
+                <input type="hidden" name="product_id[${product.id}]" value="${product.id}">
+                ${product.name}
             </td>
             <td>
-                <input type="number" name="quantity[${selected.value}]" value="1" class="form-control form-control-sm" min="1">
+                <input type="number" name="quantity[${product.id}]" value="${product.quantity}" class="form-control form-control-sm" min="1">
             </td>
             <td>
-                <input type="hidden" name="price_sale[]" value="${selected.value}">
-                ${Helper.formatVND(selected.dataset.price_sale)}
+                <input type="hidden" name="price_sale[${product.id}]" value="${product.price}">
+                ${Helper.formatVND(product.price)}
             </td>
             <td>
-                <input type="text" name="discount_display[${selected.value}]" value="" placeholder="Nhập triết khấu..." class="form-control form-control-sm">
-                <input type="hidden" name="discount[${selected.value}]" value="" class="discount-hidden">
+                <input type="text" name="discount_display[${product.id}]" value="${product.discount ? Helper.formatVND(product.discount) : ''}" placeholder="Nhập triết khấu..." class="form-control form-control-sm">
+                <input type="hidden" name="discount[${product.id}]" value="${product.discount}" class="discount-hidden">
             </td>
             <td class="text-center">
-                <input type="checkbox" name="is_gift[${selected.value}]" value="1" class="form-check-input">
+                <input type="checkbox" name="is_gift[${product.id}]" value="1" class="form-check-input" ${product.is_gift ? 'checked' : ''}>
             </td>
             <td class="text-center">
                 <button type="button" class="btn btn-link btn-sm text-danger">Xóa</button>
@@ -139,12 +128,11 @@ export default class ProductExportSelector {
         return tr;
     }
 
-    // -------------------- Bind event cho từng dòng --------------------
     bindRowEvents(tr, productData) {
-        const qtyInput      = tr.querySelector(`[name^="quantity"]`);
-        const discountHidden   = tr.querySelector(`.discount-hidden`);
-        const discountDisplay  = tr.querySelector(`[name^="discount_display"]`);
-        const giftCheckbox  = tr.querySelector(`[name^="is_gift"]`);
+        const qtyInput = tr.querySelector(`[name="quantity[${productData.id}]"]`);
+        const discountHidden = tr.querySelector(`[name="discount[${productData.id}]"]`);
+        const discountDisplay = tr.querySelector(`[name="discount_display[${productData.id}]"]`);
+        const giftCheckbox = tr.querySelector(`[name="is_gift[${productData.id}]"]`);
 
         qtyInput.addEventListener('input', () => {
             productData.quantity = +qtyInput.value;
@@ -173,8 +161,8 @@ export default class ProductExportSelector {
             productData.is_gift = isGift;
 
             if (isGift) {
-                productData.discount  = 0;
-                discountHidden.value  = 0;
+                productData.discount = 0;
+                discountHidden.value = 0;
                 discountDisplay.value = '';
                 discountDisplay.disabled = true;
             } else {
@@ -188,11 +176,10 @@ export default class ProductExportSelector {
 
         tr.querySelector('button').addEventListener('click', () => {
             tr.remove();
+            this.selectedProducts = this.selectedProducts.filter(p => p.id !== productData.id);
             if (!this.tableBody.children.length) {
                 document.getElementById('product-selected-table').style.display = 'none';
             }
-
-            this.selectedProducts = this.selectedProducts.filter(p => p.id !== productData.id);
             this.calculator.updateTotal(this.selectedProducts);
         });
     }

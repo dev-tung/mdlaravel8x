@@ -82,7 +82,7 @@ class ProductService
     public function generateSku($taxonomyId, $productName)
     {
         $taxonomyAbbr = $taxonomyId
-            ? HPabbreviation($this->taxonomyRepository->find($taxonomyId)->name)
+            ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
             : 'XXX';
 
         $random = $this->randomDigits();

@@ -26,11 +26,9 @@ class ProductRepository
         return Product::create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): bool
     {
-        $product = $this->find($id);
-        $product->update($data);
-        return $product;
+        return Product::where('id', $id)->update($data);
     }
 
     public function delete(int $id)

@@ -14,9 +14,22 @@ class ExportItem extends Model
         'export_id',
         'product_id',
         'quantity',
-        'export_price',
+        'current_import_price',
+        'current_price_original',
+        'current_price_sale',
+        'discount',
         'total_export_price',
         'is_gift',
+    ];
+
+    protected $casts = [
+        'quantity'              => 'integer',
+        'current_import_price'  => 'float',
+        'current_price_original'=> 'float',
+        'current_price_sale'    => 'float',
+        'discount'              => 'float',
+        'total_export_price'    => 'float',
+        'is_gift'               => 'boolean',
     ];
 
     /**

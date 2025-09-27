@@ -51,11 +51,9 @@ class TaxonomyRepository
         return Taxonomy::create($data);
     }
 
-    public function update(int $id, array $data): Taxonomy
+    public function update(int $id, array $data): bool
     {
-        $taxonomy = $this->find($id);
-        $taxonomy->update($data);
-        return $taxonomy;
+        return Taxonomy::where('id', $id)->update($data);
     }
 
     public function delete(int $id): ?bool

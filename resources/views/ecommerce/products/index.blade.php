@@ -17,8 +17,8 @@
             @foreach( $products as $key => $product )
                 <div class="ProductItem">
                     <div class="ProductGroup">
-                        <a class="ProductThumnail" href="{{ HPdisplayThumnail($product->thumbnail)}}">
-                            <img class="ProductImg" src="{{ HPdisplayThumnail($product->thumbnail)}}">
+                        <a class="ProductThumnail" href="{{ display_thumbnail($product->thumbnail)}}">
+                            <img class="ProductImg" src="{{ display_thumbnail($product->thumbnail)}}">
                         </a>
                         <h3 class="ProductTitle">{{$product->name}}</h3>
                         <div class="ProductPrice">

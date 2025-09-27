@@ -1,5 +1,4 @@
 @extends('admin.shared.app')
-
 @section('content')
     <div class="app-content-header">
         <div class="container-fluid">
@@ -77,17 +76,17 @@
                                         <tr data-product-id="{{ $product->id }}" data-href="{{ route('admin.products.edit', $product->id) }}">
                                             <td>{{ $product->sku }}</td>
                                             <td class="NoBubble">
-                                                <a href="{{ HPdisplayThumnail($product->thumbnail_image) }}" target="_blank">
-                                                    <img id="thumbnail-preview" alt="Preview" src="{{ HPdisplayThumnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
+                                                <a href="{{ display_thumbnail($product->thumbnail_image) }}" target="_blank">
+                                                    <img id="thumbnail-preview" alt="Preview" src="{{ display_thumbnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
                                                 </a>
                                             </td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
                                             <td>{{ $product->supplier->name ?? '-' }}</td>
                                             <td class="text-center">{{ $product->quantity }}</td>
-                                            <td>{{ HPformatCurrency($product->import_price) }}</td>
-                                            <td>{{ HPformatCurrency($product->price_original) }}</td>
-                                            <td>{{ HPformatCurrency($product->price_sale) }}</td>
+                                            <td>{{ format_currency($product->import_price) }}</td>
+                                            <td>{{ format_currency($product->price_original) }}</td>
+                                            <td>{{ format_currency($product->price_sale) }}</td>
                                             <td class="NoBubble text-center">
                                                 <a class="btn btn-outline-primary btn-sm px-2 py-1 me-1" href="{{ route('admin.products.edit', $product->id) }}">Sửa</a>
                                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">

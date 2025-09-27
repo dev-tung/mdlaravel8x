@@ -156,6 +156,9 @@ export default class FormValidator {
                         data[key] = value;
                     }
                 });
+
+                const btn = this.form.querySelector('button[type="submit"]');
+                if (btn) btn.disabled = true;
                 this.onValidSubmit(data, this.form);
             }
         });

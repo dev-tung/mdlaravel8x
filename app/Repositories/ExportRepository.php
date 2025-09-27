@@ -8,12 +8,12 @@ class ExportRepository
 {
     public function query()
     {
-        return Export::query()->with('supplier');
+        return Export::query()->with('customer');
     }
 
     public function find(int $id): Export
     {
-        return Export::with(['supplier', 'items.product'])->findOrFail($id);
+        return Export::with(['customer', 'items.product'])->findOrFail($id);
     }
 
     public function create(array $data): Export

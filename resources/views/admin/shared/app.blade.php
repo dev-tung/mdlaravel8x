@@ -51,7 +51,7 @@
         <!--begin::Container-->
         <div class="container-fluid">
           <!--begin::Start Navbar Links-->
-          <ul class="navbar-nav">
+          <!-- <ul class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
                 <i class="bi bi-list"></i>
@@ -60,7 +60,7 @@
             <li class="nav-item d-none d-md-block"><a href="{{ route('admin.products.create') }}" class="nav-link">+ Thêm sản phẩm</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ route('admin.customers.create') }}" class="nav-link">+ Thêm khách hàng</a></li>
             <li class="nav-item d-none d-md-block"><a href="{{ route('admin.exports.create') }}" class="nav-link">+ Thêm đơn hàng</a></li>
-          </ul>
+          </ul> -->
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">

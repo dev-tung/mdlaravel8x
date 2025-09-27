@@ -5,7 +5,8 @@ use App\Http\Controllers\Api\{
     CustomerController,
     ProductController,
     SupplierController,
-    ImportItemController
+    ImportItemController,
+    ExportItemController
 };
 
 Route::post('exports/update-field/{id}', [ExportController::class, 'updateField'])
@@ -25,3 +26,6 @@ Route::get('suppliers', [SupplierController::class, 'index'])
 
 Route::get('import-items/by-import/{importId}', [ImportItemController::class, 'getItemsByImportId'])
     ->name('api.import-items.by-import');
+
+Route::get('export-items/by-export/{exportId}', [ExportItemController::class, 'getItemsByExportId'])
+    ->name('api.export-items.by-export');

@@ -25,9 +25,9 @@ class ExportService
     {
         $query = $this->exportRepository->query();
 
-        $query->when(!empty($filters['supplier_name']), function ($q) use ($filters) {
-            $q->whereHas('supplier', fn($c) =>
-                $c->where('name', 'like', '%' . $filters['supplier_name'] . '%')
+        $query->when(!empty($filters['customer_name']), function ($q) use ($filters) {
+            $q->whereHas('customer', fn($c) =>
+                $c->where('name', 'like', '%' . $filters['customer_name'] . '%')
             );
         });
 
@@ -65,36 +65,41 @@ class ExportService
 
             $items = collect($data['product_id'])->map(function ($productId) use ($data) {
                 $quantity = (int) ($data['quantity'][$productId] ?? 0);
-                $price = (int) ($data['product_export_price'][$productId] ?? 0);
-                $isGift = isset($data['is_gift'][$productId]) ? 1 : 0;
+                $priceSale = (float) ($data['price_sale'][$productId] ?? 0);
+                $importPrice = (float) ($data['current_import_price'][$productId] ?? 0);
+                $originalPrice = (float) ($data['current_price_original'][$productId] ?? $priceSale);
+                $discount = (float) ($data['discount'][$productId] ?? 0);
+                $isGift = !empty($data['is_gift'][$productId]);
 
-                if ($isGift) {
-                    $price = 0;
-                    $totalPrice = 0;
-                } else {
-                    $totalPrice = $quantity * $price;
-                }
+                $totalPrice = $isGift ? 0 : max(0, $quantity * $priceSale - $discount);
 
                 return [
-                    'product_id'         => $productId,
-                    'quantity'           => $quantity,
-                    'export_price'       => $price,
-                    'total_export_price' => $totalPrice,
-                    'is_gift'            => $isGift,
-                    'created_at'         => now(),
-                    'updated_at'         => now(),
+                    'product_id'             => $productId,
+                    'quantity'               => $quantity,
+                    'current_import_price'   => $importPrice,
+                    'current_price_original' => $originalPrice,
+                    'discount'               => $discount,
+                    'current_price_sale'     => $priceSale,
+                    'total_export_price'     => $totalPrice,
+                    'is_gift'                => $isGift ? 1 : 0,
+                    'created_at'             => now(),
+                    'updated_at'             => now(),
                 ];
-            });
+            })->filter(fn($item) => $item['quantity'] > 0 || $item['is_gift']);
+
+            
 
             $totalAmount = $items->sum('total_export_price');
 
             $export = $this->exportRepository->create([
-                'supplier_id'         => $data['supplier_id'],
+                'customer_id'         => $data['customer_id'],
                 'export_date'         => $data['export_date'],
                 'status'              => $data['status'],
                 'payment_method'      => $data['payment_method'],
                 'notes'               => $data['notes'] ?? null,
                 'total_export_amount' => $totalAmount,
+                'created_at'          => now(),
+                'updated_at'          => now(),
             ]);
 
             $items = $items->map(fn($item) => array_merge($item, ['export_id' => $export->id]));
@@ -104,7 +109,6 @@ class ExportService
             return $export;
         });
     }
-
 
     public function update(array $data)
     {
@@ -130,7 +134,7 @@ class ExportService
 
             // Cập nhật export chính
             $this->exportRepository->update($exportId, [
-                'supplier_id'         => $data['supplier_id'],
+                'customer_id'         => $data['customer_id'],
                 'export_date'         => $data['export_date'],
                 'status'              => $data['status'],
                 'payment_method'      => $data['payment_method'],

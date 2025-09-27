@@ -4,7 +4,7 @@
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row align-items-center my-2">
-                <div class="col-auto"><h3 class="mb-0">Phiếu nhập hàng</h3></div>
+                <div class="col-auto"><h3 class="mb-0">Đơn hàng</h3></div>
                 <div class="col-auto">
                     <a href="{{ route('admin.exports.create') }}" class="btn btn-outline-primary btn-sm">
                         + Thêm mới
@@ -23,7 +23,7 @@
                         <div class="card-header">
                             <form id="filterForm" class="row g-2" method="GET" action="{{ route('admin.exports.index') }}">
                                 <div class="col-auto">
-                                    <input type="text" name="supplier_name" class="form-control form-control-sm" placeholder="Tên nhà cung cấp" value="{{ request('supplier_name') }}">
+                                    <input type="text" name="customer_name" class="form-control form-control-sm" placeholder="Tên khách hàng" value="{{ request('customer_name') }}">
                                 </div>
                                 <div class="col-auto">
                                     <input type="date" name="from_date" class="form-control form-control-sm" value="{{ request('from_date') }}">
@@ -54,7 +54,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>#</th>
-                                        <th>Nhà cung cấp</th>
+                                        <th>Khách hàng</th>
                                         <th>Ngày nhập</th>
                                         <th>Trạng thái</th>
                                         <th>Tổng tiền</th>
@@ -66,7 +66,7 @@
                                     @forelse($exports as $export)
                                         <tr data-export-id="{{ $export->id }}" data-href="{{ route('admin.exports.edit', $export->id) }}">
                                             <td>{{ $loop->iteration + ($exports->currentPage()-1) * $exports->perPage() }}</td>
-                                            <td>{{ $export->supplier->name ?? '–' }}</td>
+                                            <td>{{ $export->customer->name ?? '–' }}</td>
                                             <td>{{ $export->export_date->format('d/m/Y') }}</td>
                                             <td class="NoBubble">
                                                 <select data-id="{{ $export->id }}" class="form-select form-select-sm py-0 w-auto UpdateStatus">

@@ -68,7 +68,9 @@ export default class FormHandler {
     }
 
     async initProductExportSelector() {
+        // Lấy danh sách sản phẩm từ productService
         const products = await this.productService.getProducts();
+
         this.totalCalculator = new TotalCalculator(
             document.getElementById('total-export-amount')
         );
@@ -78,23 +80,26 @@ export default class FormHandler {
 
         if (exportId) {
             const items = await this.exportItemService.getByExportId(exportId);
+
             existingProducts = items.map(i => ({
                 id: i.product_id,
                 name: i.product.name,
                 quantity: i.quantity,
-                price: parseFloat(i.export_price),
+                price_sale: parseFloat(i.current_price_sale || 0),
+                discount: parseFloat(i.discount || 0),
                 is_gift: i.is_gift
             }));
         }
 
+        // Truyền danh sách products trực tiếp
         this.productExportSelector = new ProductExportSelector(
-            products,
+            products,                                                // dùng products đã lấy
             document.getElementById('product-search'),
             document.getElementById('product-select'),
             document.querySelector('#product-selected-table tbody'),
             this.totalCalculator,
             this.priceValidator,
-            existingProducts  // ← load sẵn bảng cho edit
+            existingProducts
         );
     }
 

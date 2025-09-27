@@ -26,11 +26,9 @@ class RoleRepository
         return Role::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(int $id, array $data): bool
     {
-        $role = $this->find($id);
-        $role->update($data);
-        return $role;
+        return Role::where('id', $id)->update($data);
     }
 
     public function delete($id)

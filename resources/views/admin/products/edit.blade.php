@@ -85,7 +85,7 @@
                                         <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
                                         <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
                                         @if($product->thumbnail_image)
-                                            <img id="thumbnail-image-preview" src="{{ HPdisplayThumnail($product->thumbnail_image) }}" alt="Preview" style="max-height:100px; margin-top:10px;">
+                                            <img id="thumbnail-image-preview" src="{{ display_thumbnail($product->thumbnail_image) }}" alt="Preview" style="max-height:100px; margin-top:10px;">
                                         @else
                                             <img id="thumbnail-image-preview" src="#" alt="Preview" style="display:none; max-height:100px; margin-top:10px;">
                                         @endif

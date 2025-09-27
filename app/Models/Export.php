@@ -6,41 +6,55 @@ use Illuminate\Database\Eloquent\Model;
 
 class Export extends Model
 {
-    // tên bảng
+    // Tên bảng
     protected $table = 'exports';
 
-    // khóa chính
+    // Khóa chính
     protected $primaryKey = 'id';
 
-    // cho phép Laravel tự quản lý created_at, updated_at
+    // Cho phép Laravel tự quản lý created_at, updated_at
     public $timestamps = true;
 
+    // Các trường được phép gán hàng loạt
     protected $fillable = [
-        'supplier_id',
+        'customer_id',
         'export_date',
         'total_export_amount',
+        'total_discount_amount',
+        'discount_type',
         'notes',
         'status',
         'payment_method',
     ];
 
+    // Chuyển đổi kiểu dữ liệu
     protected $casts = [
-        'export_date' => 'date',
+        'export_date'          => 'date',
+        'total_export_amount'  => 'float',
+        'total_discount_amount'=> 'float',
     ];
-    
+
     /**
-     * Quan hệ: Một export thuộc về một supplier
+     * Quan hệ: Một export thuộc về một customer
      */
-    public function supplier()
+    public function customer()
     {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     /**
-     * (Nếu có bảng export_items) Một export có nhiều items
+     * Quan hệ: Một export có nhiều items
      */
     public function items()
     {
         return $this->hasMany(ExportItem::class, 'export_id');
+    }
+
+    /**
+     * Accessor: Tổng giá trị sau khi trừ giảm giá
+     */
+    public function getTotalAfterDiscountAttribute()
+    {
+        return $this->total_export_amount - ($this->total_discount_amount ?? 0);
     }
 }
