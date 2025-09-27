@@ -13,7 +13,7 @@ class ProductRepository
 
     public function all()
     {
-        return Product::all();
+        return Product::with('variants')->get();
     }
 
     public function find(int $id)
