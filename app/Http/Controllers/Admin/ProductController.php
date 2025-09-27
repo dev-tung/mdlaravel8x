@@ -35,17 +35,15 @@ class ProductController extends Controller
         $perPage = $request->input('per_page', config('shared.pagination_per_page', 15));
 
         $products = $this->productService->paginateWithFilters($filters, $perPage);
-        $taxonomies = $this->taxonomyRepository->getByType('product');
         $suppliers = $this->supplierRepository->all();
 
-        return view('admin.products.index', compact('products', 'filters', 'taxonomies', 'suppliers'));
+        return view('admin.products.index', compact('products', 'filters', 'suppliers'));
     }
 
     public function create()
     {
-        $taxonomies = $this->taxonomyRepository->getByType('product');
         $suppliers = $this->supplierRepository->all();
-        return view('admin.products.create', compact('taxonomies', 'suppliers'));
+        return view('admin.products.create', compact('suppliers'));
     }
 
     public function store(ProductRequest $request)
@@ -62,9 +60,8 @@ class ProductController extends Controller
         if (!$product) {
             return redirect()->route('admin.products.index')->with('error', 'Sản phẩm không tồn tại.');
         }
-        $taxonomies = $this->taxonomyRepository->getByType('product');
         $suppliers = $this->supplierRepository->all();
-        return view('admin.products.edit', compact('product', 'taxonomies', 'suppliers'));
+        return view('admin.products.edit', compact('product', 'suppliers'));
     }
 
     public function update(ProductRequest $request, int $id)

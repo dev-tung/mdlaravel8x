@@ -74,11 +74,18 @@
                                                 @enderror
                                             </div>
 
-                                            <!-- Unit -->
+                                            <!-- Đơn vị -->
                                             <div class="col-md-6">
                                                 <label for="unit" class="form-label small">Đơn vị</label>
-                                                <input type="text" class="form-control form-control-sm" id="unit" 
-                                                    name="unit" value="{{ old('unit') }}">
+                                                <select class="form-select form-select-sm" id="unit" name="unit">
+                                                    <option value="">-- Chọn --</option>
+                                                    @foreach(taxonomies('unit') as $taxonomy)
+                                                        <option value="{{ $taxonomy->id }}" 
+                                                            {{ old('unit') == $taxonomy->id ? 'selected' : '' }}>
+                                                            {{ $taxonomy->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 @error('unit')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
@@ -124,7 +131,7 @@
                                                 <label for="taxonomy_id" class="form-label small">Danh mục <span class="text-danger">*</span></label>
                                                 <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id">
                                                     <option value="">-- Chọn --</option>
-                                                    @foreach($taxonomies as $taxonomy)
+                                                    @foreach(taxonomies('product') as $taxonomy)
                                                         <option value="{{ $taxonomy->id }}" 
                                                             {{ old('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
                                                             {{ $taxonomy->name }}

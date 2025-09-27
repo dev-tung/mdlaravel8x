@@ -49,3 +49,9 @@ if (!function_exists('format_currency')) {
         return number_format($number, 0, ',', '.') . ' ' . $suffix;
     }
 }
+
+if (!function_exists('taxonomies')) {
+    function taxonomies(string $type) {
+        return app(\App\Repositories\TaxonomyRepository::class)->getByType($type);
+    }
+}

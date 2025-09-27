@@ -40,7 +40,7 @@
                                 <div class="col-auto">
                                     <select name="taxonomy_id" class="form-control form-control-sm">
                                         <option value="">-- Danh mục --</option>
-                                        @foreach($taxonomies as $taxonomy)
+                                        @foreach(taxonomies('product') as $taxonomy)
                                             <option value="{{ $taxonomy->id }}" {{ request('taxonomy_id') == $taxonomy->id ? 'selected' : '' }}>
                                                 {{ $taxonomy->name }}
                                             </option>
