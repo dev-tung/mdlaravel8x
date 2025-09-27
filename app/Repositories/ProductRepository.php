@@ -28,7 +28,7 @@ class ProductRepository
 
     public function update(int $id, array $data): bool
     {
-        return Product::where('id', $id)->update($data);
+        return Product::findOrFail($id)->update($data);
     }
 
     public function delete(int $id)

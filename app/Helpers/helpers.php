@@ -1,30 +1,22 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 if (!function_exists('display_thumbnail')) {
     /**
-     * Lấy URL của thumbnail sản phẩm (PHP thuần)
-     *
-     * @param string|null $path     Đường dẫn thumbnail (tương đối so với thư mục public)
-     * @param string $default       Ảnh mặc định nếu không có
-     * @param string $baseUrl       Base URL của website (vd: http://localhost/project/)
-     * @return string
+     * Lấy URL của thumbnail sản phẩm (Laravel version)
      */
-    function display_thumbnail(?string $path = null, string $default = 'img/shared/No_Image_Available.jpg', string $baseUrl = '/'): string
+    function display_thumbnail(?string $path = null)
     {
-        // Chuẩn hóa base URL (đảm bảo có dấu / ở cuối)
-        if (substr($baseUrl, -1) !== '/') {
-            $baseUrl .= '/';
+        if (Storage::disk('public')->exists($path)) {
+            return asset('storage/' . $path);
         }
 
-        // Nếu có path và file tồn tại
-        if ($path && file_exists(__DIR__ . '/public/' . $path)) {
-            return $baseUrl . 'public/' . ltrim($path, '/');
-        }
-
-        // Trả về ảnh mặc định
-        return $baseUrl . ltrim($default, '/');
+        return asset('img/shared/No_Image_Available.jpg');
     }
 }
+
 
 
 if (!function_exists('abbreviation')) {
@@ -33,8 +25,8 @@ if (!function_exists('abbreviation')) {
      */
     function abbreviation(string $string, int $length = 3): string
     {
-        // Chuyển về ASCII (loại bỏ dấu, dùng iconv)
-        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+        // Chuyển về ASCII (loại bỏ dấu)
+        $ascii = Str::ascii($string);
 
         // Lấy ký tự đầu mỗi từ (chỉ [A-Za-z0-9])
         preg_match_all('/\b[A-Za-z0-9]/', $ascii, $matches);

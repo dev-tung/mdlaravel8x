@@ -140,7 +140,7 @@
                                             <div class="col-md-12">
                                                 <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
                                                 <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
-                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="#" alt="Preview">
+                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="{{ display_thumbnail(null) }}" alt="Preview">
                                                 @error('thumbnail_image')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
