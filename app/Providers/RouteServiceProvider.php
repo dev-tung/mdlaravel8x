@@ -49,11 +49,6 @@ class RouteServiceProvider extends ServiceProvider
         // ECOMMERCE
         Route::middleware('web')
             ->group(base_path('routes/ecommerce.php'));
-
-        // SHOP
-        Route::middleware('web')
-            ->prefix('shop')
-            ->group(base_path('routes/shop.php'));
     }
 
     /**
