@@ -30,7 +30,7 @@
                             <div class="col-md-12 position-relative DropdownInput">
                                 <label for="product-search" class="form-label">Sản phẩm <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-sm" id="product-search" placeholder="Tìm sản phẩm..." autocomplete="off">
-                                <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="product-select" size="5">
+                                <select class="form-select form-select-sm mt-1 position-absolute DropdownInputSelect" id="product-select" size="5">
                                     <!-- JS sẽ bind data vào đây -->
                                 </select>
                                 @error('product_id')
@@ -69,7 +69,7 @@
                             <div class="col-md-6 position-relative DropdownInput">
                                 <label for="supplier-search" class="form-label">Nhà cung cấp <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control form-control-sm" id="supplier-search" name="supplier_search" value="{{ $import->supplier->name }}" placeholder="Tìm nhà cung cấp..." autocomplete="off">
-                                <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="supplier-select" size="5">
+                                <select class="form-select form-select-sm mt-1 position-absolute DropdownInputSelect" id="supplier-select" size="5">
                                     <!-- JS sẽ bind data vào đây -->
                                 </select>
                                 <input type="hidden" name="supplier_id" id="supplier-id" value="{{ $import->supplier_id }}">

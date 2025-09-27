@@ -31,7 +31,7 @@
                                         <label for="product-search" class="form-label">Sản phẩm <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-sm" id="product-search" placeholder="Tìm sản phẩm..." autocomplete="off">
                                         
-                                        <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="product-select" size="5">
+                                        <select class="form-select form-select-sm mt-1 position-absolute DropdownInputSelect" id="product-select" size="5">
                                             <!-- JS sẽ bind data vào đây -->
                                         </select>
 
@@ -73,7 +73,7 @@
                                         <label for="supplier-search" class="form-label">Nhà cung cấp <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-sm" id="supplier-search" name="supplier_search" placeholder="Tìm nhà cung cấp..." autocomplete="off">
                                         
-                                        <select class="form-select form-select-sm mt-1 position-absolute DropdownInput-Select" id="supplier-select" size="5">
+                                        <select class="form-select form-select-sm mt-1 position-absolute DropdownInputSelect" id="supplier-select" size="5">
                                             <!-- JS sẽ bind data vào đây -->
                                         </select>
 

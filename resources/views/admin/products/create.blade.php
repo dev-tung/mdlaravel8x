@@ -1,5 +1,4 @@
 @extends('admin.shared.app')
-
 @section('content')
     <div class="app-content-header">
         <div class="container-fluid">
@@ -17,10 +16,9 @@
             </div>
         </div>
     </div>
-
     <div class="app-content">
         <div class="container-fluid">
-            <div class="row g-4">
+            <div class="row g-2">
                 <div class="col-12">
                     <form class="needs-validation" id="product-create-form" method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" novalidate>
                         @csrf
@@ -28,7 +26,7 @@
                             <div class="col-md-9">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row g-3">
+                                        <div class="row g-2">
                                             <!-- Name -->
                                             <div class="col-md-6">
                                                 <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
@@ -50,7 +48,7 @@
 
                                             <!-- Price Original -->
                                             <div class="col-md-6">
-                                                <label for="price_original" class="form-label small">Giá gốc <span class="text-danger">*</span></label>
+                                                <label for="price_original" class="form-label small">Giá bán gốc <span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control form-control-sm" id="price_original" name="price_original" value="{{ old('price_original') }}">
                                                 @error('price_original')
                                                     <small class="text-danger">{{ $message }}</small>
@@ -66,22 +64,22 @@
                                                 @enderror
                                             </div>
 
-                                            <!-- Unit -->
-                                            <div class="col-md-6">
-                                                <label for="unit" class="form-label small">Đơn vị</label>
-                                                <input type="text" class="form-control form-control-sm" id="unit" 
-                                                    name="unit" value="{{ old('unit') }}">
-                                                @error('unit')
-                                                    <small class="text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-
                                             <!-- quantity -->
                                             <div class="col-md-6">
                                                 <label for="quantity" class="form-label small">Số lượng <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control form-control-sm" id="quantity" 
                                                     name="quantity" value="{{ old('quantity') }}">
                                                 @error('quantity')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Unit -->
+                                            <div class="col-md-6">
+                                                <label for="unit" class="form-label small">Đơn vị</label>
+                                                <input type="text" class="form-control form-control-sm" id="unit" 
+                                                    name="unit" value="{{ old('unit') }}">
+                                                @error('unit')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
@@ -103,7 +101,7 @@
                             <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body"> 
-                                        <div class="row g-3">
+                                        <div class="row g-2">
                                             <!-- Supplier -->
                                             <div class="col-md-12">
                                                 <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
@@ -141,8 +139,8 @@
                                             <!-- Thumbnail_image -->
                                             <div class="col-md-12">
                                                 <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                                <input type="file" class="form-control form-control-sm d-none" id="thumbnail-image" name="thumbnail_image" accept="image/*">
-                                                <img id="thumbnail-image-preview" src="{{asset('img/shared/No_Image_Available.jpg')}}" alt="Preview" style="display: block; max-height: 148px;">
+                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="#" alt="Preview">
                                                 @error('thumbnail_image')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror

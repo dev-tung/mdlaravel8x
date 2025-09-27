@@ -22,11 +22,17 @@
     width: auto;
 }
 
-.DropdownInput-Select{
+.DropdownInputSelect{
     display:none; 
     z-index:1000; 
-    width: calc(100% - 16px); /* trừ width scrollbar */
+    width: calc(100% - 16px);
     max-height:200px; 
     overflow-y:auto; 
     box-sizing:border-box;
+}
+
+.ProductThumnailPreview{
+    display:none; 
+    max-height: 100px; 
+    margin-top:10px;
 }
