@@ -22,9 +22,7 @@ class SupplierController extends Controller
 
     public function updateField(Request $request, $id)
     {
-        $field = $request->input('field');
-        $value = $request->input('value');
-        $success = $this->repository->updateField($id, $field, $value);
+        $success = $this->repository->updateField($id, $request->input('field'), $request->input('value'));
         return response()->json(['success' => $success]);
     }
 }
