@@ -41,8 +41,17 @@ export default class VariantComponent {
     this.variantIndex++;
   }
 
-  removeVariant(target) {
+    removeVariant(target) {
     const row = target.closest(`.${this.rowClass}`);
-    if (row) row.remove();
-  }
+    if (!row) return;
+
+    // Kiểm tra nếu là row đầu tiên thì không xóa
+    const allRows = this.wrapper.querySelectorAll(`.${this.rowClass}`);
+    if (allRows.length <= 1) {
+        alert("Phải giữ ít nhất 1 variant!");
+        return;
+    }
+
+    row.remove();
+    }
 }

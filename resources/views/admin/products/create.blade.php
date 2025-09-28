@@ -70,12 +70,11 @@
                                                 <div class="col">
                                                     <input type="number" name="variants[0][quantity]" class="form-control form-control-sm" placeholder="Số lượng">
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-auto">
                                                     <button type="button" class="btn btn-sm btn-outline-danger remove-variant">Xóa</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
