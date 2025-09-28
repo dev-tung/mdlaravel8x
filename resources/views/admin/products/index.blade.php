@@ -74,7 +74,7 @@
                                 <tbody>
                                     @forelse($products as $product)
                                         <tr data-product-id="{{ $product->id }}" data-href="{{ route('admin.products.edit', $product->id) }}">
-                                            <td>{{ $product->sku }}</td>
+                                            <td>{{ $product->variant->sku }}</td>
                                             <td class="NoBubble">
                                                 <a href="{{ display_thumbnail($product->thumbnail_image) }}" target="_blank">
                                                     <img id="thumbnail-preview" alt="Preview" src="{{ display_thumbnail($product->thumbnail_image) }}" target="_blank" style="height: 18px">
@@ -82,11 +82,11 @@
                                             </td>
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->taxonomy->name ?? '-' }}</td>
-                                            <td>{{ $product->supplier->name ?? '-' }}</td>
-                                            <td class="text-center">{{ $product->quantity }}</td>
-                                            <td>{{ format_currency($product->import_price) }}</td>
-                                            <td>{{ format_currency($product->price_original) }}</td>
-                                            <td>{{ format_currency($product->price_sale) }}</td>
+                                            <td>{{ $product->variant->supplier->name ?? '-' }}</td>
+                                            <td class="text-center">{{ $product->variant->quantity }}</td>
+                                            <td>{{ format_currency($product->variant->import_price) }}</td>
+                                            <td>{{ format_currency($product->variant->price_original) }}</td>
+                                            <td>{{ format_currency($product->variant->price_sale) }}</td>
                                             <td class="NoBubble text-center">
                                                 <a class="btn btn-outline-primary btn-sm px-2 py-1 me-1" href="{{ route('admin.products.edit', $product->id) }}">Sửa</a>
                                                 <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="NoBubble d-inline">

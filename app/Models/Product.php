@@ -39,6 +39,13 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class, 'product_id');
     }
+
+    public function variant()
+    {
+        return $this->hasOne(ProductVariant::class);
+        // hoặc hasMany nếu 1 product có nhiều variant
+    }
+
     
 }
 

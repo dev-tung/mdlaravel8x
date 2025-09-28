@@ -36,23 +36,13 @@ class ProductService
         }
 
         if (!empty($filters['supplier_id'])) {
-            $query->where('supplier_id', $filters['supplier_id']);
+            $query->whereHas('variant.supplier', function ($q) use ($filters) {
+                $q->where('id', $filters['supplier_id']);
+            });
         }
 
         if (!empty($filters['taxonomy_id'])) {
             $query->where('taxonomy_id', $filters['taxonomy_id']);
-        }
-
-        if (!empty($filters['price_min'])) {
-            $query->where('price_output', '>=', $filters['price_min']);
-        }
-
-        if (!empty($filters['price_max'])) {
-            $query->where('price_output', '<=', $filters['price_max']);
-        }
-
-        if (!empty($filters['in_stock'])) {
-            $query->where('stock', '>', 0);
         }
 
         return $query->orderBy('created_at', 'desc')
