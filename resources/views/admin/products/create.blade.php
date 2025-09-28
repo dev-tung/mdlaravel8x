@@ -40,7 +40,7 @@
                                             <!-- Description -->
                                             <div class="col-md-12">
                                                 <label for="description" class="form-label small">Mô tả</label>
-                                                <textarea class="form-control form-control-sm" id="description" name="description" rows="1">{{ old('description') }}</textarea>
+                                                <textarea class="form-control form-control-sm" id="description" name="description" rows="4">{{ old('description') }}</textarea>
                                                 @error('description') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
                                         </div>
