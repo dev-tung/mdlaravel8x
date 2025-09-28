@@ -33,16 +33,14 @@
                                             <!-- Name -->
                                             <div class="col-md-12">
                                                 <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control form-control-sm" id="name" name="name"
-                                                       value="{{ old('name') }}" required>
+                                                <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ old('name') }}" required>
                                                 @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
 
                                             <!-- Description -->
                                             <div class="col-md-12">
                                                 <label for="description" class="form-label small">Mô tả</label>
-                                                <textarea class="form-control form-control-sm" id="description"
-                                                          name="description" rows="1">{{ old('description') }}</textarea>
+                                                <textarea class="form-control form-control-sm" id="description" name="description" rows="1">{{ old('description') }}</textarea>
                                                 @error('description') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
                                         </div>
@@ -61,20 +59,16 @@
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-2 variant-row">
                                                 <div class="col">
-                                                    <input type="text" name="variants[0][size]" class="form-control form-control-sm"
-                                                           placeholder="Size">
+                                                    <input type="text" name="variants[0][size]" class="form-control form-control-sm" placeholder="Size">
                                                 </div>
                                                 <div class="col">
-                                                    <input type="text" name="variants[0][color]" class="form-control form-control-sm"
-                                                           placeholder="Màu">
+                                                    <input type="text" name="variants[0][color]" class="form-control form-control-sm" placeholder="Màu">
                                                 </div>
                                                 <div class="col">
-                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm"
-                                                           placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
                                                 </div>
                                                 <div class="col">
-                                                    <input type="number" name="variants[0][quantity]" class="form-control form-control-sm"
-                                                           placeholder="Số lượng">
+                                                    <input type="number" name="variants[0][quantity]" class="form-control form-control-sm" placeholder="Số lượng">
                                                 </div>
                                                 <div class="col">
                                                     <button type="button" class="btn btn-sm btn-outline-danger remove-variant">Xóa</button>
@@ -122,10 +116,8 @@
                                             <!-- Thumbnail -->
                                             <div class="col-md-12">
                                                 <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image"
-                                                       name="thumbnail_image" accept="image/*">
-                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview"
-                                                     src="{{ display_thumbnail(null) }}" alt="Preview">
+                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="{{ display_thumbnail(null) }}" alt="Preview">
                                                 @error('thumbnail_image') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
                                         </div>
