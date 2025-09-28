@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div id="variants-wrapper">
-                                            <div class="row g-2 mb-2 variant-row">
+                                            <div class="row g-2 mb-3 variant-row bg-secondary bg-opacity-10 p-2 rounded">
                                                 <div class="col-4">
                                                     <label class="form-label small">Ảnh sản phẩm</label>
                                                     <input type="file" class="form-control form-control-sm" name="variants[0][thumbnail_image]" accept="image/*">
