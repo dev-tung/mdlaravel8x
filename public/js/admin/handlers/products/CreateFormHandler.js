@@ -4,7 +4,7 @@ export default class CreateFormHandler {
     constructor() {
         this.initValidator();
         this.initThumbPreview();
-        this.initAddProductVariant();
+        this.initProductVariant();
     }
 
     initValidator() {
@@ -60,7 +60,7 @@ export default class CreateFormHandler {
         }
     }
 
-    initAddProductVariant(){
+    initProductVariant(){
         let variantIndex = 1;
 
         document.getElementById('add-variant')?.addEventListener('click', () => {
