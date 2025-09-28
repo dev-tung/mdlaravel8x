@@ -1,6 +1,6 @@
 import FormValidator from "../../shared/FormValidator.js";
 import ImageComponent from '../../../components/ImageComponent.js';
-import VariantComponent from '../../../components/VariantComponent.js';
+import VariantComponent from '../../../components/RepeaterComponent.js';
 
 export default class CreateFormHandler {
     constructor() {
@@ -45,8 +45,7 @@ export default class CreateFormHandler {
     }
 
     initThumbPreview() {
-        const imageComponent = new ImageComponent();
-        imageComponent.Preview('thumbnail-image', 'thumbnail-image-preview');
+        new ImageComponent().Preview('thumbnail-image', 'thumbnail-image-preview');
     }
 
     initProductVariant(){

@@ -19,6 +19,7 @@ class ProductVariant extends Model
         'price_original',
         'price_sale',
         'quantity',
+        'thumbnail_image',
         'status'
     ];
 

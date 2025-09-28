@@ -52,26 +52,34 @@
                                     <div class="card-header">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <h4>Biến thể sản phẩm</h4>
-                                            <button type="button" id="add-variant" class="btn btn-sm btn-outline-secondary mt-2">+ Thêm biến thể</button>
+                                            <button type="button" id="add-variant" class="btn btn-sm btn-outline-secondary mt-2">+ Thêm</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-2 variant-row">
+                                                <div class="col-4">
+                                                    <label class="form-label small">Ảnh sản phẩm</label>
+                                                    <input type="file" class="form-control form-control-sm" name="variants[0][thumbnail_image]" accept="image/*">
+                                                </div>
                                                 <div class="col">
+                                                    <label class="form-label small">Kích thước</label>
                                                     <input type="text" name="variants[0][size]" class="form-control form-control-sm" placeholder="Size">
                                                 </div>
                                                 <div class="col">
+                                                    <label class="form-label small">Màu sắc</label>
                                                     <input type="text" name="variants[0][color]" class="form-control form-control-sm" placeholder="Màu">
                                                 </div>
                                                 <div class="col">
+                                                    <label class="form-label small">Giá bán</label>
                                                     <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
                                                 </div>
                                                 <div class="col">
+                                                    <label class="form-label small">Số lượng</label>
                                                     <input type="number" name="variants[0][quantity]" class="form-control form-control-sm" placeholder="Số lượng">
                                                 </div>
-                                                <div class="col-auto">
-                                                    <button type="button" class="btn btn-sm btn-outline-danger remove-variant">Xóa</button>
+                                                <div class="col-auto d-flex align-items-end">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger remove-variant d-block">Xóa</button>
                                                 </div>
                                             </div>
                                         </div>
