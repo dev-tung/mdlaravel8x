@@ -60,34 +60,24 @@ class ProductService
             );
         }
 
-        // Tạo SKU
         $data['sku'] = $this->generateSku($data['taxonomy_id'] ?? null, $data['name']);
 
-        // Tạo sản phẩm
-        $product = $this->productRepository->create($data);
-
-        return $product;
+        return $this->productRepository->createWithVariant($data);
     }
 
-    public function generateSku($taxonomyId, $productName)
+    private function generateSku(?int $taxonomyId, string $productName): string
     {
-        $taxonomyAbbr = $taxonomyId
-            ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
-            : 'XXX';
+        $abbr = $taxonomyId
+                ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
+                : 'XXX';
 
-        $random = $this->randomDigits();
-
-        return "MDS-{$taxonomyAbbr}-{$random}";
+        return sprintf("MDS-%s-%s", $abbr, $this->randomDigits());
     }
 
-    function randomDigits($length = 9) {
-        $digits = '';
-        for ($i = 0; $i < $length; $i++) {
-            $digits .= rand(0, 9);
-        }
-        return $digits;
+    private function randomDigits(int $length = 9): string
+    {
+        return str_pad((string) random_int(0, 10 ** $length - 1), $length, '0', STR_PAD_LEFT);
     }
-
 
     public function update(int $id, array $data)
     {

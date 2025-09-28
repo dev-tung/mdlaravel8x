@@ -3,10 +3,10 @@ import FormValidator from "../../shared/FormValidator.js";
 export default class CreateFormHandler {
     constructor() {
         this.initValidator();
-        this.initEvents();
+        this.initThumbPreview();
+        this.initAddProductVariant();
     }
 
-    // -------------------- Form validation --------------------
     initValidator() {
         this.validator = new FormValidator(
             "#product-create-form",
@@ -37,13 +37,12 @@ export default class CreateFormHandler {
                 }
             },
             (formData, form) => {
-                this.onFormSubmit(formData, form);
+                form.submit();
             }
         );
     }
 
-    initEvents() {
-        // === Preview ảnh mới ===
+    initThumbPreview() {
         const thumbnailInput = document.getElementById("thumbnail-image");
         const preview = document.getElementById("thumbnail-image-preview");
         if (thumbnailInput && preview) {
@@ -61,11 +60,29 @@ export default class CreateFormHandler {
         }
     }
 
-    // -------------------- Submit --------------------
-    onFormSubmit(formData, form) {
-        form.submit();
+    initAddProductVariant(){
+        let variantIndex = 1;
+
+        document.getElementById('add-variant')?.addEventListener('click', () => {
+            const wrapper = document.getElementById('variants-wrapper');
+            const template = document.querySelector('.variant-row').cloneNode(true);
+
+            template.querySelectorAll('input').forEach(input => {
+                input.name = input.name.replace(/\d+/, variantIndex);
+                input.value = '';
+            });
+
+            wrapper.appendChild(template);
+            variantIndex++;
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-variant')) {
+                e.target.closest('.variant-row').remove();
+            }
+        });
     }
+
 }
 
-// -------------------- Khởi tạo khi DOM ready --------------------
 document.addEventListener("DOMContentLoaded", () => new CreateFormHandler());
