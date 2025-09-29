@@ -48,7 +48,7 @@ export default class RepeaterComponent {
         // Kiểm tra nếu là row đầu tiên thì không xóa
         const allRows = this.wrapper.querySelectorAll(`.${this.rowClass}`);
         if (allRows.length <= 1) {
-            alert("Phải giữ ít nhất 1 repeater!");
+            alert("Phải giữ lại ít nhất 1 dòng!");
             return;
         }
 

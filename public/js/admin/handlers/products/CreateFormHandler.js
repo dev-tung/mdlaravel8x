@@ -62,7 +62,7 @@ export default class CreateFormHandler {
         const loadCKEditor = new Promise((resolve, reject) => {
             if (window.ClassicEditor) return resolve();
             const script = document.createElement('script');
-            script.src = 'https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js';
+            script.src = '/js/libraries/ckeditor.js';
             script.onload = () => resolve();
             script.onerror = () => reject(new Error('Không load được CKEditor từ CDN'));
             document.head.appendChild(script);
