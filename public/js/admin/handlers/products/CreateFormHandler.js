@@ -1,6 +1,7 @@
 import FormValidator from "../../shared/FormValidator.js";
 import ImageComponent from '../../../components/ImageComponent.js';
 import VariantComponent from '../../../components/RepeaterComponent.js';
+import EditorComponent from '../../../components/EditorComponent.js';
 
 export default class CreateFormHandler {
     constructor() {
@@ -59,24 +60,8 @@ export default class CreateFormHandler {
     }
 
     initCKEditor(){
-        const loadCKEditor = new Promise((resolve, reject) => {
-            if (window.ClassicEditor) return resolve();
-            const script = document.createElement('script');
-            script.src = '/js/libraries/ckeditor.js';
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('Không load được CKEditor từ CDN'));
-            document.head.appendChild(script);
-        });
-
-        loadCKEditor.then(() => {
-            if (typeof ClassicEditor !== 'undefined') {
-                ClassicEditor
-                    .create(document.querySelector('#description'))
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }
-        }).catch(error => console.error('Lỗi load CKEditor:', error));
+        const editor = new EditorComponent('#description');
+        editor.init().then(() => {});
     }
 
 }
