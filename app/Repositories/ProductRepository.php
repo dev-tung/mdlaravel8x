@@ -22,21 +22,18 @@ class ProductRepository
         return Product::findOrFail($id);
     }
 
-    public function createWithVariant(array $data): Product
+    public function create(array $data): Product
     {
-        // tách dữ liệu product
         $productData = collect($data)->only((new Product)->getFillable())->toArray();
+        return Product::create($productData);
+    }
 
-        // tạo product
-        $product = Product::create($productData);
-
-        // tách dữ liệu variant
-        $variantData = collect($data)->only((new ProductVariant)->getFillable())->toArray();
-
-        // tạo variant gắn với product
-        $product->variant()->create($variantData);
-
-        return $product->load('variant');
+    public function addVariants(Product $product, array $variants): void
+    {
+        foreach ($variants as $variant) {
+            $variantData = collect($variant)->only((new ProductVariant)->getFillable())->toArray();
+            $product->variants()->create($variantData);
+        }
     }
 
     public function update(int $id, array $data): bool

@@ -50,33 +50,44 @@ class ProductService
                      ->appends($filters);
     }
 
+    public function generate(string $productName, ?string $size = null, ?string $color = null): string
+    {
+        $abbr = strtoupper(collect(explode(' ', $productName))
+            ->map(fn($w) => mb_substr($w, 0, 1))
+            ->implode(''));
+
+        $sku = $abbr;
+
+        if ($size) {
+            $sku .= '-S' . strtoupper($size);
+        }
+
+        if ($color) {
+            $sku .= '-C' . strtoupper($color);
+        }
+
+        return $sku;
+    }
+
     public function create(array $data)
     {
-        // Xử lý ảnh trước
-        if (isset($data['thumbnail_image'])) {
+        // Xử lý upload ảnh
+        if (!empty($data['thumbnail_image'])) {
             $data['thumbnail_image'] = $this->imageService->upload(
                 $data['thumbnail_image'],
                 'products'
             );
         }
 
-        $data['sku'] = $this->generateSku($data['taxonomy_id'] ?? null, $data['name']);
+        // Gọi repository lưu product
+        $product = $this->productRepository->create($data);
 
-        return $this->productRepository->createWithVariant($data);
-    }
+        // Nếu có variants thì thêm
+        if (!empty($data['variants']) && is_array($data['variants'])) {
+            $this->productRepository->addVariants($product, $data['variants']);
+        }
 
-    private function generateSku(?int $taxonomyId, string $productName): string
-    {
-        $abbr = $taxonomyId
-                ? abbreviation($this->taxonomyRepository->find($taxonomyId)->name)
-                : 'XXX';
-
-        return sprintf("MDS-%s-%s", $abbr, $this->randomDigits());
-    }
-
-    private function randomDigits(int $length = 9): string
-    {
-        return str_pad((string) random_int(0, 10 ** $length - 1), $length, '0', STR_PAD_LEFT);
+        return $product->load('variants');
     }
 
     public function update(int $id, array $data)

@@ -29,7 +29,7 @@
                             <div class="col-md-9">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row g-2">
+                                        <div class="row g-3">
                                             <!-- Name -->
                                             <div class="col-md-12">
                                                 <label for="name" class="form-label small">Tên sản phẩm <span class="text-danger">*</span></label>
@@ -73,11 +73,11 @@
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá nhập</label>
-                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][import_price]" class="form-control form-control-sm" placeholder="Giá bán">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá bán gốc</label>
-                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][price_original]" class="form-control form-control-sm" placeholder="Giá bán">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá bán</label>
@@ -100,7 +100,7 @@
                             <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row g-2">
+                                        <div class="row g-3">
                                             <!-- Supplier -->
                                             <div class="col-md-12">
                                                 <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
@@ -127,6 +127,20 @@
                                                     @endforeach
                                                 </select>
                                                 @error('taxonomy_id') <small class="text-danger">{{ $message }}</small> @enderror
+                                            </div>
+
+                                            <!-- Unit -->
+                                            <div class="col-md-12">
+                                                <label for="taxonomy_id" class="form-label small">Đơn vị</label>
+                                                <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id" required>
+                                                    <option value="">-- Chọn --</option>
+                                                    @foreach(taxonomies('unit') as $taxonomy)
+                                                        <option value="{{ $taxonomy->id }}" {{ old('unit') == $taxonomy->id ? 'selected' : '' }}>
+                                                            {{ $taxonomy->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('unit') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
 
                                             <!-- Thumbnail -->

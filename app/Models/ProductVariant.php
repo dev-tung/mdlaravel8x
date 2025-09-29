@@ -32,4 +32,35 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
+
+    public static function generateSku(string $productName, ?string $size = null, ?string $color = null): string
+    {
+        // abbreviation từ product name (chỉ lấy ký tự đầu của mỗi từ)
+        $abbr = strtoupper(collect(explode(' ', $productName))
+            ->map(fn($w) => mb_substr($w, 0, 1))
+            ->implode(''));
+
+        $sku = $abbr;
+
+        if ($size) {
+            $sku .= '-S' . strtoupper($size);
+        }
+
+        if ($color) {
+            $sku .= '-C' . strtoupper($color);
+        }
+
+        return $sku;
+    }
+
+
+    protected static function booted()
+    {
+        static::creating(function ($variant) {
+            if (empty($variant->sku) && $variant->product) {
+                $variant->sku = app(\App\Services\ProductService::class)
+                    ->generate($variant->product->name, $variant->size, $variant->color);
+            }
+        });
+    }
 }
