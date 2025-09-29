@@ -60,8 +60,7 @@ export default class CreateFormHandler {
     }
 
     initCKEditor(){
-        const editor = new EditorComponent('#description');
-        editor.init().then(() => {});
+        new EditorComponent('#description').init();
     }
 
 }
