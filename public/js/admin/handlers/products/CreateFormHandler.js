@@ -7,6 +7,7 @@ export default class CreateFormHandler {
         this.initValidator();
         this.initThumbPreview();
         this.initProductVariant();
+        this.initCKEditor();
     }
 
     initValidator() {
@@ -55,6 +56,29 @@ export default class CreateFormHandler {
             rowClass: 'variant-row',
             removeBtnClass: 'remove-variant'
         });
+    }
+
+    initCKEditor(){
+        const loadCKEditor = new Promise((resolve, reject) => {
+            if (window.ClassicEditor) return resolve();
+            const script = document.createElement('script');
+            script.src = 'https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js';
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Không load được CKEditor từ CDN'));
+            document.head.appendChild(script);
+        });
+
+        loadCKEditor.then(() => {
+            if (typeof ClassicEditor !== 'undefined') {
+                ClassicEditor
+                    .create(document.querySelector('#description'))
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        }).catch(error => console.error('Lỗi load CKEditor:', error));
+
+
     }
 
 }

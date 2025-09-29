@@ -36,7 +36,12 @@
                                                 <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ old('name') }}" required>
                                                 @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
-
+                                            <!-- Short Description -->
+                                            <div class="col-md-12">
+                                                <label for="short-description" class="form-label small">Mô tả ngắn</label>
+                                                <textarea class="form-control form-control-sm" id="short-description" name="short_description" rows="2">{{ old('short_description') }}</textarea>
+                                                @error('short_description') <small class="text-danger">{{ $message }}</small> @enderror
+                                            </div>
                                             <!-- Description -->
                                             <div class="col-md-12">
                                                 <label for="description" class="form-label small">Mô tả</label>
