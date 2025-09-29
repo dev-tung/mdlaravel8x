@@ -77,8 +77,6 @@ export default class CreateFormHandler {
                     });
             }
         }).catch(error => console.error('Lỗi load CKEditor:', error));
-
-
     }
 
 }
