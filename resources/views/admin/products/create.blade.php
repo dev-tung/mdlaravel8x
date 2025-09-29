@@ -58,17 +58,21 @@
                                     <div class="card-body">
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-3 variant-row bg-secondary bg-opacity-10 p-2 rounded">
-                                                <div class="col-4">
-                                                    <label class="form-label small">Ảnh sản phẩm</label>
-                                                    <input type="file" class="form-control form-control-sm" name="variants[0][thumbnail_image]" accept="image/*">
-                                                </div>
                                                 <div class="col">
-                                                    <label class="form-label small">Kích thước</label>
+                                                    <label class="form-label small">Size</label>
                                                     <input type="text" name="variants[0][size]" class="form-control form-control-sm" placeholder="Size">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Màu sắc</label>
                                                     <input type="text" name="variants[0][color]" class="form-control form-control-sm" placeholder="Màu">
+                                                </div>
+                                                <div class="col">
+                                                    <label class="form-label small">Giá nhập</label>
+                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                </div>
+                                                <div class="col">
+                                                    <label class="form-label small">Giá bán gốc</label>
+                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá bán</label>
