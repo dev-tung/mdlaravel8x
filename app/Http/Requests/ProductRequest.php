@@ -21,7 +21,6 @@ class ProductRequest extends FormRequest
             'taxonomy_id' => ['required', 'exists:taxonomies,id'],
             'supplier_id' => ['nullable', 'exists:suppliers,id'],
             'unit'        => ['nullable', 'string', 'max:50'],
-
             'thumbnail'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif', 'max:2048'],
 
             // validate variants là một mảng
