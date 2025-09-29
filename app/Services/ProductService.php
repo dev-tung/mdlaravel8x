@@ -50,21 +50,23 @@ class ProductService
                      ->appends($filters);
     }
 
-    public function generate(string $productName, ?string $size = null, ?string $color = null): string
+    public function generate(?string $productName, ?string $size = null, ?string $color = null): string
     {
-        $abbr = strtoupper(collect(explode(' ', $productName))
-            ->map(fn($w) => mb_substr($w, 0, 1))
-            ->implode(''));
+        // abbreviation từ tên sản phẩm, nếu null thì mặc định PRD
+        $abbr = $productName
+            ? strtoupper(collect(preg_split('/\s+/', trim($productName)))
+                ->map(fn($w) => mb_substr(preg_replace('/[^A-Za-z0-9]/u', '', $w), 0, 1))
+                ->implode(''))
+            : 'PRD';
 
-        $sku = $abbr;
+        // Size, nếu null thì gán SDEF
+        $sku = $abbr . '-S' . strtoupper($size ?: 'DEF');
 
-        if ($size) {
-            $sku .= '-S' . strtoupper($size);
-        }
+        // Color, nếu null thì gán CDEF
+        $sku .= '-C' . strtoupper($color ?: 'DEF');
 
-        if ($color) {
-            $sku .= '-C' . strtoupper($color);
-        }
+        // Thêm chuỗi random 3 ký tự
+        $sku .= '-' . strtoupper(Str::random(6));
 
         return $sku;
     }
