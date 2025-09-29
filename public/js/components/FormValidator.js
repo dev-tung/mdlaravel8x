@@ -1,5 +1,5 @@
 // FormValidator.js
-import Helper from "../utils/Helper.js"; // import helper có parseVND, formatVND...
+import Helper from "../admin/utils/Helper.js"; // import helper có parseVND, formatVND...
 
 export default class FormValidator {
     constructor(formSelector, rules, onValidSubmit) {
@@ -55,7 +55,6 @@ export default class FormValidator {
 
         // 1. Bắt buộc
         if (rule.required) {
-            // Nếu field không tồn tại trong form hoặc không có value hợp lệ
             if (!field || value === "" || ((field.type === "checkbox" || field.type === "radio") && !isChecked)) {
                 this.showError(field, rule.message?.required || "Vui lòng nhập trường này.");
                 return false;
@@ -119,23 +118,32 @@ export default class FormValidator {
         return true;
     }
 
+    /**
+     * 👉 Hàm mới: gắn validate cho 1 field (dùng cho input thêm động từ Repeater)
+     */
+    attachEventsForField(field) {
+        if (!field) return;
+
+        // blur
+        field.addEventListener("blur", () => {
+            if (this.validateField(field)) {
+                if (field.dataset.type === "vnd") {
+                    const num = Helper.parseVND(field.value);
+                    field.value = num ? Helper.formatVND(num) : "";
+                }
+            }
+        });
+
+        // change
+        field.addEventListener("change", () => this.validateField(field));
+
+        // input
+        field.addEventListener("input", () => this.validateField(field));
+    }
+
     bindEvents() {
         this.form.querySelectorAll("input, textarea, select").forEach(field => {
-            // blur
-            field.addEventListener("blur", () => {
-                if (this.validateField(field)) {
-                    if (field.dataset.type === "vnd") {
-                        const num = Helper.parseVND(field.value);
-                        field.value = num ? Helper.formatVND(num) : "";
-                    }
-                }
-            });
-
-            // change (hợp với select / checkbox / radio)
-            field.addEventListener("change", () => this.validateField(field));
-
-            // input (validate realtime khi nhập)
-            field.addEventListener("input", () => this.validateField(field));
+            this.attachEventsForField(field); // dùng hàm mới
         });
 
         this.form.addEventListener("submit", (e) => {
@@ -163,5 +171,4 @@ export default class FormValidator {
             }
         });
     }
-
 }

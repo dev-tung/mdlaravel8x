@@ -114,7 +114,6 @@ class ProductService
     {
         $product = $this->productRepository->find($id);
         $this->imageService->delete($product->thumbnail_image ?? null);
-
         return $this->productRepository->delete($id);
     }
 

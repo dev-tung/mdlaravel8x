@@ -1,6 +1,6 @@
-import FormValidator from "../../shared/FormValidator.js";
+import FormValidator from "../../../components/FormValidator.js";
 import ImageComponent from '../../../components/ImageComponent.js';
-import VariantComponent from '../../../components/RepeaterComponent.js';
+import RepeaterComponent from '../../../components/RepeaterComponent.js';
 import EditorComponent from '../../../components/EditorComponent.js';
 
 export default class CreateFormHandler {
@@ -12,33 +12,12 @@ export default class CreateFormHandler {
     }
 
     initValidator() {
-        new FormValidator(
+        this.validator = new FormValidator(
             "#product-create-form",
             {
-                name: { 
-                    required: true 
-                },
-                taxonomy_id: { 
-                    required: true 
-                },
-                supplier_id: { 
-                    required: true 
-                },
-                import_price: { 
-                    required: true,
-                    numeric: true 
-                },
-                price_original: { 
-                    required: true,
-                    numeric: true 
-                },
-                price_sale: { 
-                    required: true,
-                    numeric: true 
-                },
-                quantity: { 
-                    required: true 
-                }
+                "name": { required: true, message: { required: "Nhập tên sản phẩm" } },
+                "taxonomy_id": { required: true, message: { required: "Chọn danh mục" } },
+                "supplier_id": { required: true, message: { required: "Chọn nhà cung cấp" } }
             },
             (formData, form) => {
                 form.submit();
@@ -51,7 +30,7 @@ export default class CreateFormHandler {
     }
 
     initProductVariant(){
-        new VariantComponent({
+        new RepeaterComponent({
             wrapperId: 'variants-wrapper',
             addBtnId: 'add-variant',
             rowClass: 'variant-row',

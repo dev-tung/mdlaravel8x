@@ -64,12 +64,22 @@
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-3 variant-row bg-secondary bg-opacity-10 p-2 rounded">
                                                 <div class="col">
-                                                    <label class="form-label small">Size</label>
-                                                    <input type="text" name="variants[0][size]" class="form-control form-control-sm" placeholder="Size">
+                                                    <label class="form-label small">Màu sắc</label>
+                                                    <select name="variants[0][color]" class="form-control form-control-sm">
+                                                        <option value="">-- Chọn màu --</option>
+                                                        @foreach(taxonomies('color') as $taxonomy)
+                                                            <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                                 <div class="col">
-                                                    <label class="form-label small">Màu sắc</label>
-                                                    <input type="text" name="variants[0][color]" class="form-control form-control-sm" placeholder="Màu">
+                                                    <label class="form-label small">Size</label>
+                                                    <select name="variants[0][size]" class="form-control form-control-sm">
+                                                        <option value="">-- Chọn size --</option>
+                                                        @foreach(taxonomies('size') as $taxonomy)
+                                                            <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá nhập</label>
@@ -131,8 +141,8 @@
 
                                             <!-- Unit -->
                                             <div class="col-md-12">
-                                                <label for="taxonomy_id" class="form-label small">Đơn vị</label>
-                                                <select class="form-select form-select-sm" id="taxonomy_id" name="taxonomy_id" required>
+                                                <label for="unit" class="form-label small">Đơn vị</label>
+                                                <select class="form-select form-select-sm" id="unit" name="unit" required>
                                                     <option value="">-- Chọn --</option>
                                                     @foreach(taxonomies('unit') as $taxonomy)
                                                         <option value="{{ $taxonomy->id }}" {{ old('unit') == $taxonomy->id ? 'selected' : '' }}>

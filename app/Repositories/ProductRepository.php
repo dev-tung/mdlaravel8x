@@ -41,8 +41,15 @@ class ProductRepository
         return Product::findOrFail($id)->update($data);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
-        return Product::destroy($id);
+        $product = Product::with('variants')->findOrFail($id);
+
+        // Xóa variants trước (nếu có)
+        $product->variants()->delete();
+
+        // Xóa chính product
+        return $product->delete();
     }
+
 }
