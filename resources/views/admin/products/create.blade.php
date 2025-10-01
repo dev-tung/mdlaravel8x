@@ -66,7 +66,7 @@
                                                 <div class="col">
                                                     <label class="form-label small">Màu sắc</label>
                                                     <select name="variants[0][color]" class="form-control form-control-sm">
-                                                        <option value="">-- Chọn màu --</option>
+                                                        <option value="">-- Màu --</option>
                                                         @foreach(taxonomies('color') as $taxonomy)
                                                             <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
                                                         @endforeach
@@ -75,7 +75,7 @@
                                                 <div class="col">
                                                     <label class="form-label small">Size</label>
                                                     <select name="variants[0][size]" class="form-control form-control-sm">
-                                                        <option value="">-- Chọn size --</option>
+                                                        <option value="">-- Size --</option>
                                                         @foreach(taxonomies('size') as $taxonomy)
                                                             <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
                                                         @endforeach
@@ -83,11 +83,11 @@
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá nhập</label>
-                                                    <input type="number" name="variants[0][import_price]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][import_price]" class="form-control form-control-sm" placeholder="Giá nhập">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá bán gốc</label>
-                                                    <input type="number" name="variants[0][price_original]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][price_original]" class="form-control form-control-sm" placeholder="Giá bán gốc">
                                                 </div>
                                                 <div class="col">
                                                     <label class="form-label small">Giá bán</label>
@@ -97,7 +97,8 @@
                                                     <label class="form-label small">Số lượng</label>
                                                     <input type="number" name="variants[0][quantity]" class="form-control form-control-sm" placeholder="Số lượng">
                                                 </div>
-                                                <div class="col-auto d-flex align-items-end">
+                                                <div class="col-auto">
+                                                    <label class="form-label small">Action</label>
                                                     <button type="button" class="btn btn-sm btn-outline-danger remove-variant d-block">Xóa</button>
                                                 </div>
                                             </div>

@@ -1,5 +1,5 @@
 // FormValidator.js
-import Helper from "../admin/utils/Helper.js"; // import helper có parseVND, formatVND...
+import Helper from "../utils/Helper.js"; // import helper có parseVND, formatVND...
 
 export default class FormValidator {
     constructor(formSelector, rules, onValidSubmit) {
@@ -37,9 +37,31 @@ export default class FormValidator {
         if (oldError) oldError.remove();
     }
 
+    matchRule(rules, fieldName) {
+        // Nếu có rule khớp chính xác thì trả về luôn
+        if (rules[fieldName]) {
+            return rules[fieldName];
+        }
+
+        // Nếu không thì duyệt tất cả keys xem có key nào là regex
+        for (const key in rules) {
+            try {
+                const regex = new RegExp(`^${key}$`); // ví dụ key = variants\\[\\d+\\]\\[import_price\\]
+                if (regex.test(fieldName)) {
+                    return rules[key];
+                }
+            } catch (e) {
+                // Nếu key không phải regex hợp lệ thì bỏ qua
+            }
+        }
+
+        return null;
+    }
+
     validateField(field) {
         const name = field.name;
-        const rule = this.rules[name];
+        const rule = this.matchRule(this.rules, name);
+
         if (!rule) return true; // không có rule -> pass
 
         let value = "";
@@ -55,6 +77,7 @@ export default class FormValidator {
 
         // 1. Bắt buộc
         if (rule.required) {
+            // Nếu field không tồn tại trong form hoặc không có value hợp lệ
             if (!field || value === "" || ((field.type === "checkbox" || field.type === "radio") && !isChecked)) {
                 this.showError(field, rule.message?.required || "Vui lòng nhập trường này.");
                 return false;
@@ -118,37 +141,41 @@ export default class FormValidator {
         return true;
     }
 
-    /**
-     * 👉 Hàm mới: gắn validate cho 1 field (dùng cho input thêm động từ Repeater)
-     */
-    attachEventsForField(field) {
-        if (!field) return;
-
-        // blur
-        field.addEventListener("blur", () => {
-            if (this.validateField(field)) {
-                if (field.dataset.type === "vnd") {
-                    const num = Helper.parseVND(field.value);
-                    field.value = num ? Helper.formatVND(num) : "";
+    bindEvents() {
+        // lắng nghe blur
+        this.form.addEventListener("blur", (e) => {
+            const field = e.target;
+            if (field.matches("input, textarea, select")) {
+                if (this.validateField(field)) {
+                    if (field.dataset.type === "vnd") {
+                        const num = Helper.parseVND(field.value);
+                        field.value = num ? Helper.formatVND(num) : "";
+                    }
                 }
+            }
+        }, true); // dùng capture để bắt blur
+
+        // lắng nghe change
+        this.form.addEventListener("change", (e) => {
+            const field = e.target;
+            if (field.matches("input, textarea, select")) {
+                this.validateField(field);
             }
         });
 
-        // change
-        field.addEventListener("change", () => this.validateField(field));
-
-        // input
-        field.addEventListener("input", () => this.validateField(field));
-    }
-
-    bindEvents() {
-        this.form.querySelectorAll("input, textarea, select").forEach(field => {
-            this.attachEventsForField(field); // dùng hàm mới
+        // lắng nghe input
+        this.form.addEventListener("input", (e) => {
+            const field = e.target;
+            if (field.matches("input, textarea, select")) {
+                this.validateField(field);
+            }
         });
 
+        // lắng nghe submit
         this.form.addEventListener("submit", (e) => {
             e.preventDefault();
             let isValid = true;
+
             this.form.querySelectorAll("input, textarea, select").forEach(field => {
                 if (!this.validateField(field)) isValid = false;
             });
@@ -171,4 +198,6 @@ export default class FormValidator {
             }
         });
     }
+
+
 }

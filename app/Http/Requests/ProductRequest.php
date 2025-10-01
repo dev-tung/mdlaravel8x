@@ -47,16 +47,16 @@ class ProductRequest extends FormRequest
             'thumbnail.mimes'            => 'Ảnh chỉ chấp nhận jpg, jpeg, png, gif.',
             'thumbnail.max'              => 'Ảnh sản phẩm tối đa 2MB.',
 
-            'variants.array'                      => 'Danh sách biến thể không hợp lệ.',
-            'variants.*.price_sale.import_price'  => 'Giá nhập là bắt buộc khi có biến thể.',
-            'variants.*.price_sale.required_with' => 'Giá bán là bắt buộc khi có biến thể.',
-            'variants.*.price_sale.numeric'       => 'Giá bán phải là số.',
-            'variants.*.price_sale.min'           => 'Giá bán phải lớn hơn hoặc bằng 0.',
-            'variants.*.quantity.required_with'   => 'Số lượng là bắt buộc khi có biến thể.',
-            'variants.*.quantity.integer'         => 'Số lượng phải là số nguyên.',
-            'variants.*.quantity.min'             => 'Số lượng phải lớn hơn hoặc bằng 0.',
-            'variants.*.size.max'                 => 'Size tối đa 100 ký tự.',
-            'variants.*.color.max'                => 'Màu sắc tối đa 100 ký tự.',
+            'variants.array'                         => 'Danh sách biến thể không hợp lệ.',
+            'variants.*.import_price.required_with'  => 'Giá nhập là bắt buộc khi có biến thể.',
+            'variants.*.price_sale.required_with'    => 'Giá bán là bắt buộc khi có biến thể.',
+            'variants.*.price_sale.numeric'          => 'Giá bán phải là số.',
+            'variants.*.price_sale.min'              => 'Giá bán phải lớn hơn hoặc bằng 0.',
+            'variants.*.quantity.required_with'      => 'Số lượng là bắt buộc khi có biến thể.',
+            'variants.*.quantity.integer'            => 'Số lượng phải là số nguyên.',
+            'variants.*.quantity.min'                => 'Số lượng phải lớn hơn hoặc bằng 0.',
+            'variants.*.size.max'                    => 'Size tối đa 100 ký tự.',
+            'variants.*.color.max'                   => 'Màu sắc tối đa 100 ký tự.',
         ];
     }
 

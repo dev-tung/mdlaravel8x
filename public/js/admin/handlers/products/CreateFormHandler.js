@@ -1,4 +1,4 @@
-import FormValidator from "../../../components/FormValidator.js";
+import FormValidator from "../../shared/FormValidator.js";
 import ImageComponent from '../../../components/ImageComponent.js';
 import RepeaterComponent from '../../../components/RepeaterComponent.js';
 import EditorComponent from '../../../components/EditorComponent.js';
@@ -15,9 +15,26 @@ export default class CreateFormHandler {
         this.validator = new FormValidator(
             "#product-create-form",
             {
-                "name": { required: true, message: { required: "Nhập tên sản phẩm" } },
-                "taxonomy_id": { required: true, message: { required: "Chọn danh mục" } },
-                "supplier_id": { required: true, message: { required: "Chọn nhà cung cấp" } }
+                "name": {
+                    required: true,
+                    message: { required: "Nhập tên sản phẩm" }
+                },
+                "taxonomy_id": {
+                    required: true,
+                    message: { required: "Chọn danh mục" }
+                },
+                "supplier_id": {
+                    required: true,
+                    message: { required: "Chọn nhà cung cấp" }
+                },
+                "variants\\[\\d+\\]\\[import_price\\]": { 
+                    required: true, 
+                    numeric: true,
+                    message: { 
+                        required: "Nhập giá nhập",
+                        numeric: "Giá nhập phải là số"
+                    }
+                }
             },
             (formData, form) => {
                 form.submit();

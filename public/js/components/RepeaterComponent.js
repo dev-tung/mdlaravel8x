@@ -14,30 +14,42 @@ export default class RepeaterComponent {
         this.addBtn = document.getElementById(addBtnId);
         this.rowClass = rowClass;
         this.removeBtnClass = removeBtnClass;
-        this.repeaterIndex = 1;
 
         if (!this.wrapper || !this.addBtn || !this.rowClass || !this.removeBtnClass) return;
+
+        // Đặt index = số lượng row hiện có
+        this.repeaterIndex = this.wrapper.querySelectorAll(`.${this.rowClass}`).length;
 
         // Thêm row
         this.addBtn.addEventListener('click', () => this.addRepeater());
 
         // Event delegation cho remove button
         this.wrapper.addEventListener('click', (e) => {
-        if (e.target.classList.contains(this.removeBtnClass)) {
-            this.removeRepeater(e.target);
-        }
+            if (e.target.classList.contains(this.removeBtnClass)) {
+                this.removeRepeater(e.target);
+            }
         });
     }
 
     addRepeater() {
+
+        // clone row đầu tiên
         const template = this.wrapper.querySelector(`.${this.rowClass}`).cloneNode(true);
 
-        template.querySelectorAll('input').forEach(input => {
-        input.name = input.name.replace(/\d+/, this.repeaterIndex);
-        input.value = '';
+        // Xóa id để tránh trùng lặp
+        template.removeAttribute('id');
+
+        // cập nhật name cho input
+        template.querySelectorAll('input, select, textarea').forEach(input => {
+            if (input.name) {
+                input.name = input.name.replace(/\[\d+\]/, `[${this.repeaterIndex}]`);
+            }
+            input.value = '';
         });
 
         this.wrapper.appendChild(template);
+
+        // tăng index cho lần lặp tiếp theo
         this.repeaterIndex++;
     }
 
@@ -45,7 +57,6 @@ export default class RepeaterComponent {
         const row = target.closest(`.${this.rowClass}`);
         if (!row) return;
 
-        // Kiểm tra nếu là row đầu tiên thì không xóa
         const allRows = this.wrapper.querySelectorAll(`.${this.rowClass}`);
         if (allRows.length <= 1) {
             alert("Phải giữ lại ít nhất 1 dòng!");
@@ -53,5 +64,22 @@ export default class RepeaterComponent {
         }
 
         row.remove();
+
+        // Sau khi xóa, re-index lại toàn bộ
+        this.reindex();
     }
+
+    reindex() {
+        const rows = this.wrapper.querySelectorAll(`.${this.rowClass}`);
+        rows.forEach((row, index) => {
+            row.querySelectorAll('input, select, textarea').forEach(input => {
+                if (input.name) {
+                    input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+                }
+            });
+        });
+        this.repeaterIndex = rows.length;
+    }
+
+    
 }
