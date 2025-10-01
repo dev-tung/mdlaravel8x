@@ -87,11 +87,11 @@
                                                 </div>
                                                 <div class="mt-0 mx-0 col-auto">
                                                     <label class="form-label small">Ảnh</label>
-                                                    <button class="btn btn-sm btn-outline-secondary d-block VariantThumbnailBtn">(0) files</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary d-block VariantThumbnailBtn">(0) files</button>
                                                 </div>
                                                 <div class="mt-0 mx-0 col-auto">
                                                     <label class="form-label small">Action</label>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger remove-variant d-block">Xóa</button>
+                                                    <button type="button" class="btn btn-sm btn-danger remove-variant d-block">Xóa</button>
                                                 </div>
                                             </div>
                                         </div>
