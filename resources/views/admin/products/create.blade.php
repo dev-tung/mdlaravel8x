@@ -36,51 +36,35 @@
                                                 <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ old('name') }}" required>
                                                 @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
-                                            <!-- Short Description -->
-                                            <div class="col-md-12">
-                                                <label for="short-description" class="form-label small">Mô tả ngắn</label>
-                                                <textarea class="form-control form-control-sm" id="short-description" name="short_description" rows="2">{{ old('short_description') }}</textarea>
-                                                @error('short_description') <small class="text-danger">{{ $message }}</small> @enderror
-                                            </div>
-                                            <!-- Description -->
-                                            <div class="col-md-12">
-                                                <label for="description" class="form-label small">Mô tả</label>
-                                                <textarea class="form-control form-control-sm" id="description" name="description" rows="4">{{ old('description') }}</textarea>
-                                                @error('description') <small class="text-danger">{{ $message }}</small> @enderror
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                
                                 <!-- Variants -->
                                 <div class="card mt-3">
-                                    <div class="card-header">
+                                    <div class="my-0 py-1 px-3">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <h4>Biến thể sản phẩm</h4>
+                                            <label>Thuộc tính</label>
                                             <button type="button" id="add-variant" class="btn btn-sm btn-outline-secondary mt-2">+ Thêm</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-3 variant-row bg-secondary bg-opacity-10 p-2 rounded">
-                                                <div class="mt-0 mx-0 col-auto">
-                                                    <label class="form-label small">Ảnh</label>
-                                                    <button class="btn btn-sm btn-outline-secondary d-block">(0) files</button>
+                                                <div class="mt-0 mx-0 col">
+                                                    <label class="form-label small">Size</label>
+                                                    <select name="variants[0][size]" class="form-control form-control-sm">
+                                                        <option value="">-- Size --</option>
+                                                        @foreach(taxonomies('size') as $taxonomy)
+                                                            <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                                 <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Màu sắc</label>
                                                     <select name="variants[0][color]" class="form-control form-control-sm">
                                                         <option value="">-- Màu --</option>
                                                         @foreach(taxonomies('color') as $taxonomy)
-                                                            <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="mt-0 mx-0 col">
-                                                    <label class="form-label small">Size</label>
-                                                    <select name="variants[0][size]" class="form-control form-control-sm">
-                                                        <option value="">-- Size --</option>
-                                                        @foreach(taxonomies('size') as $taxonomy)
                                                             <option value="{{ $taxonomy->id }}">{{ $taxonomy->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -102,6 +86,10 @@
                                                     <input type="number" name="variants[0][quantity]" class="form-control form-control-sm">
                                                 </div>
                                                 <div class="mt-0 mx-0 col-auto">
+                                                    <label class="form-label small">Ảnh</label>
+                                                    <button class="btn btn-sm btn-outline-secondary d-block VariantThumbnailBtn">(0) files</button>
+                                                </div>
+                                                <div class="mt-0 mx-0 col-auto">
                                                     <label class="form-label small">Action</label>
                                                     <button type="button" class="btn btn-sm btn-outline-danger remove-variant d-block">Xóa</button>
                                                 </div>
@@ -109,6 +97,26 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="card mt-3">
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <!-- Short Description -->
+                                            <div class="col-md-12">
+                                                <label for="short-description" class="form-label small">Mô tả ngắn</label>
+                                                <textarea class="form-control form-control-sm" id="short-description" name="short_description" rows="2">{{ old('short_description') }}</textarea>
+                                                @error('short_description') <small class="text-danger">{{ $message }}</small> @enderror
+                                            </div>
+                                            <!-- Description -->
+                                            <div class="col-md-12">
+                                                <label for="description" class="form-label small">Mô tả</label>
+                                                <textarea class="form-control form-control-sm" id="description" name="description" rows="4">{{ old('description') }}</textarea>
+                                                @error('description') <small class="text-danger">{{ $message }}</small> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <!-- RIGHT -->
