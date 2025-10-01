@@ -32,7 +32,31 @@ export default class CreateFormHandler {
                     numeric: true,
                     message: { 
                         required: "Nhập giá nhập",
-                        numeric: "Giá nhập phải là số"
+                        numeric: "Nhập số hợp lệ"
+                    }
+                },
+                "variants\\[\\d+\\]\\[price_original\\]": { 
+                    required: true, 
+                    numeric: true,
+                    message: { 
+                        required: "Nhập giá gốc",
+                        numeric: "Nhập số hợp lệ"
+                    }
+                },
+                "variants\\[\\d+\\]\\[price_sale\\]": { 
+                    required: true, 
+                    numeric: true,
+                    message: { 
+                        required: "Nhập giá bán",
+                        numeric: "Nhập số hợp lệ"
+                    }
+                },
+                "variants\\[\\d+\\]\\[quantity\\]": { 
+                    required: true, 
+                    numeric: true,
+                    message: { 
+                        required: "Nhập số lượng",
+                        numeric: "Nhập số hợp lệ"
                     }
                 }
             },

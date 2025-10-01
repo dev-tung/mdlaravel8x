@@ -63,7 +63,11 @@
                                     <div class="card-body">
                                         <div id="variants-wrapper">
                                             <div class="row g-2 mb-3 variant-row bg-secondary bg-opacity-10 p-2 rounded">
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col-auto">
+                                                    <label class="form-label small">Ảnh</label>
+                                                    <button class="btn btn-sm btn-outline-secondary d-block">(0) files</button>
+                                                </div>
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Màu sắc</label>
                                                     <select name="variants[0][color]" class="form-control form-control-sm">
                                                         <option value="">-- Màu --</option>
@@ -72,7 +76,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Size</label>
                                                     <select name="variants[0][size]" class="form-control form-control-sm">
                                                         <option value="">-- Size --</option>
@@ -81,23 +85,23 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Giá nhập</label>
-                                                    <input type="number" name="variants[0][import_price]" class="form-control form-control-sm" placeholder="Giá nhập">
+                                                    <input type="number" name="variants[0][import_price]" class="form-control form-control-sm">
                                                 </div>
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Giá bán gốc</label>
-                                                    <input type="number" name="variants[0][price_original]" class="form-control form-control-sm" placeholder="Giá bán gốc">
+                                                    <input type="number" name="variants[0][price_original]" class="form-control form-control-sm">
                                                 </div>
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Giá bán</label>
-                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm" placeholder="Giá bán">
+                                                    <input type="number" name="variants[0][price_sale]" class="form-control form-control-sm">
                                                 </div>
-                                                <div class="col">
+                                                <div class="mt-0 mx-0 col">
                                                     <label class="form-label small">Số lượng</label>
-                                                    <input type="number" name="variants[0][quantity]" class="form-control form-control-sm" placeholder="Số lượng">
+                                                    <input type="number" name="variants[0][quantity]" class="form-control form-control-sm">
                                                 </div>
-                                                <div class="col-auto">
+                                                <div class="mt-0 mx-0 col-auto">
                                                     <label class="form-label small">Action</label>
                                                     <button type="button" class="btn btn-sm btn-outline-danger remove-variant d-block">Xóa</button>
                                                 </div>
@@ -157,7 +161,7 @@
                                             <!-- Thumbnail -->
                                             <div class="col-md-12">
                                                 <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*">
+                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*" multiple>
                                                 <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="{{ display_thumbnail(null) }}" alt="Preview">
                                                 @error('thumbnail_image') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
