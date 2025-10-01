@@ -46,7 +46,6 @@ export default class ImageComponent {
     }
   }
 
-  // Hàm tạo overlay
   UploadOverlay(onSave) {
       const overlay = document.createElement("div");
       Object.assign(overlay.style, {
