@@ -9,7 +9,7 @@ export default class CreateFormHandler {
         this.initThumbPreview();
         this.initProductVariant();
         this.initCKEditor();
-        this.initUploadOverlay();
+        this.initVariantIMG();
     }
 
     initValidator() {
@@ -84,21 +84,27 @@ export default class CreateFormHandler {
         new EditorComponent('#description').init();
     }
 
-    initUploadOverlay(){
-        // --- Gắn với nút VariantThumbnailBtn ---
+    initVariantIMG() {
         document.addEventListener("click", e => {
             const btn = e.target.closest(".VariantThumbnailBtn");
             if (!btn) return;
 
-            const uploader = new ImageComponent().UploadOverlay(files => {
-                btn.textContent = `(${files.length}) files`; // update text button
-                // có thể lưu vào hidden input để submit form
-                console.log("Chọn ảnh cho variant:", files);
-            });
+            // Nếu chưa có uploader gắn vào button → tạo mới
+            if (!btn.uploader) {
+                btn.uploader = new ImageComponent().UploadOverlay(files => {
+                    btn.files = files; // lưu files lại
+                    btn.textContent = `(${files.length}) files`;
+                    console.log("Chọn ảnh cho variant:", files);
+                });
+            }
 
-            uploader.open();
+            // Nếu nút đã có files → set lại preview khi mở
+            if (btn.files && btn.files.length) {
+                btn.uploader.setFiles(btn.files);
+            }
+
+            btn.uploader.open();
         });
-
     }
 
 }
