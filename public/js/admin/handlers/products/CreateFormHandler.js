@@ -5,14 +5,14 @@ import EditorComponent from '../../../components/EditorComponent.js';
 
 export default class CreateFormHandler {
     constructor() {
-        this.initValidator();
-        this.initThumbPreview();
-        this.initProductVariant();
-        this.initCKEditor();
-        this.initVariantIMG();
+        this.validator();
+        this.uploadIMG();
+        this.addVariant();
+        this.uploadVariantIMG();
+        this.CKEditor();
     }
 
-    initValidator() {
+    validator() {
         this.validator = new FormValidator(
             "#product-create-form",
             {
@@ -67,11 +67,11 @@ export default class CreateFormHandler {
         );
     }
 
-    initThumbPreview() {
+    uploadIMG() {
         new ImageComponent().Preview('thumbnail-image', 'thumbnail-image-preview');
     }
 
-    initProductVariant(){
+    addVariant(){
         new RepeaterComponent({
             wrapperId: 'variants-wrapper',
             addBtnId: 'add-variant',
@@ -80,11 +80,7 @@ export default class CreateFormHandler {
         });
     }
 
-    initCKEditor(){
-        new EditorComponent('#description').init();
-    }
-
-    initVariantIMG() {
+    uploadVariantIMG() {
         document.addEventListener("click", e => {
             const btn = e.target.closest(".VariantThumbnailBtn");
             if (!btn) return;
@@ -104,6 +100,10 @@ export default class CreateFormHandler {
 
             btn.uploader.open();
         });
+    }
+
+    CKEditor(){
+        new EditorComponent('#description').init();
     }
 
 }
