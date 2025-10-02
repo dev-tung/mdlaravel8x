@@ -94,7 +94,6 @@ export default class CreateFormHandler {
                 btn.uploader = new ImageComponent().UploadOverlay(files => {
                     btn.files = files; // lưu files lại
                     btn.textContent = `(${files.length}) files`;
-                    console.log("Chọn ảnh cho variant:", files);
                 });
             }
 
