@@ -46,6 +46,9 @@ class Product extends Model
         // hoặc hasMany nếu 1 product có nhiều variant
     }
 
-    
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }
 

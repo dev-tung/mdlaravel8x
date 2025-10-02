@@ -124,19 +124,6 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row g-3">
-                                            <!-- Supplier -->
-                                            <div class="col-md-12">
-                                                <label for="supplier_id" class="form-label small">Nhà cung cấp <span class="text-danger">*</span></label>
-                                                <select class="form-select form-select-sm" id="supplier_id" name="supplier_id" required>
-                                                    <option value="">-- Chọn --</option>
-                                                    @foreach($suppliers as $supplier)
-                                                        <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                                                            {{ $supplier->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('supplier_id') <small class="text-danger">{{ $message }}</small> @enderror
-                                            </div>
 
                                             <!-- Taxonomy -->
                                             <div class="col-md-12">

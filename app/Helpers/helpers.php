@@ -3,20 +3,6 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-if (!function_exists('display_thumbnail')) {
-    /**
-     * Lấy URL của thumbnail sản phẩm (Laravel version)
-     */
-    function display_thumbnail(?string $path = null)
-    {
-        if (Storage::disk('public')->exists($path)) {
-            return asset('storage/' . $path);
-        }
-
-        return asset('img/shared/No_Image_Available.jpg');
-    }
-}
-
 
 
 if (!function_exists('abbreviation')) {
@@ -55,3 +41,21 @@ if (!function_exists('taxonomies')) {
         return app(\App\Repositories\TaxonomyRepository::class)->getByType($type);
     }
 }
+
+
+if (!function_exists('display_product_img')) {
+    function display_product_img($item): string
+    {
+        $imageService = app(\App\Services\ImageService::class);
+
+        // Truy xuất ảnh từ collection đã eager load nếu có
+        $thumbnail = $item->images->firstWhere('is_default', 1) ?? $item->images->first();
+
+        if ($thumbnail) {
+            return $imageService->getUrl($thumbnail->file_path);
+        }
+
+        return asset('img/shared/No_Image_Available.jpg');
+    }
+}
+

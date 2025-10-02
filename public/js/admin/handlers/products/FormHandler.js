@@ -170,7 +170,6 @@ export default class FormHandler {
         }
     }
 
-
     addVariant(){
         new RepeaterComponent({
             wrapperId: 'variants-wrapper',

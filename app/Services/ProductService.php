@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Repositories\ProductImageRepository;
 use App\Repositories\TaxonomyRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -13,15 +14,18 @@ class ProductService
     protected ProductRepository $productRepository;
     protected TaxonomyRepository $taxonomyRepository;
     protected ImageService $imageService;
+    protected ProductImageRepository $productImageRepository;
 
     public function __construct(
         ProductRepository $productRepository,
         TaxonomyRepository $taxonomyRepository,
-        ImageService $imageService
+        ImageService $imageService,
+        ProductImageRepository $productImageRepository
     ) {
         $this->productRepository = $productRepository;
         $this->taxonomyRepository = $taxonomyRepository;
         $this->imageService = $imageService;
+        $this->productImageRepository = $productImageRepository;
     }
 
     /**
@@ -73,48 +77,117 @@ class ProductService
 
     public function create(array $data)
     {
-        // Xử lý upload ảnh
-        if (!empty($data['thumbnail_image'])) {
-            $data['thumbnail_image'] = $this->imageService->upload(
-                $data['thumbnail_image'],
-                'products'
-            );
-        }
+        return DB::transaction(function() use ($data) {
 
-        // Gọi repository lưu product
-        $product = $this->productRepository->create($data);
+            // tạo product chính
+            $product = $this->productRepository->create($data);
 
-        // Nếu có variants thì thêm
-        if (!empty($data['variants']) && is_array($data['variants'])) {
-            $this->productRepository->addVariants($product, $data['variants']);
-        }
+            // lặp qua variants nếu có
+            if (!empty($data['variants'])) {
+                foreach ($data['variants'] as $variantData) {
 
-        return $product->load('variants');
+                    // tạo variant qua quan hệ Eloquent và fillable fields
+                    $variant = $product->variants()->create($variantData);
+
+                    // upload ảnh base64 cho variant
+                    if( !empty($variantData['upload_images']) ){
+                        $filePaths = $this->imageService->uploadBase64($variantData['upload_images'], 'products');
+
+                        $imagesToSave = [];
+                        foreach ($filePaths as $index => $filePath) {
+                            $imagesToSave[] = [
+                                'product_id' => $product->id,
+                                'variant_id' => $variant->id,
+                                'file_path'  => $filePath,
+                                'is_default' => $index === 0 ? 1 : 0,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ];
+                        }
+
+                        // lưu record vào product_images
+                        if (!empty($imagesToSave)) {
+                            $this->productImageRepository->bulkCreate($imagesToSave);
+                        }
+                    }
+                    
+
+                }
+            }
+
+            // lưu ảnh cho product chung nếu có
+            if (!empty($data['product_images'])) {
+
+                $imagesToSave = [];
+
+                foreach ($data['product_images'] as $index => $uploadedFile) {
+                    // upload file trực tiếp
+                    $filePath = $this->imageService->upload($uploadedFile, 'products');
+
+                    $imagesToSave[] = [
+                        'product_id' => $product->id,
+                        'variant_id' => null, // ảnh chung của product
+                        'file_path'  => $filePath,
+                        'is_default' => $index === 0 ? 1 : 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                if (!empty($imagesToSave)) {
+                    $this->productImageRepository->bulkCreate($imagesToSave);
+                }
+            }
+
+
+
+        });
     }
 
-    public function update(int $id, array $data)
+    public function delete(int $productId)
     {
-        $product = $this->productRepository->find($id);
+        return DB::transaction(function() use ($productId) {
 
-        // Nếu có đổi taxonomy thì regenerate SKU
-        if (isset($data['taxonomy_id']) && $data['taxonomy_id'] != $product->taxonomy_id) {
-            $data['sku'] = $this->generateSku($data['taxonomy_id'], $data['name'] ?? $product->name);
-        }
+            // Lấy product
+            $product = $this->productRepository->find($productId);
+            if (!$product) {
+                throw new \Exception('Product not found');
+            }
 
-        // Nếu đổi thumbnail
-        if (isset($data['thumbnail_image'])) {
-            $this->imageService->delete($product->thumbnail_image ?? null);
-            $data['thumbnail_image'] = $this->imageService->upload($data['thumbnail_image'], 'products');
-        }
+            // Xóa ảnh product chung
+            $productImages = $this->productImageRepository->getByProduct($productId)
+                ->whereNull('variant_id');
+            foreach ($productImages as $image) {
+                $this->imageService->delete($image->file_path);
+                $image->delete();
+            }
 
-        return $this->productRepository->update($id, $data);
+            // Xóa variants và ảnh của variants
+            foreach ($product->variants as $variant) {
+                // Xóa ảnh variant
+                $variantImages = $this->productImageRepository->getByVariant($variant->id);
+                foreach ($variantImages as $image) {
+                    $this->imageService->delete($image->file_path);
+                    $image->delete();
+                }
+
+                // Xóa variant
+                $variant->delete();
+            }
+
+            // Xóa product
+            $product->delete();
+
+            return true;
+        });
     }
 
-    public function delete(int $id): ?bool
-    {
-        $product = $this->productRepository->find($id);
-        $this->imageService->delete($product->thumbnail_image ?? null);
-        return $this->productRepository->delete($id);
+    public function productImgURL($product){
+        $imgURL = $product->images()->where('is_default', 1)->first();
+        if (!$imgURL) {
+            $imgURL = $product->images()->first();
+        }
+        return $imgURL;
     }
 
 }

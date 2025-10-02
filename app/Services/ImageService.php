@@ -34,6 +34,33 @@ class ImageService
     }
 
     /**
+     * Upload ảnh từ base64
+     *
+     * @param array $base64Images mảng các chuỗi base64
+     * @param string $path thư mục lưu
+     * @return array mảng đường dẫn đã lưu
+     */
+    public function uploadBase64(array $base64Images, string $path = 'products'): array
+    {
+        $files = [];
+
+        foreach ($base64Images as $base64) {
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64, $type)) {
+                $dataDecoded = base64_decode(substr($base64, strpos($base64, ',') + 1));
+                $extension = strtolower($type[1]);
+                if (!in_array($extension, ['jpg','jpeg','png','gif'])) continue;
+
+                $fileName = $path . '/' . Str::uuid() . '.' . $extension;
+                Storage::disk($this->disk)->put($fileName, $dataDecoded);
+
+                $files[] = $fileName;
+            }
+        }
+
+        return $files;
+    }
+
+    /**
      * Xoá ảnh
      *
      * @param string|null $filePath
