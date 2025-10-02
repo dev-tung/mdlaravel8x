@@ -8,12 +8,13 @@ export default class RepeaterComponent {
      *   removeBtnClass: class nút xóa row
      */
     constructor(options) {
-        const { wrapperId, addBtnId, rowClass, removeBtnClass } = options;
+        const { wrapperId, addBtnId, rowClass, removeBtnClass, onCreated } = options;
 
         this.wrapper = document.getElementById(wrapperId);
         this.addBtn = document.getElementById(addBtnId);
         this.rowClass = rowClass;
         this.removeBtnClass = removeBtnClass;
+        this.onCreated = onCreated;
 
         if (!this.wrapper || !this.addBtn || !this.rowClass || !this.removeBtnClass) return;
 
@@ -51,6 +52,8 @@ export default class RepeaterComponent {
 
         // tăng index cho lần lặp tiếp theo
         this.repeaterIndex++;
+
+        this.onCreated(template);
     }
 
     removeRepeater(target) {

@@ -76,7 +76,15 @@ export default class CreateFormHandler {
             wrapperId: 'variants-wrapper',
             addBtnId: 'add-variant',
             rowClass: 'variant-row',
-            removeBtnClass: 'remove-variant'
+            removeBtnClass: 'remove-variant',
+            onCreated: (template) => {
+                const btn = template.querySelector(".VariantThumbnailBtn");
+                if (btn) {
+                    btn.textContent = "(0) files";
+                    btn.files = [];          // reset files
+                    btn.uploader = null;     // reset uploader
+                }
+            }
         });
     }
 
@@ -85,15 +93,40 @@ export default class CreateFormHandler {
             const btn = e.target.closest(".VariantThumbnailBtn");
             if (!btn) return;
 
-            // Nếu chưa có uploader gắn vào button → tạo mới
+            // Nếu chưa có uploader thì tạo
             if (!btn.uploader) {
-                btn.uploader = new ImageComponent().UploadOverlay(files => {
-                    btn.files = files; // lưu files lại
+                // Tạo hidden input gắn kèm button (nếu chưa có)
+                let hidden = btn.nextElementSibling;
+                if (!hidden || hidden.className !== "variant-images-hidden") {
+                    hidden = document.createElement("input");
+                    hidden.type = "hidden";
+                    hidden.name = "variant_images[]";   // 👈 tuỳ bạn muốn đặt name gì
+                    hidden.className = "variant-images-hidden";
+                    btn.insertAdjacentElement("afterend", hidden);
+                }
+
+                btn.uploader = new ImageComponent().UploadOverlay(async files => {
+                    btn.files = files;
                     btn.textContent = `(${files.length}) files`;
+
+                    // Convert file -> base64
+                    const base64List = await Promise.all(
+                        files.map(file => {
+                            return new Promise(resolve => {
+                                const reader = new FileReader();
+                                reader.onload = e => resolve(e.target.result);
+                                reader.readAsDataURL(file);
+                            });
+                        })
+                    );
+
+                    // Lưu vào hidden input (dưới dạng JSON string)
+                    hidden.value = JSON.stringify(base64List);
+                    console.log("Chọn ảnh cho variant:", files, "Hidden value:", hidden.value);
                 });
             }
 
-            // Nếu nút đã có files → set lại preview khi mở
+            // Nếu nút đã có files thì set lại preview
             if (btn.files && btn.files.length) {
                 btn.uploader.setFiles(btn.files);
             }
@@ -108,4 +141,6 @@ export default class CreateFormHandler {
 
 }
 
-document.addEventListener("DOMContentLoaded", () => new CreateFormHandler());
+document.addEventListener("DOMContentLoaded", 
+    () => new CreateFormHandler()
+);

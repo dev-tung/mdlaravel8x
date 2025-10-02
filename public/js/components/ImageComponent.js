@@ -114,9 +114,11 @@ export default class ImageComponent {
             wrapper.addEventListener("dragstart", e => {
                 e.dataTransfer.setData("index", index);
                 wrapper.style.opacity = "0.5";
+                wrapper.style.cursor = "grabbing";
             });
             wrapper.addEventListener("dragend", () => {
                 wrapper.style.opacity = "1";
+                 wrapper.style.cursor = "grab";
             });
             wrapper.addEventListener("dragover", e => {
                 e.preventDefault();
