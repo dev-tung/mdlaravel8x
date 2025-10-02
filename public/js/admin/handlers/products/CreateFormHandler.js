@@ -1,4 +1,4 @@
-import FormValidator from "../../shared/FormValidator.js";
+import FormValidator from "../../../components/ValidatorComponent.js";
 import ImageComponent from '../../../components/ImageComponent.js';
 import RepeaterComponent from '../../../components/RepeaterComponent.js';
 import EditorComponent from '../../../components/EditorComponent.js';

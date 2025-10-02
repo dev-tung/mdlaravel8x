@@ -1,5 +1,5 @@
 // FormValidator.js
-import Helper from "../utils/Helper.js"; // import helper có parseVND, formatVND...
+import Helper from "../admin/utils/Helper.js"; // import helper có parseVND, formatVND...
 
 export default class FormValidator {
     constructor(formSelector, rules, onValidSubmit) {
