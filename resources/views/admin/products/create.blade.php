@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <div class="row g-2">
                 <div class="col-12">
-                    <form class="needs-validation" id="product-create-form" method="POST"
+                    <form class="needs-validation" id="product-form" method="POST"
                           action="{{ route('admin.products.store') }}"
                           enctype="multipart/form-data" novalidate>
                         @csrf
@@ -166,12 +166,18 @@
                                                 @error('unit') <small class="text-danger">{{ $message }}</small> @enderror
                                             </div>
 
-                                            <!-- Thumbnail -->
+                                            <!-- Product Images -->
                                             <div class="col-md-12">
-                                                <label for="thumbnail-image" class="form-label small">Ảnh sản phẩm</label>
-                                                <input type="file" class="form-control form-control-sm" id="thumbnail-image" name="thumbnail_image" accept="image/*" multiple>
-                                                <img id="thumbnail-image-preview" class="ProductThumnailPreview" src="{{ display_thumbnail(null) }}" alt="Preview">
-                                                @error('thumbnail_image') <small class="text-danger">{{ $message }}</small> @enderror
+                                                <label class="form-label small">Ảnh sản phẩm</label>
+                                                <input type="file" class="form-control form-control-sm ProductImageInput" 
+                                                    name="product_images[]" accept="image/*" multiple>
+
+                                                <div class="ProductPreview mt-2" 
+                                                    style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+
+                                                @error('product_images') 
+                                                    <small class="text-danger">{{ $message }}</small> 
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -190,5 +196,5 @@
     </div>
 @endsection
 @push('scripts')
-    <script type="module" src="{{ asset('js/admin/handlers/products/CreateFormHandler.js') }}"></script>
+    <script type="module" src="{{ asset('js/admin/handlers/products/FormHandler.js') }}"></script>
 @endpush
