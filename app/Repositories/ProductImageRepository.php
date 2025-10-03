@@ -42,7 +42,7 @@ class ProductImageRepository
      */
     public function getByVariant(int $variantId)
     {
-        return $this->model->where('variant_id', $variantId)->get();
+        return $this->model->where('product_variant_id', $variantId)->get();
     }
 
     public function getByProduct(int $productId)

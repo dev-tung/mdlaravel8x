@@ -27,11 +27,6 @@ class ProductVariant extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
-    }
-
     protected static function booted()
     {
         static::creating(function ($variant) {

@@ -97,7 +97,7 @@ class ProductService
                         foreach ($filePaths as $index => $filePath) {
                             $imagesToSave[] = [
                                 'product_id' => $product->id,
-                                'variant_id' => $variant->id,
+                                'product_variant_id' => $variant->id,
                                 'file_path'  => $filePath,
                                 'is_default' => $index === 0 ? 1 : 0,
                                 'created_at' => now(),
@@ -126,7 +126,7 @@ class ProductService
 
                     $imagesToSave[] = [
                         'product_id' => $product->id,
-                        'variant_id' => null, // ảnh chung của product
+                        'product_variant_id' => null, // ảnh chung của product
                         'file_path'  => $filePath,
                         'is_default' => $index === 0 ? 1 : 0,
                         'created_at' => now(),
@@ -156,7 +156,7 @@ class ProductService
 
             // Xóa ảnh product chung
             $productImages = $this->productImageRepository->getByProduct($productId)
-                ->whereNull('variant_id');
+                ->whereNull('product_variant_id');
             foreach ($productImages as $image) {
                 $this->imageService->delete($image->file_path);
                 $image->delete();
