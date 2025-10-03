@@ -28,16 +28,6 @@
                                            placeholder="Tên sản phẩm" value="{{ request('name') }}">
                                 </div>
                                 <div class="col-auto">
-                                    <select name="supplier_id" class="form-control form-control-sm">
-                                        <option value="">-- Nhà cung cấp --</option>
-                                        @foreach($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                                                {{ $supplier->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-auto">
                                     <select name="taxonomy_id" class="form-control form-control-sm">
                                         <option value="">-- Danh mục --</option>
                                         @foreach(taxonomies('product') as $taxonomy)

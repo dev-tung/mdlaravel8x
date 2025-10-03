@@ -31,13 +31,12 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->only(['name', 'taxonomy_id', 'supplier_id']);
+        $filters = $request->only(['name', 'taxonomy_id']);
         $perPage = $request->input('per_page', config('shared.pagination_per_page', 15));
 
         $products = $this->productService->paginateWithFilters($filters, $perPage);
-        $suppliers = $this->supplierRepository->all();
 
-        return view('admin.products.index', compact('products', 'filters', 'suppliers'));
+        return view('admin.products.index', compact('products', 'filters'));
     }
 
     public function create()
@@ -60,8 +59,7 @@ class ProductController extends Controller
         if (!$product) {
             return redirect()->route('admin.products.index')->with('error', 'Sản phẩm không tồn tại.');
         }
-        $suppliers = $this->supplierRepository->all();
-        return view('admin.products.edit', compact('product', 'suppliers'));
+        return view('admin.products.edit', compact('product'));
     }
 
     public function update(ProductRequest $request, int $id)

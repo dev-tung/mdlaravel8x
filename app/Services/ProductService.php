@@ -150,9 +150,6 @@ class ProductService
 
             // Lấy product
             $product = $this->productRepository->find($productId);
-            if (!$product) {
-                throw new \Exception('Product not found');
-            }
 
             // Xóa ảnh product chung
             $productImages = $this->productImageRepository->getByProduct($productId)
