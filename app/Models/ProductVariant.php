@@ -32,7 +32,7 @@ class ProductVariant extends Model
         static::creating(function ($variant) {
             if (empty($variant->sku) && $variant->product) {
                 $variant->sku = app(\App\Services\ProductService::class)
-                    ->generate($variant->product->name, $variant->size, $variant->color);
+                    ->generateSku($variant->product->name, $variant->size, $variant->color);
             }
         });
     }

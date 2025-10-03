@@ -39,22 +39,14 @@ class ProductService
             $query->where('name', 'like', '%'.$filters['name'].'%');
         }
 
-        if (!empty($filters['supplier_id'])) {
-            $query->whereHas('variant.supplier', function ($q) use ($filters) {
-                $q->where('id', $filters['supplier_id']);
-            });
-        }
-
         if (!empty($filters['taxonomy_id'])) {
             $query->where('taxonomy_id', $filters['taxonomy_id']);
         }
 
-        return $query->orderBy('created_at', 'desc')
-                     ->paginate($perPage)
-                     ->appends($filters);
+        return $query->orderBy('created_at', 'desc')->paginate($perPage)->appends($filters);
     }
 
-    public function generate(?string $productName, ?string $size = null, ?string $color = null): string
+    public function generateSku(?string $productName, ?string $size = null, ?string $color = null): string
     {
         // abbreviation từ tên sản phẩm, nếu null thì mặc định PRD
         $abbr = $productName
